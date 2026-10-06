@@ -24,7 +24,7 @@ This is a living document. Suggestions and feedback are warmly welcomed, and it 
 
 ## 2. Current position
 
-- **Research lead.** I serve as the architect and algorithm designer for the programme. My role is to define what each system should do, how it should behave when evidence is limited, and how its performance should be evaluated. Implementation is carried out with the support of AI coding agents working from these designs, and every change is reviewed and tested before release.
+- **Research lead.** I serve as the architect and algorithm designer for the programme. My role is to define what each system should do, how it should behave when evidence is limited, and how its performance should be evaluated. Implementation is carried out by my team together with AI coding agents, working from these designs, and every change is reviewed and tested before release.
 - **Team.** Two colleagues currently contribute to the work, supporting testing and architecture review.
 - **Body of work.** Six projects are available as live, in-browser demonstrations, three are presented as research showcases, and a preprint is available on Zenodo (doi:10.5281/zenodo.23097652). The archive further includes work on protein mutation, biological computation, and a haematology report analysis system for clinical decision support, which is currently in its clinical validation and refinement phase.
 
