@@ -72,6 +72,8 @@
   .say .no { background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 30%, transparent); }
   .say b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
   .roadmap8 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #poc .card figure { margin: 12px 0 0; }
+  #poc .card figcaption { margin-top: 8px; font-size: 13.5px; color: var(--text-secondary); }
   .road p { margin: 0; color: var(--text-secondary); font-size: 14px; }
   @media (max-width: 1000px) { .states, .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } .roadmap8 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .eg { grid-template-columns: 1fr; } .eg-arrow { transform: rotate(90deg); justify-self: center; } }
   @media (max-width: 760px) { .evobj { grid-template-columns: 1fr; } }
@@ -86,6 +88,7 @@
     <a class="brand" href="#top"><i aria-hidden="true"></i>LUMERA</a>
     <nav aria-label="Sections">
       <a href="#how">How it works</a>
+      <a href="#poc">Proof of concept</a>
       <a href="#states">Evidence states</a>
       <a href="#eg">EG hypothesis</a>
       <a href="#status">Status</a>
@@ -103,7 +106,7 @@
       <div class="chips"><span class="chip brand">Medical imaging research</span><span class="chip">Development-stage prototype</span><span class="chip">Code private · showcase</span></div>
       <h1>Structured evidence extraction for chest radiographs</h1>
       <p class="lede">LUMERA turns a chest radiograph into structured, traceable imaging evidence. It does not produce a diagnosis by itself. It identifies what can be observed from the image, describes the quality and limitations of that observation, and provides anatomically grounded evidence for a separate reasoning layer.</p>
-      <div class="hero-actions"><a class="button" href="#how">How it works</a><a class="button ghost" href="#collaborate">Collaborate</a></div>
+      <div class="hero-actions"><a class="button" href="#poc">See it working</a><a class="button ghost" href="#how">How it works</a><a class="button ghost" href="#collaborate">Collaborate</a></div>
     </div>
     <blockquote class="quote">A model should not only state what it predicts. It should state what it can support, what it cannot assess, and why.</blockquote>
   </div>
@@ -127,6 +130,26 @@
       <li>Confidence, limitations and evidence status<span>Attached to each structure and measurement, not one global score</span></li>
       <li class="out">Structured evidence for downstream reasoning<span>Traceable to image structures and measurements</span></li>
     </ol>
+  </div>
+</section>
+
+
+<section id="poc">
+  <div class="wrap">
+    <p class="eyebrow">Proof of concept · how the flow works</p>
+    <h2>From structured evidence to a traceable report</h2>
+    <p class="section-copy">An earlier working proof of concept of the end-to-end flow: evidence in, a deterministic reasoning layer on top, and every output traced back to the observations behind it. The ten demo cases are structured example inputs, not patient images. The reasoning layer is shown to illustrate how LUMERA's evidence is consumed downstream: LUMERA itself does not diagnose, and the report is capped at suspicion-level wording with clinician signoff required. Click any screen to enlarge it.</p>
+    <div class="grid3" style="margin-bottom:22px">
+      <div class="who"><b>1 · Extract</b><p>Three ways in: an image, structured finding entry, or extraction JSON. Adult scope must be confirmed; pediatric images are out of scope.</p></div>
+      <div class="who"><b>2 · Map and check</b><p>Input is untrusted until canonicalised. An image-quality gate runs first, so a non-diagnostic image is reported as such instead of being interpreted.</p></div>
+      <div class="who"><b>3 · Traceable report</b><p>The matched pattern, why it matched, the evidence trace with side and confidence, safety checks, a safety ceiling, next steps, and a JSON export.</p></div>
+    </div>
+    <div class="two-col" style="margin-bottom:22px">
+      <div class="card"><h3>When the image cannot support a conclusion</h3><p class="muted small">The quality gate turns a poor image into "non-diagnostic", not into a guess.</p><figure><button type="button" class="shot-btn" data-shot="10"><img src="thumbs/11-case-non-diagnostic-repeat.jpg" alt="Non-diagnostic radiograph: The image-quality gate fires: no confident interpretation, repeat imaging may be needed" width="800" height="500" loading="lazy"></button><figcaption><b>Non-diagnostic radiograph.</b> The image-quality gate fires: no confident interpretation, repeat imaging may be needed</figcaption></figure></div>
+      <div class="card"><h3>When it matters most</h3><p class="muted small">A critical pattern raises an alert, still capped at suspicion level and routed to a clinician.</p><figure><button type="button" class="shot-btn" data-shot="5"><img src="thumbs/06-case-tension-pneumothorax.jpg" alt="Tension pneumothorax pattern: Critical imaging alert: pneumothorax plus opposite mediastinal shift; immediate clinician review" width="800" height="500" loading="lazy"></button><figcaption><b>Tension pneumothorax pattern.</b> Critical imaging alert: pneumothorax plus opposite mediastinal shift; immediate clinician review</figcaption></figure></div>
+    </div>
+    <h3>All screens</h3>
+    <div class="gallery"><figure><button type="button" class="shot-btn" data-shot="0"><img src="thumbs/01-start.jpg" alt="Start screen: Three ways in: an image, structured finding entry, or extraction JSON; plus the ten demo cases" width="800" height="500" loading="lazy"></button><figcaption><b>Start screen.</b> Three ways in: an image, structured finding entry, or extraction JSON; plus the ten demo cases</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="1"><img src="thumbs/02-case-normal-chest-x-ray.jpg" alt="Normal pattern: No acute finding: every mapped observation is Absent with high confidence, and the image-quality signals are High" width="800" height="500" loading="lazy"></button><figcaption><b>Normal pattern.</b> No acute finding: every mapped observation is Absent with high confidence, and the image-quality signals are High</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="2"><img src="thumbs/03-case-lobar-pneumonia.jpg" alt="Consolidation pattern: Suspicion-level finding, with the evidence that supports it" width="800" height="500" loading="lazy"></button><figcaption><b>Consolidation pattern.</b> Suspicion-level finding, with the evidence that supports it</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="3"><img src="thumbs/04-case-pleural-effusion.jpg" alt="Pleural effusion pattern: Priority finding with supporting pleural signs" width="800" height="500" loading="lazy"></button><figcaption><b>Pleural effusion pattern.</b> Priority finding with supporting pleural signs</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="4"><img src="thumbs/05-case-simple-pneumothorax.jpg" alt="Simple pneumothorax pattern: Priority finding; no mapped mediastinal shift" width="800" height="500" loading="lazy"></button><figcaption><b>Simple pneumothorax pattern.</b> Priority finding; no mapped mediastinal shift</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="5"><img src="thumbs/06-case-tension-pneumothorax.jpg" alt="Tension pneumothorax pattern: Critical imaging alert: pneumothorax plus opposite mediastinal shift; immediate clinician review" width="800" height="500" loading="lazy"></button><figcaption><b>Tension pneumothorax pattern.</b> Critical imaging alert: pneumothorax plus opposite mediastinal shift; immediate clinician review</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="6"><img src="thumbs/07-case-cardiomegaly-chf.jpg" alt="Cardiomegaly / CHF pattern: Priority finding from the cardiac silhouette and congestion features" width="800" height="500" loading="lazy"></button><figcaption><b>Cardiomegaly / CHF pattern.</b> Priority finding from the cardiac silhouette and congestion features</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="7"><img src="thumbs/08-case-copd-hyperinflation.jpg" alt="Hyperinflation pattern: Suspicion-level finding: flattened diaphragm and diffuse hyperlucency" width="800" height="500" loading="lazy"></button><figcaption><b>Hyperinflation pattern.</b> Suspicion-level finding: flattened diaphragm and diffuse hyperlucency</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="8"><img src="thumbs/09-case-tb-cavitary-upper-zone.jpg" alt="Upper-zone cavitary pattern: Suspicion-level finding; a consideration in the right clinical context" width="800" height="500" loading="lazy"></button><figcaption><b>Upper-zone cavitary pattern.</b> Suspicion-level finding; a consideration in the right clinical context</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="9"><img src="thumbs/10-case-suspicious-mass.jpg" alt="Nodule / mass pattern: Priority finding with side and supporting evidence" width="800" height="500" loading="lazy"></button><figcaption><b>Nodule / mass pattern.</b> Priority finding with side and supporting evidence</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="10"><img src="thumbs/11-case-non-diagnostic-repeat.jpg" alt="Non-diagnostic radiograph: The image-quality gate fires: no confident interpretation, repeat imaging may be needed" width="800" height="500" loading="lazy"></button><figcaption><b>Non-diagnostic radiograph.</b> The image-quality gate fires: no confident interpretation, repeat imaging may be needed</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="11"><img src="thumbs/12-finding-entry.jpg" alt="Structured finding entry: Every input is a typed field: image quality, lungs, pleura, mediastinum, cardiac, hyperinflation, cavity / mass, each with its confidence" width="800" height="500" loading="lazy"></button><figcaption><b>Structured finding entry.</b> Every input is a typed field: image quality, lungs, pleura, mediastinum, cardiac, hyperinflation, cavity / mass, each with its confidence</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="12"><img src="thumbs/13-extractor-json.jpg" alt="Extraction JSON: A 12-parameter extraction is mapped and checked before any result is shown; each value carries confidence and evidence text" width="800" height="500" loading="lazy"></button><figcaption><b>Extraction JSON.</b> A 12-parameter extraction is mapped and checked before any result is shown; each value carries confidence and evidence text</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="13"><img src="thumbs/14-extractor-json-report.jpg" alt="Report from the extraction: The example extraction produces a traceable report" width="800" height="500" loading="lazy"></button><figcaption><b>Report from the extraction.</b> The example extraction produces a traceable report</figcaption></figure></div>
   </div>
 </section>
 
@@ -314,10 +337,30 @@
 
 <footer class="footer">
   <div class="wrap">
-    <p><strong>LUMERA</strong> · © 2026 Koushik Das · Research software; code private. This page describes the approach and status, not code or results.</p>
+    <p><strong>LUMERA</strong> · © 2026 Koushik Das · Research software; code private. This page shows the approach, status and screens of an earlier proof of concept; no code.</p>
     <p>Not a medical device. Not for diagnosis or clinical decisions.</p>
   </div>
 </footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot">
+  <button type="button" class="close" aria-label="Close">×</button>
+  <button type="button" class="prev" aria-label="Previous screenshot">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button type="button" class="next" aria-label="Next screenshot">›</button>
+</div>
+<script>
+  const SHOTS = [["01-start", "Start screen", "Three ways in: an image, structured finding entry, or extraction JSON; plus the ten demo cases"], ["02-case-normal-chest-x-ray", "Normal pattern", "No acute finding: every mapped observation is Absent with high confidence, and the image-quality signals are High"], ["03-case-lobar-pneumonia", "Consolidation pattern", "Suspicion-level finding, with the evidence that supports it"], ["04-case-pleural-effusion", "Pleural effusion pattern", "Priority finding with supporting pleural signs"], ["05-case-simple-pneumothorax", "Simple pneumothorax pattern", "Priority finding; no mapped mediastinal shift"], ["06-case-tension-pneumothorax", "Tension pneumothorax pattern", "Critical imaging alert: pneumothorax plus opposite mediastinal shift; immediate clinician review"], ["07-case-cardiomegaly-chf", "Cardiomegaly / CHF pattern", "Priority finding from the cardiac silhouette and congestion features"], ["08-case-copd-hyperinflation", "Hyperinflation pattern", "Suspicion-level finding: flattened diaphragm and diffuse hyperlucency"], ["09-case-tb-cavitary-upper-zone", "Upper-zone cavitary pattern", "Suspicion-level finding; a consideration in the right clinical context"], ["10-case-suspicious-mass", "Nodule / mass pattern", "Priority finding with side and supporting evidence"], ["11-case-non-diagnostic-repeat", "Non-diagnostic radiograph", "The image-quality gate fires: no confident interpretation, repeat imaging may be needed"], ["12-finding-entry", "Structured finding entry", "Every input is a typed field: image quality, lungs, pleura, mediastinum, cardiac, hyperinflation, cavity / mass, each with its confidence"], ["13-extractor-json", "Extraction JSON", "A 12-parameter extraction is mapped and checked before any result is shown; each value carries confidence and evidence text"], ["14-extractor-json-report", "Report from the extraction", "The example extraction produces a traceable report"]];
+  const box = document.getElementById("lightbox"), boxImg = box.querySelector("img"), boxCap = box.querySelector("figcaption");
+  let cur = 0, opener = null;
+  const show = (i) => { cur = (i + SHOTS.length) % SHOTS.length; const [f, t, c] = SHOTS[cur]; boxImg.src = "shots/" + f + ".png"; boxImg.alt = t + ": " + c; boxCap.textContent = (cur + 1) + " / " + SHOTS.length + " · " + t + " · " + c; };
+  const close = () => { box.classList.remove("on"); boxImg.removeAttribute("src"); opener?.focus(); };
+  document.addEventListener("click", (e) => { const b = e.target.closest("[data-shot]"); if (b) { opener = b; show(Number(b.dataset.shot)); box.classList.add("on"); box.querySelector(".close").focus(); } });
+  box.querySelector(".close").addEventListener("click", close);
+  box.querySelector(".prev").addEventListener("click", () => show(cur - 1));
+  box.querySelector(".next").addEventListener("click", () => show(cur + 1));
+  box.addEventListener("click", (e) => { if (e.target === box) close(); });
+  document.addEventListener("keydown", (e) => { if (!box.classList.contains("on")) return; if (e.key === "Escape") close(); else if (e.key === "ArrowRight") show(cur + 1); else if (e.key === "ArrowLeft") show(cur - 1); });
+</script>
 <script>
   const STATES = {
     absent: ["Absent", "s-absent", "Negative evidence: the image permitted a valid look, and the evidence supports a negative observation. Of the five states, only this one is evidence against a finding."],
