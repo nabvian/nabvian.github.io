@@ -2,7 +2,7 @@
 
 **A charter for working together: shared work, clear ownership and public recognition**
 
-Koushik Das · Working paper, draft 0.3 · October 2026
+Koushik Das · Version 1.0 · October 2026
 
 > Research first. Evidence always. Build together.
 
@@ -208,7 +208,7 @@ If you are interested in contributing, you are warmly invited to get in touch. I
 
 University research groups, medical colleges, independent reviewers and critics are all most welcome. A different perspective is always valued, and thoughtful disagreement is one of the most useful contributions anyone can make.
 
-**Contact:** EMAIL_PLACEHOLDER · github.com/nabvian · nabvian.github.io
+**Contact:** engikd1993@gmail.com · github.com/nabvian · nabvian.github.io
 
 ---
 
