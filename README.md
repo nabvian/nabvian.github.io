@@ -14,6 +14,7 @@ recorded data.
 | Q-BenchMed — quantum vs classical | [qbenchmed](https://nabvian.github.io/qbenchmed/) | [qbenchmed](https://github.com/nabvian/qbenchmed) |
 | UMNA — capabilities without silent regression | [umna-benchmarks](https://nabvian.github.io/umna-benchmarks/) | [umna-benchmarks](https://github.com/nabvian/umna-benchmarks) |
 | RE-FORM X — formulation research workspace | [projects/reform-x](https://nabvian.github.io/projects/reform-x/) (showcase) | private |
+| LUMERA — structured evidence from chest radiographs | [projects/lumera](https://nabvian.github.io/projects/lumera/) (showcase) | private |
 | Graphspace — typed computational graphs | [graphspace](https://nabvian.github.io/graphspace/) | [graphspace](https://github.com/nabvian/graphspace) |
 
 The thumbnails in `img/` are screenshots of each demo, in light and dark.

@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LUMERA — structured evidence extraction for chest radiographs</title>
+<meta name="description" content="LUMERA is a research-stage system that turns a chest radiograph into structured, traceable imaging evidence: what can be observed, how reliable it is, and what cannot be assessed, for a separate reasoning layer. Not a diagnosis, not a medical device.">
+<meta property="og:title" content="LUMERA — say what is supported, what cannot be assessed, and why">
+<meta property="og:description" content="Structured, reliability-aware imaging evidence for downstream reasoning. Research prototype; not a clinical product.">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../showcase.css">
+<style>
+  :root { --brand: #1763d6; --brand-soft: #eaf1fc; --on-brand: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand: #6aa5ff; --brand-soft: #172742; --on-brand: #0a1730; } }
+  :root[data-theme="dark"] { --brand: #6aa5ff; --brand-soft: #172742; --on-brand: #0a1730; }
+  .brand i { background: url(logo.svg) center / cover; }
+  .hero-logo { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 8px 24px rgba(23, 99, 214, .35); margin-bottom: 14px; display: block; }
+
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; max-width: 560px; }
+  .flow li { position: relative; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); font-weight: 600; }
+  .flow li span { display: block; font-weight: 400; font-size: 13.5px; color: var(--text-secondary); }
+  .flow li:not(:last-child) { margin-bottom: 26px; }
+  .flow li:not(:last-child)::after { content: "↓"; position: absolute; left: 50%; bottom: -24px; transform: translateX(-50%); color: var(--text-muted); font-weight: 700; }
+  .flow li.out { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+
+  .compare-flows { display: grid; gap: 12px; }
+  .lane { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); }
+  .lane .lab { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); margin-bottom: 8px; }
+  .lane .row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 14px; }
+  .lane .row b { padding: 4px 10px; border-radius: 8px; background: var(--surface-2); font-weight: 600; }
+  .lane .row i { font-style: normal; color: var(--text-muted); }
+  .lane.ours { border-color: var(--brand); }
+  .lane.ours .row b { background: var(--brand-soft); color: var(--brand); }
+
+  .states { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+  .state { text-align: left; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); color: var(--text-primary); font: inherit; cursor: pointer; min-width: 0; }
+  .state b { display: block; margin-bottom: 4px; }
+  .state span { display: block; font-size: 13px; color: var(--text-secondary); line-height: 1.45; }
+  .state[aria-pressed="true"] { border-color: var(--brand); box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand) 30%, transparent); }
+  .evobj { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+  .evcard { border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); overflow: hidden; }
+  .evcard .hd { display: flex; justify-content: space-between; gap: 10px; align-items: center; padding: 10px 14px; border-bottom: 1px solid var(--line); background: var(--surface-2); font-size: 12.5px; color: var(--text-muted); font-weight: 650; text-transform: uppercase; letter-spacing: .05em; }
+  .evcard dl { margin: 0; padding: 8px 14px 12px; display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 8px 16px; font-size: 14px; }
+  .evcard dt { color: var(--text-muted); }
+  .evcard dd { margin: 0; color: var(--text-secondary); }
+  .ph { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; color: var(--text-muted); }
+  .pill { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 12.5px; font-weight: 700; }
+  .pill.s-absent { background: var(--good-soft); color: var(--good); }
+  .pill.s-low { background: var(--warn-soft); color: var(--warn); }
+  .pill.s-na, .pill.s-mask { background: var(--neutral-soft); color: var(--text-secondary); }
+  .pill.s-unsup { background: var(--bad-soft); color: var(--bad); }
+  .reads { padding: 16px; border-radius: 14px; background: var(--brand-soft); }
+  .reads h3 { color: var(--brand); }
+  .reads p { margin: 0 0 8px; color: var(--text-secondary); font-size: 14.5px; }
+
+  .eg { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 16px; align-items: center; }
+  .eg-in { display: grid; gap: 8px; }
+  .eg-in div { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-1); font-weight: 600; font-size: 14.5px; }
+  .eg-in div:first-child { border-style: dashed; color: var(--text-secondary); }
+  .eg-arrow { font-size: 28px; color: var(--text-muted); }
+  .eg-out { padding: 18px; border: 2px solid var(--brand); border-radius: 14px; background: var(--brand-soft); color: var(--brand); font-weight: 700; font-size: 17px; text-align: center; }
+  .eg-out small { display: block; margin-top: 8px; font-weight: 500; font-size: 13.5px; color: var(--text-secondary); }
+  .hyp { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; background: var(--warn-soft); color: var(--warn); vertical-align: middle; margin-left: 8px; }
+  .cases { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+  .cases div { padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); font-size: 14px; color: var(--text-secondary); }
+  .check { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .check li { position: relative; padding: 10px 14px 10px 36px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface-1); font-size: 14.5px; }
+  .check li::before { content: ""; position: absolute; left: 13px; top: 15px; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--brand); border-right-color: transparent; }
+  .say { display: grid; gap: 10px; }
+  .say div { padding: 14px 16px; border-radius: 12px; font-size: 15px; }
+  .say .yes { background: var(--good-soft); border: 1px solid color-mix(in srgb, var(--good) 30%, transparent); }
+  .say .no { background: var(--bad-soft); border: 1px solid color-mix(in srgb, var(--bad) 30%, transparent); }
+  .say b { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+  .roadmap8 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .road p { margin: 0; color: var(--text-secondary); font-size: 14px; }
+  @media (max-width: 1000px) { .states, .cases { grid-template-columns: repeat(2, minmax(0, 1fr)); } .roadmap8 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .eg { grid-template-columns: 1fr; } .eg-arrow { transform: rotate(90deg); justify-self: center; } }
+  @media (max-width: 760px) { .evobj { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .states, .cases, .roadmap8 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice-bar" role="note"><strong>Research prototype.</strong> LUMERA is not a clinical product, medical device, diagnostic service or validated decision-support system. Results so far are development-only.</div>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>LUMERA</a>
+    <nav aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#states">Evidence states</a>
+      <a href="#eg">EG hypothesis</a>
+      <a href="#status">Status</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="/">All projects</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap two-col" style="align-items:center">
+    <div>
+      <img class="hero-logo" src="logo.svg" alt="" width="64" height="64">
+      <div class="chips"><span class="chip brand">Medical imaging research</span><span class="chip">Development-stage prototype</span><span class="chip">Code private · showcase</span></div>
+      <h1>Structured evidence extraction for chest radiographs</h1>
+      <p class="lede">LUMERA turns a chest radiograph into structured, traceable imaging evidence. It does not produce a diagnosis by itself. It identifies what can be observed from the image, describes the quality and limitations of that observation, and provides anatomically grounded evidence for a separate reasoning layer.</p>
+      <div class="hero-actions"><a class="button" href="#how">How it works</a><a class="button ghost" href="#collaborate">Collaborate</a></div>
+    </div>
+    <blockquote class="quote">A model should not only state what it predicts. It should state what it can support, what it cannot assess, and why.</blockquote>
+  </div>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">How it works</p>
+      <h2>From image to evidence, not to a label</h2>
+      <p class="muted">Each stage adds information about the observation and how far it can be trusted. Extraction stays separate from interpretation: LUMERA hands structured evidence to a downstream reasoning system instead of reasoning itself.</p>
+      <div class="compare-flows" style="margin-top:20px">
+        <div class="lane"><div class="lab">Direct prediction</div><div class="row"><b>Image</b><i>→</i><b>label, score or report</b></div></div>
+        <div class="lane ours"><div class="lab">LUMERA direction</div><div class="row"><b>Image</b><i>→</i><b>structured visual evidence</b><i>→</i><b>reliability-aware evidence</b><i>→</i><b>reasoning</b></div></div>
+      </div>
+    </div>
+    <ol class="flow" aria-label="LUMERA pipeline">
+      <li>Chest radiograph<span>The input image</span></li>
+      <li>Image and view assessment<span>Is the image technically adequate, and which view is it?</span></li>
+      <li>Anatomy, landmarks, visual structures and measurements<span>Anatomical masks and landmarks; measurements derived from image geometry</span></li>
+      <li>Confidence, limitations and evidence status<span>Attached to each structure and measurement, not one global score</span></li>
+      <li class="out">Structured evidence for downstream reasoning<span>Traceable to image structures and measurements</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="problem">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">The problem</p>
+      <h2>A single score hides the questions that matter</h2>
+      <p class="muted">Direct prediction systems can be useful, but they often hide:</p>
+      <ul class="plain">
+        <li>What image region supported the result?</li>
+        <li>Was the relevant anatomy visible?</li>
+        <li>Was the image technically adequate?</li>
+        <li>Was the output based on a reliable measurement?</li>
+        <li>Is the model uncertain because the finding is absent, because the image is poor, or because the system cannot assess it?</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>What makes LUMERA different</h3>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Conventional image model</th><th>LUMERA direction</th></tr></thead>
+        <tbody>
+          <tr><td>Produces labels or probabilities</td><td>Produces structured evidence objects</td></tr>
+          <tr><td>Confidence is often a single score</td><td>Confidence is attached to anatomy, measurements and limitations</td></tr>
+          <tr><td>May hide missing or unsupported information</td><td>Makes non-assessability explicit</td></tr>
+          <tr><td>Often optimised around classification accuracy</td><td>Designed around anatomical consistency and evidence validity</td></tr>
+          <tr><td>Can mix observation and interpretation</td><td>Separates extraction from downstream reasoning</td></tr>
+          <tr><td>Output may be difficult to audit</td><td>Output is intended to be traceable to image structures and measurements</td></tr>
+        </tbody>
+      </table></div>
+      <p class="muted small" style="margin:10px 0 0">LUMERA does not claim conventional models are wrong. It investigates whether an explicit evidence layer can make downstream medical reasoning safer, more inspectable and easier to validate.</p>
+    </div>
+  </div>
+</section>
+
+<section id="states" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Five evidence states</p>
+    <h2>"Not found" and "could not look" are different answers</h2>
+    <p class="section-copy">LUMERA keeps these states apart because a reasoning system must treat them differently. Select a state to see what it tells the next layer.</p>
+    <div class="states" role="group" aria-label="Evidence states">
+      <button type="button" class="state" data-s="absent" aria-pressed="true"><b>Absent</b><span>Evidence supports a negative observation.</span></button>
+      <button type="button" class="state" data-s="low" aria-pressed="false"><b>Low confidence</b><span>Evidence exists but is uncertain.</span></button>
+      <button type="button" class="state" data-s="na" aria-pressed="false"><b>Not assessable</b><span>The image, view, anatomy or measurement does not permit a valid conclusion.</span></button>
+      <button type="button" class="state" data-s="unsup" aria-pressed="false"><b>Unsupported</b><span>The current model was not trained to support that output.</span></button>
+      <button type="button" class="state" data-s="mask" aria-pressed="false"><b>Mask failed</b><span>An anatomical reference structure could not be extracted reliably.</span></button>
+    </div>
+    <div class="evobj">
+      <div class="evcard" aria-live="polite">
+        <div class="hd"><span>Evidence object · illustrative shape</span><span class="pill" id="ev-pill"></span></div>
+        <dl>
+          <dt>Structure</dt><dd class="ph">&lt;anatomical structure or landmark&gt;</dd>
+          <dt>Observation</dt><dd class="ph">&lt;what the image shows&gt;</dd>
+          <dt>Measurement</dt><dd class="ph">&lt;value from image geometry, if valid&gt;</dd>
+          <dt>Confidence</dt><dd class="ph">&lt;attached to this structure&gt;</dd>
+          <dt>Image quality</dt><dd class="ph">&lt;view and technical adequacy&gt;</dd>
+          <dt>Limitations</dt><dd class="ph">&lt;why the evidence is limited&gt;</dd>
+          <dt>Evidence status</dt><dd id="ev-status"></dd>
+        </dl>
+      </div>
+      <div class="reads">
+        <h3 id="ev-title"></h3>
+        <p id="ev-read"></p>
+        <p class="small muted" style="margin:0">The card shows the kind of information an evidence object carries. It is a schematic, not real model output; the exact schema is private.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="eg">
+  <div class="wrap">
+    <p class="eyebrow">Research hypothesis</p>
+    <h2>Evidence-Guided (EG) <span class="hyp">Hypothesis · not yet proven</span></h2>
+    <p class="section-copy">EG proposes that a system may become more reliable when it checks not only a model's prediction confidence, but also whether the prediction is supported by consistent anatomical and technical evidence. It is not a validated method or a clinical technique.</p>
+    <div class="eg">
+      <div class="eg-in">
+        <div>Prediction confidence</div>
+        <div>+ Image-quality evidence</div>
+        <div>+ Anatomical consistency</div>
+        <div>+ Measurement validity</div>
+        <div>+ Cross-checks between evidence sources</div>
+      </div>
+      <div class="eg-arrow" aria-hidden="true">→</div>
+      <div class="eg-out">Reliability-aware structured output<small>Trusted, limited, or withheld</small></div>
+    </div>
+    <blockquote class="quote" style="margin-top:22px">Confidence alone may not be sufficient to identify unreliable outputs. Anatomical consistency, image quality and evidence agreement may provide additional information about when an extraction should be trusted, limited or withheld.</blockquote>
+    <h3 style="margin-top:24px">Cases EG is meant to tell apart</h3>
+    <div class="cases">
+      <div>A high-confidence result from an image with inadequate visibility</div>
+      <div>A plausible segmentation that produces inconsistent measurements</div>
+      <div>A prediction that conflicts with anatomical geometry</div>
+      <div>A measurement that cannot be valid because required anatomy is unavailable</div>
+      <div>An output from an unsupported channel that must not be read as absence</div>
+    </div>
+    <div class="two-col" style="margin-top:22px">
+      <div class="card">
+        <h3>If the hypothesis is validated</h3>
+        <p class="muted small">Through properly separated datasets and external evaluation, EG could contribute to systems that are:</p>
+        <ul class="plain">
+          <li>More transparent about what they observed</li>
+          <li>Better at withholding unreliable evidence</li>
+          <li>More useful for downstream reasoning systems</li>
+          <li>Easier to audit than direct end-to-end predictions</li>
+          <li>More robust to poor image quality, cropped anatomy, unusual views and missing structures</li>
+          <li>Better able to separate negative evidence from insufficient evidence</li>
+        </ul>
+        <p class="muted small" style="margin:10px 0 0">The intended benefit is not a higher benchmark score. It is more trustworthy structured evidence.</p>
+      </div>
+      <div class="card">
+        <h3>What stays private</h3>
+        <p class="muted">The exact implementation, routing logic, validation rules, internal thresholds and future experimental design remain private research material. This page describes the hypothesis at a public level only.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="status" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">Current status</p>
+      <h2>A structured imaging-evidence research platform under active development</h2>
+      <p class="muted">Work so far includes:</p>
+      <ul class="check">
+        <li>Chest-radiograph preprocessing and view / quality assessment</li>
+        <li>Anatomical masks and landmarks</li>
+        <li>Measurements derived from image geometry</li>
+        <li>Structured findings with explicit validity states</li>
+        <li>A separation between extraction and reasoning</li>
+        <li>Reproducible training, caching, augmentation, checkpoint continuation and benchmark workflows</li>
+        <li>Lung and cardiac-silhouette development benchmarking</li>
+        <li>Reliability comparison between confidence and image-quality proxy signals</li>
+      </ul>
+    </div>
+    <div>
+      <div class="say">
+        <div class="yes"><b>It should be described as</b>A structured imaging-evidence research platform under active development.</div>
+        <div class="no"><b>It should not be presented as</b>A clinical product, medical device, diagnostic service or validated decision-support system.</div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <h3>Development-only results</h3>
+        <p class="muted" style="margin:0">Current results do not establish clinical validity, external generalisation, diagnostic performance, or proof of the EG hypothesis.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <p class="eyebrow">Future work</p>
+    <h2>What comes next</h2>
+    <ol class="roadmap roadmap8">
+      <li class="road"><b>External validation</b><p>Test on data not used in training, calibration, threshold selection or model selection.</p></li>
+      <li class="road"><b>Patient- and site-level separation</b><p>Meaningful separation across patients, institutions, scanners and acquisition settings.</p></li>
+      <li class="road"><b>Measurement validation</b><p>Compare anatomical measurements with expert references and evaluate their reliability.</p></li>
+      <li class="road"><b>Learned reliability models</b><p>Test whether EG-style evidence signals improve error detection beyond ordinary confidence scores.</p></li>
+      <li class="road"><b>View and technical quality</b><p>Evaluate position, projection, rotation, exposure, motion, cropping and artefact handling with real labels.</p></li>
+      <li class="road"><b>Broader anatomy support</b><p>Expand supervision for structures that are unavailable or only partly supported today.</p></li>
+      <li class="road"><b>Downstream reasoning evaluation</b><p>Test whether LUMERA evidence improves a frozen reasoning system compared with ordinary model outputs.</p></li>
+      <li class="road"><b>Human expert evaluation</b><p>Assess whether the output is understandable, useful, auditable and safely limited.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section id="collaborate" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">Collaboration</p>
+      <h2>Looking for research collaborators</h2>
+      <p class="muted">LUMERA is an early research effort exploring structured, reliability-aware evidence extraction from chest radiographs. Collaborators are welcome around:</p>
+      <ul class="plain">
+        <li>Chest-radiograph datasets with appropriate permissions</li>
+        <li>Expert annotation and measurement review</li>
+        <li>External validation design</li>
+        <li>Medical imaging reliability and calibration</li>
+        <li>Dataset shift and generalisation research</li>
+        <li>Clinical workflow and interpretability review</li>
+        <li>Independent replication and critique of the EG hypothesis</li>
+      </ul>
+      <div class="hero-actions"><a class="button" href="https://github.com/nabvian">Get in touch via GitHub</a><a class="button ghost" href="/">See all projects</a></div>
+    </div>
+    <blockquote class="quote">The project is not a clinical product and does not claim diagnostic validation.</blockquote>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><strong>LUMERA</strong> · © 2026 Koushik Das · Research software; code private. This page describes the approach and status, not code or results.</p>
+    <p>Not a medical device. Not for diagnosis or clinical decisions.</p>
+  </div>
+</footer>
+<script>
+  const STATES = {
+    absent: ["Absent", "s-absent", "Negative evidence: the image permitted a valid look, and the evidence supports a negative observation. Of the five states, only this one is evidence against a finding."],
+    low: ["Low confidence", "s-low", "Evidence exists but is uncertain. It reaches the reasoning layer with its uncertainty and limitations attached."],
+    na: ["Not assessable", "s-na", "Insufficient evidence, not negative evidence. The image, view, anatomy or measurement did not permit a valid conclusion, so nothing should be concluded either way."],
+    unsup: ["Unsupported", "s-unsup", "Outside what the current model was trained to support. It must never be interpreted as absence."],
+    mask: ["Mask failed", "s-mask", "An anatomical reference structure could not be extracted reliably, so evidence that depends on it cannot be treated as valid."],
+  };
+  const pick = (s) => {
+    document.querySelectorAll(".state").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.s === s)));
+    const [title, cls, read] = STATES[s];
+    const pill = document.getElementById("ev-pill"); pill.className = "pill " + cls; pill.textContent = title;
+    document.getElementById("ev-status").innerHTML = `<span class="pill ${cls}">${title}</span>`;
+    document.getElementById("ev-title").textContent = "What the reasoning layer receives: " + title;
+    document.getElementById("ev-read").textContent = read;
+  };
+  document.querySelectorAll(".state").forEach((b) => b.addEventListener("click", () => pick(b.dataset.s)));
+  pick("absent");
+</script>
+</body>
+</html>
