@@ -1,0 +1,12 @@
+190055c2fe92c4db207cf168317a82e23e56a29b0b7550c2f3c03b813055e20b  23-old-to-new-overview-full-hd.png
+49e669bf8a37343a682a3596a23dff707dcb5c576e99e7b8274c57901640cdb5  24-old-reference-product-full-hd.png
+aa8be2cda11f6e0f1a7cfaa8d278732621a0d5c792e8e93a85c9addfc43e8e29  25-public-reference-evidence-full-hd.png
+55b9ced076c01dab663b675fe6d4df668d4a6de9059a0bdee1f95b8b0ab5fe9e  26-reformulation-target-full-hd.png
+f8fda668ef5f0bc7c59213e2e24888e31a1ff5e923007636f2ddedf6b8e995c3  27-readiness-boundary-full-hd.png
+1dd5db6f8e9c7e29228f8c20be8f639c535528d7a416ac08241f52e9abe36d1f  28-new-possible-formulation-full-hd.png
+b8f84362c87192c36f66658425ba266d33c29133b1a8ff98b34088aa2f2eda59  29-confirmation-experiment-design-full-hd.png
+9d1dd1f14d919cdd6731366d87199277b8276b17fa2219db3be440ac706331e0  30-public-benchmark-protocol-full-hd.png
+e2aadede225e33ce9777cce00712b93482b85fac4e60d4bf242f3633524ca878  31-model-selection-full-hd.png
+c531d58589bf64c7e0dbaf8c2e7ad817a4ee774bcef58cb45cc3ef0591f2397a  32-new-candidate-prediction-full-hd.png
+e55890448b0ef292b3e5c80d958085bd43ff7d1b8b89ef9f7b8e53e2877fc16e  33-out-of-domain-abstention-full-hd.png
+1a1515a3fede07a5d07b77bd026e9fb3654941ad6da9aa0fd70e01c30c0ef0c2  34-old-to-new-audit-full-hd.png

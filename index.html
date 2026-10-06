@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Koushik Das — live project demos</title>
-<meta name="description" content="Six research projects in clinical evidence, rare-disease decision support and verifiable benchmarks. Every demo runs in your browser with no sign-up and no install.">
+<meta name="description" content="Research projects in clinical evidence, rare-disease decision support and verifiable benchmarks. Every demo runs in your browser with no sign-up and no install.">
 <meta property="og:title" content="Koushik Das — live project demos">
 <meta property="og:description" content="CARETRACE, ORPHARA, DMOS, Q-BenchMed, UMNA and Graphspace. Every demo runs in your browser: no sign-up, no install.">
 <meta property="og:image" content="https://nabvian.github.io/img/orphara-engine-light.jpg">
@@ -29,9 +29,9 @@
   <div class="wrap">
     <p class="eyebrow">Live project demos</p>
     <h1>Software that shows its evidence, and says plainly what it cannot claim</h1>
-    <p class="lede">Six research projects in clinical evidence, rare-disease decision support and verifiable benchmarks. Every demo below opens in your browser with nothing to sign up for or install, pre-loaded with synthetic or recorded data.</p>
+    <p class="lede">Research projects in clinical evidence, rare-disease decision support, pharmaceutical formulation and verifiable benchmarks. Live demos open in your browser with nothing to sign up for or install, pre-loaded with synthetic or recorded data; showcases of private work present the architecture and recorded results.</p>
     <div class="stats">
-      <div class="stat"><strong>6</strong><span>live demos, one click each</span></div>
+      <div class="stat"><strong>7</strong><span>projects: 6 live demos and 1 showcase of private work</span></div>
       <div class="stat"><strong>3</strong><span>run the project's real code in your browser, via WebAssembly</span></div>
       <div class="stat"><strong>0</strong><span>sign-ups, installs or uploads</span></div>
       <div class="stat"><strong>100%</strong><span>synthetic or recorded data; no patient data anywhere</span></div>
@@ -45,7 +45,7 @@
       <h2>Projects</h2>
       <div class="filters" role="group" aria-label="Filter projects">
         <button type="button" aria-pressed="true" data-filter="all">All</button>
-        <button type="button" aria-pressed="false" data-filter="clinical">Clinical evidence</button>
+        <button type="button" aria-pressed="false" data-filter="clinical">Health &amp; pharma</button>
         <button type="button" aria-pressed="false" data-filter="benchmarks">Verifiable benchmarks</button>
         <button type="button" aria-pressed="false" data-filter="tools">Developer tools</button>
       </div>
@@ -97,6 +97,22 @@
           </ul>
           <p class="runs"><span class="pill">Recorded outputs · source private until validated</span></p>
           <div class="actions"><a class="button" href="https://nabvian.github.io/dmos-demo/">Open live demo</a><a class="button ghost" href="https://github.com/nabvian/dmos-demo">Showcase repo</a></div>
+        </div>
+      </article>
+
+      <article class="project" data-cat="clinical">
+        <a class="thumb" href="projects/reform-x/" tabindex="-1" aria-hidden="true"><img src="img/reform-x-light.jpg" alt="" width="640" height="400" loading="lazy"></a>
+        <div class="body">
+          <p class="kicker">Pharma R&amp;D · formulation research</p>
+          <h3>RE-FORM X</h3>
+          <p class="pitch">An evidence-led formulation research workspace: evidence, formulation design, scientific modelling and laboratory execution in one traceable workflow.</p>
+          <ul class="try">
+            <li>A public-data replay from a published reference product to an untested candidate</li>
+            <li>A weak model rejected by declared gates; an out-of-domain request abstains</li>
+            <li>A nine-run confirmation plan instead of treating a prediction as proof</li>
+          </ul>
+          <p class="runs"><span class="pill">Showcase · proprietary, code private</span><span class="pill">Rust · 372 tests passing</span></p>
+          <div class="actions"><a class="button" href="projects/reform-x/">Open showcase</a><a class="button ghost" href="projects/reform-x/#replay">The replay</a></div>
         </div>
       </article>
 
@@ -154,7 +170,7 @@
 <section id="approach" class="band">
   <div class="wrap">
     <p class="eyebrow">What the projects share</p>
-    <h2>The same habits, across six codebases</h2>
+    <h2>The same habits, across every codebase</h2>
     <div class="habits">
       <article><b>Every claim traces to a source</b><p>Findings link back to the page and text they came from; benchmark figures are read from committed result files rather than retyped.</p></article>
       <article><b>Refusing beats guessing</b><p>Missing evidence produces a typed refusal or a named gap, not a plausible-looking number.</p></article>

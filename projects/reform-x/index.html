@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RE-FORM X — evidence-led formulation research workspace</title>
+<meta name="description" content="RE-FORM X connects evidence, formulation design, scientific modelling and laboratory execution in one traceable research workflow. A public-data replay went from a published reference product to an untested candidate and a nine-run confirmation plan, rejecting a weak model and abstaining outside its domain.">
+<meta property="og:title" content="RE-FORM X — every formulation decision starts with the evidence">
+<meta property="og:description" content="Evidence → formulation → science experiment → laboratory execution, with every assumption, model and decision traceable.">
+<meta property="og:image" content="https://nabvian.github.io/projects/reform-x/thumbs/28-new-possible-formulation.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231d5c4a'/%3E%3Crect x='8' y='9' width='3' height='15' rx='1' fill='white'/%3E%3Crect x='14' y='6' width='3' height='18' rx='1' fill='%23a8dcc8'/%3E%3Crect x='20' y='11' width='3' height='13' rx='1' fill='white'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../showcase.css">
+<style>
+  :root { --brand: #1d5c4a; --brand-soft: #e3f0eb; --on-brand: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand: #7fcfb2; --brand-soft: #18302a; --on-brand: #0b1f19; } }
+  :root[data-theme="dark"] { --brand: #7fcfb2; --brand-soft: #18302a; --on-brand: #0b1f19; }
+  .brand i { background: linear-gradient(90deg, transparent 0 25%, #fff 25% 34%, transparent 34% 47%, #a8dcc8 47% 56%, transparent 56% 69%, #fff 69% 78%, transparent 78%) center / 100% 60% no-repeat, #1d5c4a; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice-bar" role="note"><strong>Research software showcase.</strong> RE-FORM X is proprietary; its source code is private. Nothing here claims a formulation works, is safe, bioequivalent or approvable.</div>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>RE-FORM X</a>
+    <nav aria-label="Sections">
+      <a href="#architecture">Architecture</a>
+      <a href="#replay">Public-data replay</a>
+      <a href="#registry">Registry check</a>
+      <a href="#status">What is proven</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="/">All projects</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <div class="chips"><span class="chip brand">Formulation research · decision support</span><span class="chip">Rust backend · web workspace</span><span class="chip">Code private · showcase</span></div>
+    <h1>Every formulation decision starts with the evidence</h1>
+    <p class="lede">RE-FORM X is a proprietary research workspace for pharmaceutical formulation development. It connects evidence collection, formulation design, scientific modelling and laboratory execution, so a research team can keep the basis of each decision, identify promising candidates within defined scientific limits, record uncertainty and prepare the experiments needed for confirmation.</p>
+    <div class="hero-actions">
+      <a class="button" href="#replay">See the public-data replay</a>
+      <a class="button ghost" href="#collaborate">Collaborate</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>372</strong><span>automated tests passing: 185 Rust, 61 scientific workflow, 126 web application</span></div>
+      <div class="stat"><strong>17</strong><span>published formulation rows replayed end to end, from an old reference to a new candidate</span></div>
+      <div class="stat"><strong>1 of 2</strong><span>models promoted; the random forest failed five declared gates and was withheld</span></div>
+      <div class="stat"><strong>0</strong><span>numbers returned outside the model's domain: an unsupported request abstains</span></div>
+    </div>
+    <figure class="hero-shot"><button type="button" class="shot-btn" data-shot="23"><img src="thumbs/23-old-to-new-overview.jpg" alt="RE-FORM X workspace overview for the metformin XR reference to possible new formulation project" width="800" height="450"></button></figure>
+  </div>
+</section>
+
+<section id="problem" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">The problem</p>
+      <h2>Formulation evidence is scattered</h2>
+      <p class="muted">Formulation research spreads evidence, assumptions, calculations, experimental records and model outputs across papers, spreadsheets and separate laboratory systems. Later, it is hard to say which evidence supported a candidate, whether a model was used inside its validated domain, and what must be tested next.</p>
+    </div>
+    <div>
+      <p class="eyebrow">The approach</p>
+      <h2>One traceable path to a testable decision</h2>
+      <p class="muted">RE-FORM X keeps the source, its permissions and a verbatim snapshot; records reviewed observations and the target profile; screens whether the evidence supports the work; generates mass-balanced candidates inside declared constraints; promotes a model only when predefined gates pass independent review; and abstains or rejects instead of guessing. RE-FORM X supports expert scientific work. It does not replace formulation scientists, analytical scientists, quality reviewers or regulatory decisions.</p>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <p class="eyebrow">Architecture · four connected stages</p>
+    <h2>From scattered evidence to a laboratory record</h2>
+    <p class="section-copy">Each stage hands the next a recorded, reviewable result, and the link from research decision to experimental plan to laboratory record is preserved.</p>
+    <div class="arch">
+      <article class="stage"><span class="n">Stage 1</span><b>RE-FORM · Evidence</b><ul><li>Collects product, formulation, scientific and regulatory evidence</li><li>Stores source permissions, snapshots, observations and review decisions</li><li>Retains the origin of important assumptions</li></ul></article>
+      <article class="stage"><span class="n">Stage 2</span><b>Formulation</b><ul><li>Defines the intended product profile and formulation constraints</li><li>Compares excipients, compositions and target dissolution profiles</li><li>Generates candidates within declared scientific boundaries</li></ul></article>
+      <article class="stage"><span class="n">Stage 3</span><b>Science Experiment</b><ul><li>Records model inputs, assumptions, data splits, metrics and uncertainty</li><li>Rejects weak models; abstains outside the supported domain</li><li>Creates confirmation experiment plans instead of treating a prediction as proof</li></ul></article>
+      <article class="stage"><span class="n">Stage 4</span><b>Laboratory Execution</b><ul><li>Tracks material lots, quantities, aliquots, samples, runs, results and instrument files</li><li>Configurable CSV import while instrument vendors are undecided</li><li>Links each record back to its decision and plan</li></ul></article>
+    </div>
+    <div class="rail"><b>Across every stage:</b> authentication, roles and account security · quality investigations · a tamper-evident, hash-chained audit trail · durable background jobs · reproducible report export.</div>
+  </div>
+</section>
+
+<section id="replay" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Demonstration · retrospective public-data replay</p>
+    <h2>Old reference → new possible formulation</h2>
+    <p class="section-copy">One continuous run using the open-access metformin floating-tablet study <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8399106/">PMC8399106</a> (DOI 10.3390/pharmaceutics13081225, CC BY 4.0). Result recorded by the software: <span class="status ok">PASS_RETROSPECTIVE_RESEARCH_REPLAY</span>. Click any screenshot to enlarge it.</p>
+    <ol class="steps">
+      <li class="step"><div><h3><span class="num">1</span>Published reference, reviewed</h3><p>A Glucophage XR 500 mg reference profile: reported average tablet mass 1040 mg and 30% / 60% / 80% release at 1 h / 4 h / 8 h. Four literature observations were independently reviewed. The exact reference composition was not disclosed, and RE-FORM X does not infer it.</p></div><button type="button" class="shot-btn" data-shot="25"><img src="thumbs/25-public-reference-evidence.jpg" alt="Four verified literature observations: 1040 mg tablet mass and 30, 60, 80 percent release" width="800" height="450" loading="lazy"></button></li>
+      <li class="step"><div><h3><span class="num">2</span>Declared reformulation target</h3><p>A possible lower-mass, non-effervescent floating sustained-release 500 mg tablet, maximum 900 mg, inside the study's cetyl alcohol / HPMC K15M design domain.</p></div><button type="button" class="shot-btn" data-shot="26"><img src="thumbs/26-reformulation-target.jpg" alt="Target profile: possible lower-mass floating sustained-release tablet, 500 mg dose, 900 mg maximum mass" width="800" height="450" loading="lazy"></button></li>
+      <li class="step"><div><h3><span class="num">3</span>Screening boundary held</h3><p>Formal evidence screening returned <span class="status">OUT_OF_SCOPE</span>: product approval and other prerequisites are absent. The regulatory-readiness route stays closed; work continues as hypothesis generation only.</p></div><button type="button" class="shot-btn" data-shot="27"><img src="thumbs/27-readiness-boundary.jpg" alt="Screening decision OUT_OF_SCOPE with blocking prerequisites listed" width="800" height="450" loading="lazy"></button></li>
+      <li class="step"><div><h3><span class="num">4</span>Prespecified benchmark, frozen split</h3><p>An independently approved protocol froze 17 published formulations into 9 training, 3 calibration and 5 test groups before evaluation.</p></div><button type="button" class="shot-btn" data-shot="30"><img src="thumbs/30-public-benchmark-protocol.jpg" alt="Approved benchmark protocol for the PMC8399106 replay" width="800" height="450" loading="lazy"></button></li>
+    </ol>
+
+    <div class="two-col" style="margin-top:20px">
+      <div class="card">
+        <h3>Model selection: ridge promoted, random forest withheld</h3>
+        <p class="muted small">Test error on the 5 held-out formulations, in f2 units, with bootstrap 95% intervals. Lower is better.</p>
+        <div class="legend" aria-hidden="true"><span><i class="sw" style="background:var(--s1)"></i>Ridge regression</span><span><i class="sw" style="background:var(--s2)"></i>Random forest</span></div>
+        <div class="chart" id="chart-models"></div>
+        <details class="table-view"><summary>Table view</summary><div class="table-wrap" id="table-models"></div></details>
+      </div>
+      <div class="card">
+        <h3>Observed vs predicted, each test formulation</h3>
+        <p class="muted small">f2 similarity to the reference. Three of the five test formulations sit outside the trained domain (40% applicability coverage), so the headline metrics rest on a small sample.</p>
+        <div class="legend" aria-hidden="true"><span><i class="sw ring"></i>Observed</span><span><i class="sw" style="background:var(--s1)"></i>Ridge</span><span><i class="sw" style="background:var(--s2)"></i>Random forest</span></div>
+        <div class="chart" id="chart-obs"></div>
+        <details class="table-view"><summary>Table view</summary><div class="table-wrap" id="table-obs"></div></details>
+      </div>
+    </div>
+
+    <ol class="steps" start="5" style="margin-top:4px">
+      <li class="step"><div><h3><span class="num">5</span>Weak model rejected</h3><p>Ridge passed the declared research gates and was promoted for research use. The random forest failed the RMSE, MAE, interval-width and both uncertainty gates, and was not promoted.</p></div><button type="button" class="shot-btn" data-shot="31"><img src="thumbs/31-model-selection.jpg" alt="Model registry: ridge promoted research, random forest review required and not eligible" width="800" height="450" loading="lazy"></button></li>
+      <li class="step"><div><h3><span class="num">6</span>New possible formulation generated</h3><p>A mass-balanced <b>P3 research hypothesis</b> of 844.59 mg, under the 900 mg target, with exact component masses and recorded limitations. Status: <span class="status warn">UNTESTED_RESEARCH_CANDIDATE</span>.</p></div><button type="button" class="shot-btn" data-shot="28"><img src="thumbs/28-new-possible-formulation.jpg" alt="Stored scientific result showing the generated P3 candidate composition" width="800" height="450" loading="lazy"></button></li>
+    </ol>
+
+    <div class="two-col" style="margin-top:16px">
+      <div class="card">
+        <h3>P3 candidate composition</h3>
+        <p class="muted small">Total tablet mass ≈ 844.59 mg.</p>
+        <div class="legend" aria-hidden="true"><span><i class="sw" style="background:var(--s1)"></i>Metformin HCl</span><span><i class="sw" style="background:var(--s2)"></i>HPMC K15M</span><span><i class="sw" style="background:var(--s3)"></i>Cetyl alcohol</span><span><i class="sw" style="background:var(--s4)"></i>Magnesium stearate</span></div>
+        <div class="chart" id="chart-comp"></div>
+        <details class="table-view"><summary>Table view</summary><div class="table-wrap" id="table-comp"></div></details>
+      </div>
+      <div class="card">
+        <h3>In-domain prediction for P3</h3>
+        <p class="muted small">Promoted ridge model, status <span class="status">RESEARCH_PREDICTION</span>.</p>
+        <p style="margin:6px 0 2px"><span class="big">f2 55.68</span></p>
+        <p class="muted" style="margin:0 0 8px">interval 49.94 – 61.42</p>
+        <div class="chart" id="chart-pred"></div>
+        <p class="muted small">A prediction is a model estimate, never a measured result. P3 has not been manufactured or measured.</p>
+      </div>
+    </div>
+
+    <ol class="steps" start="7" style="margin-top:4px">
+      <li class="step"><div><h3><span class="num">7</span>Outside the domain, no number</h3><p>A deliberately shifted input at 5% HPMC K15M falls outside the applicability domain. The system returns <span class="status ok">ABSTAINED</span> with no numerical prediction.</p></div><button type="button" class="shot-btn" data-shot="33"><img src="thumbs/33-out-of-domain-abstention.jpg" alt="Stored result with interval null for the 5 percent HPMC out-of-domain input" width="800" height="450" loading="lazy"></button></li>
+      <li class="step"><div><h3><span class="num">8</span>Confirmation plan, not a conclusion</h3><p>The software generated a nine-run factorial design for prospective confirmation. P3 remains untested until it is manufactured and measured under a qualified protocol.</p>
+        <div class="doe" role="table" aria-label="Nine-run factorial confirmation design" style="margin-top:10px">
+          <div class="h" role="columnheader"></div><div class="h" role="columnheader">HPMC 16%</div><div class="h" role="columnheader">HPMC 18%</div><div class="h" role="columnheader">HPMC 20%</div>
+          <div class="h" role="rowheader">Cetyl 150 mg</div><div class="cell">run</div><div class="cell p3" title="Nearest to the P3 candidate (150.34 mg, 18%)">run · near P3</div><div class="cell">run</div>
+          <div class="h" role="rowheader">Cetyl 200 mg</div><div class="cell">run</div><div class="cell">run</div><div class="cell">run</div>
+          <div class="h" role="rowheader">Cetyl 250 mg</div><div class="cell">run</div><div class="cell">run</div><div class="cell">run</div>
+        </div></div><button type="button" class="shot-btn" data-shot="29"><img src="thumbs/29-confirmation-experiment-design.jpg" alt="Stored experimental design with cetyl alcohol levels 150, 200, 250 mg and HPMC levels 16, 18, 20 percent" width="800" height="450" loading="lazy"></button></li>
+      <li class="step"><div><h3><span class="num">9</span>Every step on the record</h3><p>An append-only activity trail records who did what, when, and to which record, across the whole replay.</p></div><button type="button" class="shot-btn" data-shot="34"><img src="thumbs/34-old-to-new-audit.jpg" alt="Audit trail of recorded events for the replay" width="800" height="450" loading="lazy"></button></li>
+    </ol>
+    <p class="muted small" style="margin-top:14px">Limits of this replay: one published study, retrospective and not independent prospective validation; the old reference composition was not disclosed; predicted f2 does not establish bioequivalence, clinical performance, stability, scale-up, approval or safety.</p>
+  </div>
+</section>
+
+<section id="registry">
+  <div class="wrap">
+    <p class="eyebrow">Second demonstration · official clinical-registry data</p>
+    <h2>When the evidence is not enough, it says so</h2>
+    <p class="section-copy">The official aggregate <a href="https://clinicaltrials.gov/study/NCT02252965?tab=results">ClinicalTrials.gov NCT02252965</a> record (API 2.0.5) was retained verbatim with a SHA-256 digest; no patient-level data was used. The source policy allowed retain, extract, display and export, and explicitly not model training.</p>
+    <div class="grid4" style="margin-bottom:18px">
+      <div class="stat"><strong>50</strong><span>aggregate observations extracted, each bound to an exact JSON location in the snapshot</span></div>
+      <div class="stat"><strong>4</strong><span>selected observations independently checked; all others left pending review</span></div>
+      <div class="stat"><strong>2</strong><span>study-arm products registered, with no identity or approval inferred</span></div>
+      <div class="stat"><strong>71</strong><span>events in the run's audit hash chain, verified valid</span></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Decision: <span class="status warn">INSUFFICIENT_EVIDENCE</span></h3>
+        <p class="muted">The registry outcomes are real and traceable, but they do not supply the product-specific approval and formulation evidence needed to assert an opportunity. So the screening fails closed: no opportunity score and no success probability are invented, and human review is required.</p>
+        <p class="small muted" style="margin-bottom:4px">Missing prerequisites named by the engine:</p>
+        <div class="chips"><span class="chip">absorption assessment</span><span class="chip">half-life (hours)</span><span class="chip">modified-release safety assessment</span><span class="chip">solubility</span><span class="chip">approval for this product and jurisdiction</span></div>
+        <p class="small muted">Revoking the source's current-use permission blocks the imported products and observations, new screenings and the export of earlier reports.</p>
+      </div>
+      <button type="button" class="shot-btn" data-shot="20"><img src="thumbs/20-public-screening-detail.jpg" alt="Screening decision dialog: insufficient evidence, with blocking prerequisites" width="800" height="450" loading="lazy"></button>
+    </div>
+  </div>
+</section>
+
+<section id="foundation" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Software foundation</p>
+    <h2>What is implemented today</h2>
+    <div class="two-col">
+      <div class="card">
+        <div class="table-wrap"><table>
+          <thead><tr><th>Area</th><th>Current state</th></tr></thead>
+          <tbody>
+            <tr><td>Rust backend and API</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Web research workspace</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Authentication, roles and account security</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Projects and product register</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Evidence sources, permissions and snapshots</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Evidence imports, observations and knowledge explorer</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Target profiles and screening decisions</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Scientific workbench and history</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Model validation, promotion records and abstention handling</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Laboratory execution plans and runs</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Material lots, quantities and aliquots</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Instrument file registration and configurable CSV intake</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Quality investigations and audit trail</td><td><span class="status ok">Implemented</span></td></tr>
+            <tr><td>Automated testing</td><td><span class="status ok">Passing</span></td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <div class="card">
+          <h3>Latest verified checks</h3>
+          <ul class="plain">
+            <li>185 Rust automated tests</li>
+            <li>61 scientific workflow tests</li>
+            <li>126 web application tests</li>
+            <li>Production web build completed successfully</li>
+            <li>Rust formatting and Clippy clean</li>
+            <li>Recovery drill: 23 store recovery tests and 4 CLI recovery tests</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Software-stage screens</h3>
+          <p class="muted small">These use clearly labelled, disposable numeric fixtures to show implemented behaviour. They are not pharmaceutical validation data.</p>
+          <div class="gallery" id="fixture-gallery" style="grid-template-columns:repeat(3,minmax(0,1fr))"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="status">
+  <div class="wrap">
+    <p class="eyebrow">Claim boundary</p>
+    <h2>What is proven, and what is not</h2>
+    <p class="section-copy">The value of RE-FORM X is not a promise of successful formulations. It is more structured, reproducible and testable formulation decisions.</p>
+    <div class="card">
+      <div class="table-wrap"><table class="claims">
+        <thead><tr><th>Claim</th><th>Current status</th></tr></thead>
+        <tbody>
+          <tr><td>The software workflow operates</td><td><span class="status ok">Demonstrated</span></td></tr>
+          <tr><td>Evidence and decisions are traceable</td><td><span class="status ok">Implemented</span></td></tr>
+          <tr><td>Public-data retrospective prediction workflow operates</td><td><span class="status ok">Demonstrated</span></td></tr>
+          <tr><td>RE-FORM X can support formulation prediction</td><td><span class="status warn">In scope · requires prospective validation</span></td></tr>
+          <tr><td>Generated candidate will work in a physical laboratory</td><td><span class="status">Not yet proven</span></td></tr>
+          <tr><td>Generated candidate will be stable</td><td><span class="status">Not yet proven</span></td></tr>
+          <tr><td>Generated candidate will be bioequivalent</td><td><span class="status">Not yet proven</span></td></tr>
+          <tr><td>Generated candidate is clinically effective</td><td><span class="status">Not yet proven</span></td></tr>
+          <tr><td>Generated candidate is safe</td><td><span class="status">Not yet proven</span></td></tr>
+          <tr><td>Product can be approved by CDSCO, FDA or EMA</td><td><span class="status">Not yet proven</span></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Future upgrades</p>
+    <h2>What comes next</h2>
+    <p class="section-copy">The next steps move RE-FORM X from a demonstrated software workflow toward prospectively validated use.</p>
+    <ol class="roadmap">
+      <li class="road"><b>Independent scientific review</b><ul><li>Formulation, analytical and regulatory specialists review the data structure and scientific assumptions</li><li>Target profile design, model selection and validation rules</li><li>Candidate-generation constraints and the confirmation plan</li></ul></li>
+      <li class="road"><b>Prospective laboratory validation</b><ul><li>A qualified laboratory manufactures and tests selected candidates</li><li>Predicted vs observed dissolution; batch-to-batch reproducibility</li><li>Assay, content uniformity, stability, manufacturability, method suitability</li></ul></li>
+      <li class="road"><b>Better and broader datasets</b><ul><li>More formulation records, APIs and dosage forms</li><li>Consistent analytical method metadata</li><li>Failed experiments, stability and process data, with licensing records</li></ul></li>
+      <li class="road"><b>Instrument integrations</b><ul><li>Vendor-specific exports or APIs once instruments are chosen</li><li>HPLC, dissolution tester, UV spectrophotometer, balance</li><li>Particle-size analyzer, stability chamber, LIMS exports</li></ul></li>
+      <li class="road"><b>Regulatory and quality fitness</b><ul><li>Intended use and claim boundaries</li><li>Computerized-system validation, data integrity, change control</li><li>Access-control and security review; audit-trail review procedures</li></ul></li>
+    </ol>
+  </div>
+</section>
+
+<section id="benefits">
+  <div class="wrap">
+    <p class="eyebrow">If it succeeds</p>
+    <h2>Who benefits</h2>
+    <div class="grid3">
+      <div class="who"><b>Formulation scientists</b><p>Move from literature and prior data toward candidates with clearer assumptions, constraints and rationale.</p></div>
+      <div class="who"><b>Analytical and laboratory teams</b><p>A structured handoff: candidate, target profile, materials, quantities, experimental plan and expected result range.</p></div>
+      <div class="who"><b>Quality and technical reviewers</b><p>See where a conclusion came from, which data and model version produced it, and whether the system abstained or rejected a result.</p></div>
+      <div class="who"><b>Small pharma and biotech teams</b><p>Begin evidence-led formulation research without first building a large internal data and workflow platform.</p></div>
+      <div class="who"><b>Academic collaborators</b><p>Contribute methods, datasets, experiments and scientific critique while preserving a defined evidence trail.</p></div>
+      <div class="who"><b>Patients and health systems</b><p>Indirectly: better research decisions may reduce wasted experiments, shorten investigation cycles and improve the formulations taken into proper laboratory and clinical development.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="collaborate" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">Collaboration sought</p>
+      <h2>Scientific review, independent testing, a laboratory pilot</h2>
+      <p class="muted">I am looking for formulation and analytical experts to challenge the assumptions, independently test the pipeline and help design a prospective laboratory pilot. I am seeking technical feedback and validation support, not an endorsement.</p>
+      <p class="muted">A first discussion can use a non-confidential demonstration and the public-data reports. Source code, detailed algorithms, model artifacts and commercial plans are shared only under an appropriate confidentiality agreement.</p>
+      <div class="hero-actions"><a class="button" href="https://github.com/nabvian">Get in touch via GitHub</a><a class="button ghost" href="/">See all projects</a></div>
+    </div>
+    <blockquote class="quote">RE-FORM X is not a system that claims to approve medicines or guarantee successful formulations; it is designed to make formulation research more traceable, testable and scientifically reviewable.</blockquote>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><strong>RE-FORM X</strong> · © 2026 Koushik Das · Proprietary software; all rights reserved. This page shows screenshots and recorded results, not code.</p>
+    <p>Public data: PMC8399106 (CC BY 4.0) and ClinicalTrials.gov NCT02252965, used under the <a href="https://clinicaltrials.gov/about-site/terms-conditions">ClinicalTrials.gov Terms and Conditions</a>. Screenshot SHA-256 lists: <a href="shots/SHA256SUMS.txt">software and registry set</a> · <a href="shots/OLD_TO_NEW_SHA256SUMS.txt">replay set</a>.</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot">
+  <button type="button" class="close" aria-label="Close">×</button>
+  <button type="button" class="prev" aria-label="Previous screenshot">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button type="button" class="next" aria-label="Next screenshot">›</button>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
