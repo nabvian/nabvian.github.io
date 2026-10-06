@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ultrasound Guidance — a trustworthy picture first, guidance second</title>
+<meta name="description" content="A manufacturer-independent layer that sits beside existing ultrasound machines: capture the live picture, prove it is live, then help the operator reach a defined transabdominal pelvic view. Research showcase; code private; not a medical device.">
+<meta property="og:title" content="Ultrasound Guidance — a trustworthy picture first, guidance second">
+<meta property="og:description" content="Capture any ultrasound machine's video, prove every frame is live, and only then guide. 332 of 332 injected stalls caught on replay; real hardware is next.">
+<meta property="og:image" content="https://nabvian.github.io/projects/ultrasound-guidance/fixture-screens.png">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../showcase.css">
+<style>
+  :root { --brand: #0e6b8c; --brand-soft: #e2f1f7; --on-brand: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand: #6cc4e0; --brand-soft: #12303b; --on-brand: #06222c; } }
+  :root[data-theme="dark"] { --brand: #6cc4e0; --brand-soft: #12303b; --on-brand: #06222c; }
+  .brand i { background: url(logo.svg) center / cover no-repeat; }
+  .hero-logo { width: 72px; height: 72px; border-radius: 16px; margin-bottom: 14px; display: block; }
+  .chain { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; font-size: 13.5px; }
+  .chain span { padding: 4px 10px; border-radius: 99px; background: var(--surface-1); border: 1px solid var(--line); color: var(--text-secondary); }
+  .chain span:first-child { background: var(--brand-soft); color: var(--brand); border-color: transparent; font-weight: 650; }
+  .chain b { color: var(--text-muted); font-weight: 700; }
+  .bars { display: grid; gap: 14px; }
+  .bar-row { display: grid; grid-template-columns: minmax(130px, 0.9fr) minmax(0, 2fr); gap: 12px; align-items: center; font-size: 14px; }
+  .bar-row .lbl { color: var(--text-primary); font-weight: 600; }
+  .bar-row .lbl small { display: block; color: var(--text-muted); font-weight: 400; }
+  .track { position: relative; height: 26px; border-radius: 6px; background: var(--surface-2); }
+  .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 6px; background: var(--brand); }
+  .fill.before { background: color-mix(in srgb, var(--text-muted) 45%, transparent); height: 10px; top: 0; bottom: auto; }
+  .fill.after { top: auto; height: 14px; bottom: 0; }
+  .limit { position: absolute; top: -4px; bottom: -4px; border-left: 2px dashed var(--bad); }
+  .val { position: absolute; top: 3px; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--text-secondary); white-space: nowrap; }
+  .axis-note { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+  .matrix td.num { font-weight: 650; }
+  .matrix td.hi { background: var(--brand-soft); color: var(--brand); }
+  .impact-num { font-size: clamp(34px, 5vw, 50px); font-weight: 780; letter-spacing: -0.03em; line-height: 1.05; color: var(--brand); }
+  .never li { margin-bottom: 8px; }
+  .never b { color: var(--text-primary); }
+  .sources li { margin-bottom: 6px; font-size: 13.5px; }
+  .phase .k { display: block; margin-top: 8px; font-size: 12.5px; color: var(--warn); }
+  .road.done { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+  .road.done::before { content: "✓"; color: var(--good); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice-bar" role="note"><strong>Research software showcase.</strong> The source code is private. This is not a medical device, it has never been used on a patient, and fetal-sex inference is a prohibited capability by design.</div>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>Ultrasound Guidance</a>
+    <nav aria-label="Sections">
+      <a href="#what">What it is</a>
+      <a href="#status">Where it stands</a>
+      <a href="#roadmap">Future scope</a>
+      <a href="#how">How to get there</a>
+      <a href="#impact">Who it helps</a>
+      <a href="/">All projects</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="hero-logo" src="logo.svg" alt="Ultrasound Guidance logo: a probe, its scan fan and a check mark" width="72" height="72">
+    <div class="chips"><span class="chip brand">Medical imaging · acquisition assistance</span><span class="chip">Rust · replay-first</span><span class="chip">Code private · showcase</span></div>
+    <h1>A trustworthy picture first. Guidance second.</h1>
+    <p class="lede">Ultrasound Guidance is a layer that sits beside the ultrasound machines hospitals already own. It captures the machine's live video, proves every frame is really live, and only then helps the person holding the probe reach a defined view. The first clinical target is transabdominal pelvic and gynaecological scanning. Today the capture-and-safety foundation is built and tested on recorded video; real hardware is the next step.</p>
+    <div class="hero-actions">
+      <a class="button" href="#status">See what is proven</a>
+      <a class="button ghost" href="#impact">Who it could help</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>332 / 332</strong><span>injected video stalls caught, every one within 250 ms (limit: 1 s)</span></div>
+      <div class="stat"><strong>0</strong><span>false "video lost" alarms in 10.9 hours of normal-use replay</span></div>
+      <div class="stat"><strong>74 / 74</strong><span>torn frames (half old image, half new) kept out of the pipeline</span></div>
+      <div class="stat"><strong>0</strong><span>real capture cards tested so far: all evidence is from replay, and this page says so throughout</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="what" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">The problem</p>
+      <h2>Ultrasound depends on who holds the probe</h2>
+      <p class="muted">An ultrasound picture is only as good as the hand that makes it: where the probe sits, how it tilts and rotates, and what settings are on the machine. Where no experienced specialist is present, a scan may be incomplete or never happen. Software that could help already exists for some products, but it is usually tied to one manufacturer's new machines, not the older ones already in service.</p>
+      <p class="muted">There is a second, quieter problem. The only data path every machine shares is its video output, read through a cheap HDMI capture card. Those cards can silently repeat the last frame, drop frames, or report wrong timestamps. Guidance based on a frozen picture is worse than no guidance at all.</p>
+    </div>
+    <div>
+      <p class="eyebrow">The approach</p>
+      <h2>Sit beside the machine; never trust a frame by default</h2>
+      <p class="muted">Ultrasound Guidance does not replace or control the ultrasound machine, and it never moves the probe. It reads the video output, checks every frame, and keeps a human in charge.</p>
+      <ul class="plain">
+        <li><b>Capture</b> from any machine with a video output, a DICOM file or a network stream.</li>
+        <li><b>Prove the picture is live</b> before anything else uses it, and say so on screen when it is not.</li>
+        <li><b>Guide</b> with a small, clinician-approved set of advisory instructions such as "rotate clockwise" or "hold", only when the picture is trusted.</li>
+        <li><b>Fall back safely</b> when anything fails:</li>
+      </ul>
+      <div class="chain" aria-label="Degradation chain">
+        <span>AI guidance</span><b>→</b><span>rule-based guidance</span><b>→</b><span>remote expert</span><b>→</b><span>audio only</span><b>→</b><span>view only</span><b>→</b><span>record only</span><b>→</b><span>guidance off</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="architecture">
+  <div class="wrap">
+    <p class="eyebrow">What is built · the capture-and-safety foundation</p>
+    <h2>Four checks between the machine and anything that uses its picture</h2>
+    <p class="section-copy">Every frame passes through the same four stages, whether it comes from a live capture card, a recorded file or a DICOM cine. Only frames that pass are allowed to drive guidance.</p>
+    <div class="arch">
+      <article class="stage"><span class="n">Stage 1</span><b>Capture</b><ul><li>HDMI/USB capture cards, recorded video, DICOM files</li><li>Every frame re-stamped on the system's own clock; the card's timestamps are never trusted</li><li>Each lost frame counted</li></ul></article>
+      <article class="stage"><span class="n">Stage 2</span><b>Validate</b><ul><li>Find the imaging area on a known screen layout</li><li>Mask on-screen patient details</li><li>Reject wrong sizes, black screens and unknown layouts</li></ul></article>
+      <article class="stage"><span class="n">Stage 3</span><b>Is it live?</b><ul><li>Five states: live and moving, live and still, machine frozen, capture stalled, unknown</li><li>Detect new frames vs repeats, and torn frames</li><li>Guidance allowed only after 0.5 s of confirmed live picture</li></ul></article>
+      <article class="stage"><span class="n">Stage 4</span><b>Record &amp; audit</b><ul><li>Recordings with a checksum on every frame</li><li>A tamper-evident, hash-chained event log</li><li>Recordings replay through the same pipeline</li></ul></article>
+    </div>
+    <div class="rail"><b>Core rule:</b> no single component may fail silently. A failure must be detected, its unsafe output suppressed, the failure shown on screen, a safe state entered, and the event logged.</div>
+  </div>
+</section>
+
+<section id="status" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Where it stands · October 2026</p>
+    <h2>Built and tested on recorded video. Not yet on real hardware.</h2>
+    <p class="section-copy">All results below come from replaying recorded video with faults deliberately injected, plus 10 hours of normal-use replay with fresh random seeds. The recordings are synthetic machine screens built around a public cardiac ultrasound clip, so the content is not pelvic and no real capture card is involved. Every number must be re-measured on real hardware before it means anything clinically.</p>
+
+    <div class="table-wrap card">
+      <table class="claims">
+        <thead><tr><th>Check</th><th>Requirement</th><th>Result on replay</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Video stall detected</td><td>≥ 99% within 1 s</td><td>332 of 332 (100%)</td><td><span class="status ok">PASS · replay</span></td></tr>
+          <tr><td>Stall detection time</td><td>≤ 1 s</td><td>median 217 ms, worst 250 ms</td><td><span class="status ok">PASS · replay</span></td></tr>
+          <tr><td>False "video lost" alarms</td><td>≤ 1 per 8 h</td><td>0 in 10.9 h</td><td><span class="status ok">PASS · replay</span></td></tr>
+          <tr><td>Dropped frames reported</td><td>none missed</td><td>57 of 57, each counted exactly</td><td><span class="status ok">PASS · replay</span></td></tr>
+          <tr><td>Unknown screen layout</td><td>no guidance</td><td>100% blocked</td><td><span class="status ok">PASS · replay</span></td></tr>
+          <tr><td>Torn frames excluded</td><td>report</td><td>74 of 74, 1 false alarm</td><td><span class="status ok">replay</span></td></tr>
+          <tr><td>New frames recognised</td><td>report</td><td>99.07% found, 99.48% correct</td><td><span class="status ok">replay</span></td></tr>
+          <tr><td>Medical image file parser</td><td>no crashes</td><td>3,000 corrupted files, 0 crashes</td><td><span class="status ok">PASS</span></td></tr>
+          <tr><td>Real capture cards</td><td>per-card conformance test</td><td>procedure written; no card bought yet</td><td><span class="status warn">OPEN · needs hardware</span></td></tr>
+          <tr><td>Screen-to-software delay</td><td>≤ 50 ms (95th percentile)</td><td>light-sensor rig designed; not built</td><td><span class="status warn">OPEN · needs hardware</span></td></tr>
+          <tr><td>2 hours on a real machine</td><td>phantom only, no patients</td><td>protocol written; needs a registered facility</td><td><span class="status warn">OPEN · needs a collaborator</span></td></tr>
+          <tr><td>Remote expert, probe tracking, AI</td><td>later milestones</td><td>designed, not started</td><td><span class="status">NOT STARTED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col" style="margin-top:16px">
+      <div class="card">
+        <h3>How fast each kind of stall is caught</h3>
+        <p class="muted small">Bar = worst case; label = median. Dashed line = the 1-second limit.</p>
+        <div class="bars" role="img" aria-label="Frozen buffer: median 233 ms, worst 250 ms over 200 stalls. No frames: median 83 ms, worst 85 ms over 100 stalls. No signal: median under 1 ms, worst 17 ms over 32 stalls. Limit 1000 ms.">
+          <div class="bar-row"><span class="lbl">Frozen picture<small>card repeats last frame · 200 stalls</small></span><div class="track"><div class="fill" style="width:25%"></div><div class="limit" style="left:100%"></div><span class="val" style="left:calc(25% + 8px)">median 233 ms · worst 250 ms</span></div></div>
+          <div class="bar-row"><span class="lbl">No frames arrive<small>cable or card stops · 100 stalls</small></span><div class="track"><div class="fill" style="width:8.5%"></div><div class="limit" style="left:100%"></div><span class="val" style="left:calc(8.5% + 8px)">median 83 ms · worst 85 ms</span></div></div>
+          <div class="bar-row"><span class="lbl">No signal<small>black screen · 32 stalls</small></span><div class="track"><div class="fill" style="width:1.7%"></div><div class="limit" style="left:100%"></div><span class="val" style="left:calc(1.7% + 8px)">median &lt;1 ms · worst 17 ms</span></div></div>
+        </div>
+        <div class="axis-note"><span>0 ms</span><span>1,000 ms limit</span></div>
+      </div>
+      <div class="card">
+        <h3>What changed after the 2 October fixes</h3>
+        <p class="muted small">Grey = before, blue = after. Two report-only checks were weak; both were fixed and re-tested, including a fresh 10-hour run.</p>
+        <div class="bars" role="img" aria-label="Torn frames excluded: 82% before, 100% after. New frames recognised: 87.5% before, 99.07% after. Still pictures usable for guidance: 77.7% before, 99.9% after.">
+          <div class="bar-row"><span class="lbl">Torn frames excluded</span><div class="track"><div class="fill before" style="width:82%"></div><div class="fill after" style="width:100%"></div></div></div>
+          <div class="bar-row"><span class="lbl">New frames recognised</span><div class="track"><div class="fill before" style="width:87.5%"></div><div class="fill after" style="width:99.07%"></div></div></div>
+          <div class="bar-row"><span class="lbl">Still pictures usable<small>not wrongly marked "unknown"</small></span><div class="track"><div class="fill before" style="width:77.7%"></div><div class="fill after" style="width:99.9%"></div></div></div>
+        </div>
+        <details class="table-view"><summary>Table view</summary><div class="table-wrap"><table><thead><tr><th>Check</th><th class="num">Before</th><th class="num">After</th></tr></thead><tbody><tr><td>Torn frames excluded</td><td class="num">61 / 74</td><td class="num">74 / 74</td></tr><tr><td>New frames recognised</td><td class="num">87.50%</td><td class="num">99.07%</td></tr><tr><td>Still pictures marked "unknown" (10 h run)</td><td class="num">22.3%</td><td class="num">0.1%</td></tr></tbody></table></div></details>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <h3>Does the system agree with the truth?</h3>
+        <p class="muted small">10-hour normal-use replay, 2.19 million frames; each row is the true state, as a percentage of that row.</p>
+        <div class="table-wrap"><table class="matrix">
+          <thead><tr><th>True state ↓ · system says →</th><th class="num">Live, moving</th><th class="num">Live, still</th><th class="num">Frozen</th><th class="num">Unknown</th></tr></thead>
+          <tbody>
+            <tr><td>Live, moving</td><td class="num hi">99.84</td><td class="num">0.12</td><td class="num">0</td><td class="num">0.04</td></tr>
+            <tr><td>Live, still</td><td class="num">3.24</td><td class="num hi">96.70</td><td class="num">0</td><td class="num">0.06</td></tr>
+            <tr><td>Machine frozen</td><td class="num">0</td><td class="num">0</td><td class="num hi">100</td><td class="num">0</td></tr>
+          </tbody>
+        </table></div>
+        <p class="muted small">"Live, moving" and "live, still" both allow guidance, so the 3.24% between them is not a safety error. A frozen machine was never mistaken for a live one.</p>
+      </div>
+      <div class="card">
+        <h3>What "frozen" and "stalled" mean</h3>
+        <ul class="plain">
+          <li><b>Machine frozen</b>: the operator pressed freeze. The machine shows a freeze symbol and its on-screen clock keeps running. Safe and expected.</li>
+          <li><b>Capture stalled</b>: the picture stopped updating without the operator knowing, because a cable, card or driver failed. Guidance must stop at once.</li>
+          <li><b>Unknown</b>: the system cannot tell. Guidance stays off, but no alarm is raised.</li>
+        </ul>
+        <p class="muted small">Telling these apart is the hard part: a stalled capture card often keeps sending the last picture, which looks exactly like a live but still scene.</p>
+      </div>
+    </div>
+    <div class="card">
+      <h3>The test screens</h3>
+      <p class="muted small">Synthetic machine screens used for replay. Boxes show what the system looks for. The name on screen is a placeholder, not a patient. Image content: a public cardiac test clip from the pydicom-data collection.</p>
+      <img src="fixture-screens.png" alt="Three synthetic ultrasound machine screens: live imaging, a machine freeze with the freeze symbol shown, and an unrecognised dual-view layout marked unknown" width="1933" height="458" loading="lazy" style="width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff">
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <p class="eyebrow">Future scope</p>
+    <h2>From a trusted picture to safe guidance, one proven step at a time</h2>
+    <p class="section-copy">Each milestone must pass its own tests before the next one starts. The order is deliberate: the AI comes late, after capture, remote help and tracking are proven, and it always runs behind a deterministic safety supervisor.</p>
+    <ol class="roadmap">
+      <li class="road done"><b>Replay foundation</b><ul><li>Capture, validation, live/frozen detection, recording and audit, all on recorded video</li><li>Done, October 2026</li></ul></li>
+      <li class="road"><b>Live capture</b><ul><li>Real capture cards on 1–2 machines, measured with a light-sensor rig</li><li>Thresholds re-derived from real captures</li></ul></li>
+      <li class="road"><b>Remote expert</b><ul><li>Ultrasound picture + probe camera streamed to a specialist who can talk, point and annotate</li><li>A frozen stream must never look live</li></ul></li>
+      <li class="road"><b>Probe tracking</b><ul><li>Probe position and angle, synchronised with each frame</li><li>Used to build training data; never required at runtime</li></ul></li>
+      <li class="road"><b>View &amp; quality AI</b><ul><li>Recognises the target pelvic view and whether it is technically adequate</li><li>A quality meter and auto-capture, not a diagnosis</li></ul></li>
+      <li class="road"><b>Rule-based copilot</b><ul><li>Deterministic, clinician-approved instructions with abstention</li><li>Runs in shadow mode first</li></ul></li>
+      <li class="road"><b>AI copilot</b><ul><li>Learned from expert-guided scans</li><li>Always behind the safety supervisor; never unconstrained learning on patients</li></ul></li>
+      <li class="road"><b>Cross-brand product</b><ul><li>Many machine brands, offline use, hospital integration, security, signed updates</li><li>External clinical validation</li></ul></li>
+      <li class="road"><b>Clinical modules</b><ul><li>Measurements and decision support, each as a separately validated module</li><li>Only after everything above</li></ul></li>
+    </ol>
+  </div>
+</section>
+
+<section id="how" class="band">
+  <div class="wrap">
+    <p class="eyebrow">How to get there</p>
+    <h2>Four phases, each with a reason to stop</h2>
+    <p class="section-copy">Every phase has a written kill criterion: a result that would end or redirect the project rather than let it drift. India first, under CDSCO medical-device rules, the PCPNDT Act, the Telemedicine Practice Guidelines and the DPDP Act.</p>
+    <div class="grid4">
+      <article class="who phase"><b>Phase 1 · solo · 0–6 months</b><p>Replay foundation (done), live capture on 1–2 machines, a first remote-expert version. Needs bench hardware: capture cards and a light-sensor rig.</p><span class="k">Stop if: no stable capture on two capture classes.</span></article>
+      <article class="who phase"><b>Phase 2 · 3–12 months</b><p>An OB/GYN clinical collaborator and a regulatory adviser join. A phantom (training dummy) rig and probe tracking.</p><span class="k">Stop if: no signed clinical collaborator by month 9.</span></article>
+      <article class="who phase"><b>Phase 3 · 12–30 months</b><p>Annotators and ML engineers. Pilot data under ethics approval, the view and quality AI, and the rule-based copilot in shadow mode.</p><span class="k">Stop if: the AI misses its accuracy floor for any patient subgroup after two model cycles.</span></article>
+      <article class="who phase"><b>Phase 4 · 24 months +</b><p>A funded team. The AI copilot in shadow mode, a formal clinical investigation, and the cross-brand product.</p><span class="k">Regulatory approval decides release, not the team.</span></article>
+    </div>
+    <div class="two-col" style="margin-top:20px">
+      <div class="card">
+        <h3>What is needed next</h3>
+        <ul class="plain">
+          <li><b>Bench hardware</b>: a reference HDMI capture card, two low-cost cards, a splitter, and a light-sensor rig built on two Raspberry Pi Pico boards. No ultrasound machine or patient is involved: a laptop plays a numbered test video into the cards.</li>
+          <li><b>A clinical collaborator</b>: an OB/GYN or radiology department with a registered ultrasound machine, for phantom-only recording sessions. In India an individual cannot lawfully buy an ultrasound machine, so this must go through a registered facility.</li>
+          <li><b>External roles</b> a solo engineer cannot fill: protocol sign-off by clinicians, usability testing, penetration testing and regulatory submissions.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What it will never do</h3>
+        <ul class="plain never">
+          <li><b>No fetal-sex inference.</b> It is a prohibited capability, not a disabled feature.</li>
+          <li><b>No diagnosis.</b> The AI judges whether a view is technically adequate, not what it shows.</li>
+          <li><b>No machine control.</b> It never changes machine settings or moves the probe; the operator stays in charge.</li>
+          <li><b>No measurements from uncalibrated pixels.</b> Measurements stay off unless calibration is validated.</li>
+          <li><b>No overstated scope.</b> It assists with defined transabdominal pelvic views; it never claims a complete pelvic examination. Transvaginal scanning is out of scope.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="impact">
+  <div class="wrap">
+    <p class="eyebrow">If it succeeds · who it helps</p>
+    <h2>Where the specialist is missing, the machine often is not</h2>
+    <p class="section-copy">India's public health standard lists obstetric and gynaecological ultrasound among the equipment of a rural Community Health Centre (CHC), and expects the obstetrician-gynaecologist there to provide ultrasonography if trained in it. Most rural CHCs do not have that specialist.</p>
+    <div class="grid3">
+      <div class="card"><div class="impact-num">74.2%</div><p class="muted">of the obstetrician-gynaecologist posts needed at India's rural CHCs were unfilled in March 2023: 1,413 in post against 5,491 required, a shortfall of 4,078.<sup><a href="#s1">1</a></sup></p></div>
+      <div class="card"><div class="impact-num">1 per 1.2 lakh</div><p class="muted">people: each rural CHC is planned to serve 1,20,000 people in the plains and 80,000 in hilly and tribal areas.<sup><a href="#s2">2</a></sup></p></div>
+      <div class="card"><div class="impact-num">33–49 crore</div><p class="muted">people (about 330–490 million) live in the areas the 4,078 missing specialists are meant to serve: 4,078 × 80,000 to 4,078 × 1,20,000.</p></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>How the help would reach them</h3>
+        <ul class="plain">
+          <li><b>Remote expert first.</b> One specialist could guide scans at several centres live, instead of patients travelling to a district hospital.</li>
+          <li><b>Existing machines.</b> It works beside machines already installed, so a centre does not need a new device.</li>
+          <li><b>Trained, not replaced.</b> Doctors and nurses scanning under supervision get guidance that also teaches.</li>
+          <li><b>Beyond India.</b> PAHO/WHO notes that ultrasound and X-rays alone can address 80–90% of common diseases and conditions.<sup><a href="#s3">3</a></sup></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Read these numbers carefully</h3>
+        <p class="muted">The 33–49 crore figure is the population served by the missing specialist posts, calculated from planning norms. It is not a count of patients, and not everyone in it needs a pelvic ultrasound. The project would help only after clinical validation and regulatory approval, only for defined transabdominal pelvic views, and only where an operator, a machine and a connection exist. It shows the size of the gap, not a promise.</p>
+      </div>
+    </div>
+    <ol class="sources">
+      <li id="s1">Health Dynamics of India (Infrastructure &amp; Human Resources) 2022-23, Ministry of Health &amp; Family Welfare, as reported in <a href="https://theprint.in/health/rural-india-has-an-80-shortfall-of-specialist-doctors-mp-gujarat-tamil-nadu-worst-off/2259874/">ThePrint, 10 September 2024</a>.</li>
+      <li id="s2"><a href="https://nhm.gov.in/images/pdf/guidelines/iphs/iphs-revised-guidlines-2022/02-CHC_IPHS_Guidelines-2022.pdf">Indian Public Health Standards 2022, Volume II: Community Health Centre</a>, National Health Mission.</li>
+      <li id="s3"><a href="https://www.paho.org/en/news/8-11-2013-radiology-services-are-critical-meeting-public-health-needs">PAHO/WHO, "Radiology services are critical to meeting public health needs", 8 November 2013</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="collaborate" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Collaborate</p>
+    <h2>Looking for a clinical partner and bench hardware</h2>
+    <p class="section-copy">If you run an OB/GYN or radiology department with a registered ultrasound machine and could offer phantom-only recording time, or you can help fund the bench hardware, please get in touch through <a href="https://github.com/nabvian">github.com/nabvian</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>Ultrasound Guidance · Koushik Das · <a href="/">all projects</a> · <a href="https://github.com/nabvian">github.com/nabvian</a></p>
+    <p>Research software showcase. Not a medical device; not for clinical use; never used on a patient. All screens shown are synthetic. Fetal-sex inference is a prohibited capability.</p>
+  </div>
+</footer>
+</body>
+</html>
