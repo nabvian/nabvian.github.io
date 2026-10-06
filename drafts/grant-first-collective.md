@@ -1,220 +1,222 @@
 # Grant-First Collaborative Research Collective
 
-**How we build a research team before we have funding**
+**Building a research team ahead of funding: principles, roles and pathway**
 
-Koushik Das · Working paper, draft 0.1 · October 2026
+Koushik Das · Working paper, draft 0.2 · October 2026
 
 > Research first. Evidence always. Build together.
 
 ---
 
-## 1. Why I wrote this
+## 1. Purpose of this paper
 
-I work as an independent researcher. Over the last year I have built a set of research systems: CARETRACE, ORPHARA, DMOS, RE-FORM X, LUMERA, Q-BenchMed, UMNA, Graphspace and a few others still in my archive. From the outside they look like separate projects. They are not. Each one is a small piece of a larger project, and each one exists to test a single idea before I depend on it there.
+Over the past year, I have been developing a series of research systems as an independent researcher: CARETRACE, ORPHARA, DMOS, RE-FORM X, LUMERA, Q-BenchMed, UMNA, Graphspace, and further work that is still in my archive. Although these may appear to be separate projects, each one is in fact a component of a larger, long-term research programme. Each has been designed to examine one specific idea carefully before it becomes part of that wider effort.
 
-I have reached the point where I can't take this further on my own. The work needs people who know things I don't: clinicians, laboratory scientists, statisticians, imaging specialists, and good engineers. Above all, it needs people willing to tell me where I'm wrong.
+The work has now reached a stage where its next steps would benefit greatly from a wider circle of expertise. Clinicians, laboratory scientists, statisticians, imaging specialists and engineers would each bring knowledge that can strengthen it considerably. Thoughtful reviewers and constructive critics are equally valuable, because careful questioning is what turns a promising idea into reliable evidence.
 
-I don't have money to pay anyone yet. What I can offer is honest credit, real responsibility, and a clear plan for how a volunteer group becomes a funded research team. This paper writes that plan down. It's for anyone thinking about joining, and for me, so that I keep my own promises.
+This paper sets out how such a team can come together before formal funding is in place. It describes how contributions are recognised, how responsibility is shared, and how the group is intended to grow into a funded research team over time. It is written for anyone considering collaboration, and it also serves as a record of the commitments I intend to keep.
 
-It is a draft. If something in it seems unfair or unclear, tell me, and I'll change it.
+This is a living document. Suggestions and feedback are warmly welcomed, and it will be refined as the collective grows.
 
-## 2. Where things stand today
+## 2. Current position
 
-- **Me.** I'm the architect and algorithm builder. I decide what a system should do, how it should fail, and how we'll measure whether it works. Most of the code is written by AI coding agents working from my designs. I review it, test it, and decide what ships.
-- **The team.** Two people currently work with me, on testing and on architecture review.
-- **The work.** Six projects run live in a browser, three more are shown as showcases, and there is a preprint on Zenodo (doi:10.5281/zenodo.23097652). The archive also holds protein mutation work, biological computation, and a haematology report analysis system for clinical decision support. That last one is in its clinical validation and refinement phase.
-- **Funding.** None yet. This paper is about changing that the right way.
+- **Research lead.** I serve as the architect and algorithm designer for the programme. My role is to define what each system should do, how it should behave when evidence is limited, and how its performance should be evaluated. Implementation is carried out with the support of AI coding agents working from these designs, and every change is reviewed and tested before release.
+- **Team.** Two colleagues currently contribute to the work, supporting testing and architecture review.
+- **Body of work.** Six projects are available as live, in-browser demonstrations, three are presented as research showcases, and a preprint is available on Zenodo (doi:10.5281/zenodo.23097652). The archive further includes work on protein mutation, biological computation, and a haematology report analysis system for clinical decision support, which is currently in its clinical validation and refinement phase.
+- **Funding.** The programme is at a pre-funding stage. This paper outlines a considered path towards securing support.
 
-## 3. The model on one page
+## 3. The model at a glance
 
-The idea is simple: **form the team and produce the evidence first, then apply for grants as a team that already works together.**
+The approach is grant-first: **the team is formed and early evidence is gathered first, so that funding applications can be made by a group that has already worked together successfully.**
 
-Most funders want to see three things: a credible question, a team that can answer it, and early evidence that the approach is worth funding. A volunteer collective can produce all three. When the first grant arrives, the people who did the work are already there, already credited, and first in line for the paid roles.
+Research funders generally look for a well-defined question, a capable team and early evidence that the approach merits investment. A collaborative group can build all three together. When funding is secured, the people whose work made it possible are already part of the team, with their contributions recorded and recognised.
 
-The path has four stages:
+The intended pathway has four stages:
 
-| Stage | What it is | How people take part |
+| Stage | Description | How contributors take part |
 |---|---|---|
-| 0. Volunteer collective | Small, unpaid, focused on evidence | Scoped tasks, named credit, authorship |
-| 1. First grants | One or two funded studies | Paid roles go first to proven contributors |
-| 2. Funded research team | Stable funding, an institutional home | Salaried roles, formal agreements |
-| 3. Possible company | Only if the evidence supports a product | Early contributors considered first |
+| 0. Collaborative collective | A focused group building early evidence | Defined tasks, named credit, authorship opportunities |
+| 1. First grants | One or two funded studies | Funded roles offered first to established contributors |
+| 2. Funded research team | Sustained funding and an institutional home | Formal research or employment agreements |
+| 3. Potential venture | Considered where the evidence supports a product | Early contributors considered first for roles |
 
-Nobody should join expecting stage 3. It may never happen, and that's fine. A good paper, a validated method, or an open tool other people use is already a success.
+Each stage builds on the one before it. Every stage has value in its own right: a strong publication, a validated method or an open tool adopted by others are all meaningful outcomes.
 
-## 4. Who we are looking for
+## 4. Roles and opportunities
 
-I'm not looking for a particular job title. I'm looking for people who will own a piece of the work and finish it. These are the roles that would help most right now.
+Rather than looking for specific job titles, the collective welcomes people who would like to take ownership of a part of the work and see it through. The following roles would be especially valuable at this stage.
 
-**Research lead and architect (me, for now).** Sets the research questions, designs the systems, keeps the overall architecture coherent, and is responsible for what we claim in public.
+**Research lead and architect.** Defines research questions, designs the systems, maintains the coherence of the overall architecture, and takes responsibility for what the group communicates publicly. I currently hold this role.
 
-**Subsystem owners.** People who take responsibility for one component, such as an extractor, an evidence store, a benchmark harness or a reasoning engine. Section 6 explains what owning a subsystem means.
+**Subsystem leads.** Take responsibility for a specific component, such as an extraction module, an evidence store, a benchmark framework or a reasoning engine. Section 6 describes this role in more detail.
 
-**Developers.** People who build, fix and test. Working with AI coding tools is welcome, as long as you understand and can defend what you commit.
+**Developers.** Design, build, improve and test software. The use of AI-assisted development tools is welcome, provided the contributor understands and can explain the work they submit.
 
-**Domain experts.** Clinicians, radiologists, haematologists, pharmacists, formulation scientists, biologists. You tell us whether the problem is real, whether the assumptions hold, and whether an output would be safe to show someone.
+**Domain experts.** Clinicians, radiologists, haematologists, pharmacists, formulation scientists and biologists, who help ensure the questions are relevant, the assumptions are sound, and the outputs are appropriate and safe.
 
-**Testers and validators.** People who try to break things. They write the test cases nobody wants to write and check results against references.
+**Testers and validators.** Examine the systems rigorously, develop thorough test cases, and compare results against trusted references.
 
-**Reviewers and critics.** People who read the methods and the papers and tell us plainly what is weak. This is one of the most valuable roles here, and it can be done in a few hours a month.
+**Reviewers and advisers.** Review methods and manuscripts and offer candid, constructive feedback. This role is highly valued and can be fulfilled with a modest time commitment.
 
-**Data stewards.** People who handle where data comes from, what licence it carries, what we're allowed to do with it, and keeping patient data out of places it shouldn't be.
+**Data stewards.** Oversee data provenance, licensing and appropriate use, and help ensure that sensitive information is handled with care.
 
-**Writers and grant writers.** People who turn results into papers, reports and funding applications.
+**Writers and grant writers.** Help shape results into papers, reports and funding proposals.
 
-### What every role carries
+### Shared expectations
 
-Whatever your role, you are expected to:
+Across every role, the collective works by a few shared principles:
 
-- Say what you will do, and say early if you can't.
-- Write down what you did, so it can be credited and checked.
-- Keep the evidence honest. Never round a result up, and never hide a failed run.
-- Respect data. No real patient data goes anywhere without proper approval.
-- Treat other people's time and work with respect.
+- Agree on the scope of each contribution, and share any change in availability early.
+- Keep a clear record of work done, so that it can be recognised and verified.
+- Report results faithfully, including those that do not support the hypothesis.
+- Handle data responsibly, and use real patient data only with the appropriate approvals.
+- Respect one another's time, expertise and contributions.
 
-## 5. Joining before there is money
+## 5. Contributing at the pre-funding stage
 
-Let me be direct about this: volunteer work is unpaid work. I won't pretend otherwise, and I won't make promises I can't keep. Here is what I can promise.
+During the current stage, participation is voluntary and unpaid. The collective aims to make that time as rewarding as possible, through meaningful work, clear recognition and a fair path towards funded roles as support is secured.
 
-**Start small.** New people start with a scoped task that takes days, not months: a test suite, a review of one method, a dataset licence check. It's a chance for both sides to see whether the fit is right.
+**A gentle start.** New contributors usually begin with a well-defined task that can be completed in days rather than months, such as a test suite, a methods review or a dataset licence check. This lets both sides see how the collaboration fits.
 
-**Your time is yours.** There are no fixed hours. Tell me how much time you can give, and we'll size the work to match. If your situation changes, say so, and the work gets handed over without any hard feelings.
+**Flexible commitment.** There are no fixed hours. Each contributor indicates the time they can offer, and work is planned around it. If circumstances change, responsibilities can be handed over smoothly at any time.
 
-**Leaving is fine.** You can step away at any time. The credit for what you did stays yours (see section 7).
+**Recognition that lasts.** Contributors may step back whenever they need to. The recognition for their work remains in place permanently (see section 7).
 
-**No micromanagement.** Owners decide how to do their work. I care about what was done and how we know it works, not about watching how people spend their hours.
+**Trust and autonomy.** Those who lead a piece of work decide how best to carry it out. The emphasis is on outcomes and evidence, and contributors are trusted to manage their own time and approach.
 
-**Students are welcome.** If you're a student, this work can count toward a project, a thesis or a portfolio. Check your institution's rules first, and I'll help with whatever paperwork they need.
+**Opportunities for students.** Students are very welcome. With their institution's agreement, this work may contribute to a project, thesis or portfolio, and support with any required documentation will gladly be provided.
 
-## 6. Ownership of work
+## 6. Ownership and responsibility
 
-There are two kinds of ownership here, and both are real.
+Two complementary forms of ownership help each contributor take real responsibility for their work.
 
-### Subsystem ownership
+### Subsystem leadership
 
-A subsystem owner is responsible for one component. Within that component, the owner:
+A subsystem lead is responsible for a specific component. Within that component, the lead:
 
-- decides how it's built, within the shared architecture and the rules in this paper;
-- reviews changes to it, and can say no to changes that would break it;
-- keeps its documentation, tests and known limitations up to date;
-- is the named person for it in our records, release notes and papers.
+- guides its design and implementation, in line with the shared architecture and the principles in this paper;
+- reviews proposed changes and helps protect its stability and quality;
+- maintains its documentation, tests and record of known limitations;
+- is credited as its named lead in project records, release notes and publications.
 
-Ownership can be shared or passed on. When it is handed over, the record keeps both names and the dates.
+Leadership may be shared or transferred. When responsibility changes hands, both contributors and the relevant dates are recorded.
 
-### Research and problem ownership
+### Research question leadership
 
-Some people will own a question rather than a component, for example: "Does the evidence-guided signal catch errors that confidence alone misses?" The problem owner designs the study, sets the success criteria before the run, and leads the write-up. If the work becomes a paper, the problem owner normally has a strong claim to first authorship.
+Some contributors may prefer to lead a research question rather than a component, for example: "Do evidence-guided signals identify errors that confidence scores alone may miss?" The question lead designs the study, sets the success criteria before analysis begins, and leads the write-up. Where the work leads to a publication, the question lead would normally be well placed for first authorship.
 
-## 7. Credit
+## 7. Recognition and credit
 
-Credit is where research groups most often go wrong, so the rules come first, before anyone has a reason to argue about them.
+Clear and fair recognition is essential to any research collaboration, so these principles are agreed at the outset.
 
 ### Named technical credit
 
-Everyone who contributes is named:
+Every contributor is acknowledged by name:
 
-- in the project's contributors file, with their role;
-- in the release notes for the work they did;
+- in the project's contributors record, together with their role;
+- in the release notes for the work they contributed;
 - on the project page, for substantial contributions.
 
-Small contributions count too. A single bug fix gets a name in the record.
+Every contribution is valued, and even a single improvement is recorded.
 
-### Authorship based on contribution
+### Authorship by contribution
 
-Authorship on papers follows what people actually did, not seniority, and not who joined first.
+Authorship reflects each person's actual contribution to the work.
 
-- We describe contributions using the CRediT roles (conceptualisation, methodology, software, validation, formal analysis, investigation, data curation, writing, visualisation, supervision and so on). Every paper lists who did what.
-- To be an author, you need to have made a substantial contribution, helped write or critically revise the paper, approved the final version, and be willing to stand behind it. For clinical papers we follow the ICMJE criteria.
-- Author order is discussed and agreed in writing **before** writing starts, and revisited if contributions change along the way.
-- Contributions that don't meet the bar for authorship are listed in the acknowledgements, by name and role.
-- No gift authorship and no ghost authorship. Nobody is added for status, and nobody who did the work is left off.
+- Contributions are described using the CRediT taxonomy (conceptualisation, methodology, software, validation, formal analysis, investigation, data curation, writing, visualisation, supervision and others), and each publication includes a contribution statement.
+- Authorship is extended to those who have made a substantial contribution, taken part in drafting or critically revising the manuscript, approved the final version, and agreed to be accountable for the work. Clinical publications follow the ICMJE recommendations.
+- Author order is discussed and agreed in writing before drafting begins, and revisited if contributions change.
+- Valued contributions that fall outside the authorship criteria are recognised by name and role in the acknowledgements.
+- Authorship is based entirely on contribution, so that recognition is both fair and complete.
 
 ### References and recommendations
 
-When someone asks me for a reference or a recommendation letter, I write only about work I have seen and can point to: the commits, the reviews, the tests and the reports. That makes the letter specific, and it makes it believable. If I can't say something truthfully, I won't write it.
+Contributors who would like a reference or recommendation can expect one that is specific and well-founded. Each letter is based on the work itself, including code, reviews, tests and reports, which gives it credibility with universities, employers and funders.
 
 ## 8. Publications and conferences
 
-- **Preprints first.** We publish preprints (Zenodo, arXiv, medRxiv or bioRxiv, as appropriate) so the work is public, citable and dated early.
-- **Negative results count.** If a hypothesis fails, we write that up too. Some of our benchmark rounds failed, and they stay in the record.
-- **Who presents.** Normally the problem owner or the main contributor to that piece of work. We take turns, so different people get the experience.
-- **Travel and fees.** We only commit to a conference when the costs are covered by a grant, a travel award, or the presenter's institution. Nobody should pay out of pocket to represent the group.
-- **Clinical claims.** Anything that touches patient care goes through a clinical reviewer before it's submitted, and states its limits plainly.
+- **Early dissemination.** Work is shared as preprints (on Zenodo, arXiv, medRxiv or bioRxiv, as appropriate), so that it is public, citable and clearly dated.
+- **Complete reporting.** Results that do not support a hypothesis are reported alongside those that do. This openness is already part of the existing benchmark record.
+- **Presenting the work.** Presentations are normally given by the question lead or principal contributor, and opportunities are rotated so that team members can gain experience.
+- **Conference support.** Conference participation is planned where costs can be supported by grants, travel awards or the presenter's institution, so that representing the group does not become a personal expense.
+- **Clinical review.** Any work with implications for patient care is reviewed by a clinical adviser before submission, and its scope and limitations are stated clearly.
 
-## 9. Open source
+## 9. Open-source approach
 
-Openness is the default, with one deliberate exception.
+The collective is committed to openness wherever it is responsible to do so.
 
-- **Open now.** Engines, tools, benchmark harnesses and results, under recognised licences (AGPL-3.0, Apache-2.0, CC BY 4.0, depending on the project). Contributions to an open project are made under that project's licence.
-- **Not open yet.** Clinical knowledge bases and models that haven't been validated. Publishing an unvalidated clinical knowledge base invites people to use it as if it were finished. These open once validation is complete, which is the stated plan for ORPHARA, for example.
-- **Contributor sign-off.** Contributors confirm they have the right to submit their work, using a simple sign-off on each commit (the Developer Certificate of Origin).
-- **Third-party work.** We respect the licences of the tools, models and datasets we use, and say clearly where each one came from.
+- **Open contributions.** Engines, tools, benchmark frameworks and results are shared under recognised licences (AGPL-3.0, Apache-2.0 or CC BY 4.0, depending on the project). Contributions to open projects are made under the project's licence.
+- **Staged release of clinical knowledge.** Clinical knowledge bases and models are released once they have completed validation, so that they are used with confidence and in the right context. This is the stated plan for ORPHARA, among others.
+- **Contribution sign-off.** Contributors confirm their right to submit their work through the Developer Certificate of Origin, a simple sign-off on each commit.
+- **Respect for third-party work.** The licences of all tools, models and datasets used are respected, and their sources are acknowledged clearly.
 
 ## 10. Grant-first team formation
 
-This section explains how the volunteer collective becomes the team named on a grant.
+This section outlines how the collective prepares to become the team named on a funding application.
 
-1. **Pick a fundable question.** One question, small enough for one grant, with clear evidence already gathered.
-2. **Build the evidence package.** Working software, preregistered results (including failed runs), a limitations section, and the contribution records from section 7.
-3. **Find an institutional home.** Many funders require the grant to be held by a university, hospital or registered organisation. University and medical college collaborators are essential here, as co-investigators or as the host institution.
-4. **Name the team honestly.** The application names the people who did the work, in the roles they actually played.
-5. **Budget for people first.** When money arrives, the first priority is paying the contributors who made the application possible, in proportion to the roles they'll take on.
+1. **A well-defined question.** A single question, appropriately scoped for one grant and supported by early evidence.
+2. **A strong evidence package.** Working software, pre-registered results (including inconclusive ones), a clear statement of limitations, and the contribution records described in section 7.
+3. **An institutional partner.** Many funders require grants to be held by a university, hospital or registered organisation. Collaborators from universities and medical colleges are therefore central to this stage, as co-investigators or as the host institution.
+4. **An accurate team description.** Applications name the contributors who carried out the work, in the roles they played.
+5. **People at the centre of the budget.** When funding is awarded, the first priority is to support the contributors who made the application possible, in roles that reflect their contribution.
 
-Every grant application is drafted openly within the team. Everyone named on it reviews it before submission.
+Funding applications are prepared collaboratively, and everyone named on an application reviews it before submission.
 
 ## 11. Governance and decision-making
 
-The rules are kept as light as they can be while still being fair.
+Governance is designed to be light, transparent and fair.
 
-- **Owners decide within their area.** Subsystem and problem owners make day-to-day decisions without asking permission.
-- **Shared decisions are written down.** Anything that crosses areas (architecture, licences, what we claim in public, author order) starts as a short written proposal. Everyone affected gets time to comment, normally a week. Then the decision and its reasons go into a decision log.
-- **Who breaks a tie.** For now, I do, as research lead. As the team grows, this moves to a small steering group of active owners.
-- **The clinical safety veto.** A clinical reviewer can stop any public claim or release that touches patient safety. That veto can't be overruled by a vote.
-- **Disagreement is normal.** Argue about the evidence, not the person. If a disagreement can't be settled, run the experiment and let the result decide.
-- **Conduct.** We follow a written code of conduct. Harassment or misrepresenting someone's work ends a person's participation.
+- **Decisions close to the work.** Subsystem and question leads make day-to-day decisions within their own areas.
+- **Shared decisions in writing.** Matters that span several areas, such as architecture, licensing, public communication and authorship order, begin as a short written proposal. Those affected are given time to comment, normally around a week, and the outcome and reasoning are recorded in a decision log.
+- **Resolving open questions.** At present, the research lead makes the final decision where consensus has not been reached. As the team grows, this responsibility is intended to pass to a steering group of active leads.
+- **Clinical safety review.** A clinical reviewer may pause any public claim or release that raises a patient safety concern, and that review takes precedence.
+- **Constructive discussion.** Differences of opinion are a healthy part of research. Discussions focus on the evidence, and where a question remains open, a well-designed experiment is often the best way forward.
+- **Code of conduct.** All contributors follow a written code of conduct that ensures a respectful, inclusive and professional environment.
 
 ## 12. Intellectual property and ownership
 
-This is the section most likely to change once lawyers and funders are involved, so read it as principles rather than legal terms. Before any funding agreement or company is formed, we will get proper legal advice and put everything in writing.
+This section sets out guiding principles. Formal terms will be established in writing, with appropriate legal advice, before any funding agreement or company formation.
 
-- **What existed before.** The systems, designs and knowledge I built before the collective existed remain my pre-existing IP. I list them openly so there is no confusion later.
-- **Open-project contributions.** Work contributed to an open-source project is licensed under that project's licence. You keep your copyright, and everyone gets the rights the licence grants.
-- **Private-project contributions.** For projects that aren't open yet, contributors sign a short contributor agreement before they start. It says what rights the project receives, and that the contributor keeps the credit.
-- **Inventions and new ideas.** If a contribution leads to something patentable or commercially valuable, the people involved are recorded at the time, with dates and the evidence behind it. Joint work is treated as joint work.
-- **Data.** Data rights belong to whoever provided the data, under the terms they set. We never claim ownership of a partner's data.
-- **No promises in this paper.** I won't promise salaries, equity or a share of future revenue here, because that would be dishonest before any of it exists. What I do promise is that contribution records will be the basis for those decisions when they come.
+- **Pre-existing work.** Systems, designs and knowledge developed before the collective was formed remain my pre-existing intellectual property. These are listed openly to ensure clarity for everyone involved.
+- **Open-source contributions.** Contributions to open-source projects are licensed under the relevant project licence. Contributors retain their copyright, and the licence defines the rights shared with others.
+- **Contributions to non-public projects.** For projects that are not yet public, contributors sign a short contributor agreement before beginning. It sets out the rights granted to the project and confirms the contributor's recognition.
+- **New inventions and ideas.** Where a contribution leads to something with patent or commercial potential, the people involved are recorded at the time, together with dates and supporting evidence. Joint work is recognised as joint work.
+- **Data rights.** Data remains the property of the organisation or person who provided it, under the terms they set.
+- **Future arrangements.** Compensation, equity and any other future arrangements will be agreed formally when the time comes. The contribution records kept throughout the work will form the foundation for those discussions.
 
-## 13. From volunteers to a funded team, and maybe a company
+## 13. Pathway: from collective to funded team and beyond
 
-Each move to a new stage has a clear trigger, so nobody has to guess.
+Each transition has a clear milestone, so that every contributor can see how the group intends to grow.
 
-**Stage 0 to stage 1 happens when a grant is awarded.** Funded roles are offered first to the contributors whose work the grant depends on, as shown by the contribution records.
+**Stage 0 to stage 1: the first grant is awarded.** Funded roles are offered first to the contributors whose work the grant builds on, as shown by the contribution records.
 
-**Stage 1 to stage 2 happens when funding is stable enough for an institutional home.** Formal employment or research agreements replace volunteer arrangements. The governance rules in section 11 become part of those agreements.
+**Stage 1 to stage 2: sustained funding and an institutional home.** Formal research or employment agreements take the place of voluntary arrangements, and the governance principles in section 11 carry forward into those agreements.
 
-**Stage 2 to stage 3 happens only if the evidence supports a product,** for example when a method has been externally validated and there is a real use for it that a company would serve better than a research group. If that happens, early contributors are considered first for roles in the company, and their recorded contributions are taken into account in any ownership discussion, with independent legal advice for everyone.
+**Stage 2 to stage 3: a potential venture.** Where a method has been externally validated and a company would be the most effective way to bring it into use, the formation of a venture may be considered. In that case, early contributors will be considered first for roles, and their recorded contributions will inform any discussion of ownership, with independent legal advice available to everyone involved.
 
-If the evidence never supports a company, we stay a research team. That isn't a failure.
+Whichever direction the evidence leads, a strong, well-functioning research team is a valuable and lasting outcome.
 
-## 14. What we will not do
+## 14. Our commitments
 
-- Promise money, jobs or equity that don't exist.
-- Claim clinical validity before it has been shown, or present a prototype as a medical device.
-- Take credit for someone else's work, or let someone's work go uncredited.
-- Hide failed results.
-- Micromanage people who are giving their time for free.
-- Put real patient data anywhere it hasn't been approved to go.
+Contributors can rely on the collective to:
 
-## 15. How to join
+- be transparent about funding, roles and opportunities at every stage;
+- represent research findings accurately, and present prototypes as research work until validation is complete;
+- recognise every contribution fully and fairly;
+- report all results, including those that challenge a hypothesis;
+- respect contributors' autonomy and time;
+- treat patient data with the highest standards of care and approval.
 
-If any of this interests you, get in touch with:
+## 15. Getting involved
 
-- a few lines about yourself and what you'd like to work on;
-- the role from section 4 that fits you best, or a role I haven't thought of;
-- roughly how much time you can give;
-- a link to something you've done, if you have one: code, a paper, a review, anything.
+If you are interested in contributing, you are warmly invited to get in touch. It would help to include:
 
-University groups, medical colleges, independent reviewers and critics are all welcome. You don't need to agree with my approach to join. Disagreeing well is one of the most useful things you can bring.
+- a brief introduction and the area you would like to work on;
+- the role from section 4 that suits you best, or another role you would like to propose;
+- an indication of the time you are able to contribute;
+- a link to previous work, if available, such as code, a publication or a review.
+
+University research groups, medical colleges, independent reviewers and critics are all most welcome. A different perspective is always valued, and thoughtful disagreement is one of the most useful contributions anyone can make.
 
 **Contact:** EMAIL_PLACEHOLDER · github.com/nabvian · nabvian.github.io
 
@@ -222,4 +224,4 @@ University groups, medical colleges, independent reviewers and critics are all w
 
 *Research first. Evidence always. Build together.*
 
-*This is a working draft and will change as the collective grows. Version history is kept with the document.*
+*This working paper will be updated as the collective develops. A version history is maintained alongside the document.*
