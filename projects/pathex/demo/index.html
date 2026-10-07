@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+<head>
+<script>window.__PATHEX_SIM__={"health":{"bundle_id":"pathex-cbc-india-mvp","bundle_version":"0.1.0","engine_build_id":"unknown","executable_status":"EXECUTABLE","mode":"mvp","ocr":true,"source_authority_sha256_12":"4b89ab23fcca","status":"LIVE"},"manifest":{"active_country":"india","active_tier":"mvp","aesthetic":{"theme_token":"pathex-base","note":"Identical look/layout system for India and Africa. Country never restyles."},"panel_registry":{"classification":{"title":"Result","source":"engine","binds_to":["states.label","scores.tier","narrative.text"]},"flags":{"title":"Flags & safety","source":"engine","binds_to":["flags"]},"confirmatory_basic":{"title":"Recommended confirmatory test","source":"engine","binds_to":["next_actions"]},"reasoning_layer":{"title":"Why \u2014 reasoning","source":"engine","binds_to":["narrative.text"]},"confirmatory_route":{"title":"Confirmatory route","source":"engine","binds_to":["next_actions","narrative.text"]},"management_direction":{"title":"Management Suggestion (Suggestion to Clinician)","source":"engine","binds_to":["narrative.text"]},"ingested_results":{"title":"Added test results","source":"engine","binds_to":["ingested_results"]},"re_ranking":{"title":"Re-ranked differential","source":"engine","binds_to":["re_ranking"]},"handoff":{"title":"Scope / handoff","source":"engine","binds_to":["narrative.safety_critical","flags"]},"history":{"title":"Report history","source":"local","binds_to":[]}},"ip_protection":{"confidence":"word_band_only","forbid_surfacing":["scores.value","states.global_class_id","states.namespace","scores.modifiers_applied","narrative.template_id","audit.events"],"note":"UI shows clinician-facing wording only (narrative text, next_actions, flags, word-band). No rule IDs / enum internals / engine variable names reach the DOM."},"privacy":{"shared_artifact":"zero_pii_by_allow_list","history":"immutable_append_only_sha256"},"countries":{"india":{"file_version":"1.1.0","schema_version":"1.0.0","file_id":"UI_COUNTRY_INDIA","schema":"schemas/presentation/country.schema.json","country_id":"india","display_name":"India","locale_default":"en-IN","labels":{"app_subtitle":"Adult CBC Decision Support","programme_section_title":"National programmes"},"programmes_named":["Anemia Mukt Bharat (AMB)","ICMR / ICMR-NIN","National Health Mission (NHM)"],"region_note":"Adult, non-pregnant scope. Paediatric/maternal cases are handed off per engine scope gates.","abdm":{"applicable":true,"status":"aligned-ready \u2014 certification pending official ABDM process + current-spec verification + audit","consent_hook":"enabled","abha_health_id":{"adapter_point":"present","required":false,"note":"[VERIFY against current ABDM spec] \u2014 no ABDM spec value hardcoded here."},"see":"ABDM_ALIGNMENT_NOTES.md"}},"africa":{"file_version":"1.1.0","schema_version":"1.0.0","file_id":"UI_COUNTRY_AFRICA","schema":"schemas/presentation/country.schema.json","country_id":"africa","display_name":"Africa","locale_default":"en","labels":{"app_subtitle":"Adult CBC Decision Support","programme_section_title":"Regional programmes"},"programmes_named":["WHO Regional Office for Africa (WHO-AFRO)"],"region_note":"Region note: per-country deployment; Africa has its own per-country data-protection regimes.","abdm":{"applicable":false,"status":"not applicable (India-only programme)"},"data_protection_hook":{"present":true,"regime":"[VERIFY per deployment country]","consent_hook":"enabled","note":"Equivalent consent/de-identification hook; the specific national regime is set per deployment, not assumed."}}},"tiers":{"mvp":{"file_version":"1.1.0","schema_version":"1.0.0","file_id":"UI_TIER_MVP","schema":"schemas/presentation/tier.schema.json","tier_id":"mvp","display_name":"MVP","panels":["classification","reasoning_layer","confirmatory_route","management_direction","flags","handoff","history"]}},"_note":"NON-CLINICAL UI presentation config. No thresholds/rule-ids/diagnoses. Served at GET /manifest."},"cases":{"01":{"title":"CBC only \u2014 microcytic anaemia","kind":"CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.1},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":4.1},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":29},"unit":"%"},"MCV":{"value":{"kind":"Number","value":71},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":22.2},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.3},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":17.8},"unit":"%"},"WBC":{"value":{"kind":"Number","value":6.8},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":310},"unit":"x10^9/L"},"MPV":{"value":{"kind":"Number","value":9.4},"unit":"fL"},"NEUT":{"value":{"kind":"Number","value":58},"unit":"%"},"LYMPH":{"value":{"kind":"Number","value":32},"unit":"%"},"MONO":{"value":{"kind":"Number","value":6},"unit":"%"},"EOS":{"value":{"kind":"Number","value":3},"unit":"%"},"BASO":{"value":{"kind":"Number","value":1},"unit":"%"}},"context":{"age":{"kind":"Number","value":34},"sex":{"kind":"Text","value":"FEMALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"ANC_NORMAL"},{"label":"ALC_NORMAL"},{"label":"AMC_NORMAL"},{"label":"AEC_NORMAL"},{"label":"ABC_NORMAL"},{"label":"MCV_MICRO"},{"label":"MCH_LOW"},{"label":"RBC_NORMAL_FEMALE"},{"label":"RDW_CV_MILD"},{"label":"MENTZER_IDA"},{"label":"RDWI_IDA"},{"label":"PATRA_IDA"},{"label":"IDA_PROBABLE"}],"flags":["RBC_NORMAL_OR_LOW","RDW_MILD","RDW_ELEVATED","MICROCYTIC_CONFIRMED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","IDA_PATTERN_COMPLETE","TRIAD_ALIGNMENT_MEDIUM","MCH_THALASSAEMIA_SCREEN"],"indices":{"applicable":true,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[{"caveat":"The published cut-point is a single value, 13. The 12-to-14 indeterminate band is this system's own uncertainty zone, not a published convention, and it is what the written report uses.","cutoff":13.0,"direction":"Lower values lean towards thalassaemia trait, higher values towards iron deficiency.","display_name":"Mentzer","index_id":"MENTZER","interpretation":"Above the indeterminate band, which leans towards iron deficiency.","lean":"IDA","magnitude":17.32,"source":"Mentzer WC Jr. Lancet 1973;1(7808):882. PMID 4123424.","status":"ok"},{"caveat":"A lean only. This index comes from a single centre, 406 people aged 3 to 50, so it is not an adult series, and the same study reported the Mentzer index performing far worse than every other published series.","cutoff":5.3,"direction":"Higher values lean towards thalassaemia trait, lower values towards iron deficiency. This is the opposite direction to Mentzer and RDWI.","display_name":"Patra","index_id":"PATRA","interpretation":"Below 5.3, which leans towards iron deficiency.","lean":"IDA","magnitude":3.99,"source":"Patra S, Shome A, Patra CC, Mahto SK. J Family Med Prim Care 2025;14(11):4568-4573. PMID 41403526.","status":"ok"},{"caveat":"A candidate index from a single centre with a modest sample. The cut-point shown is the one that study re-derived for its own North Indian population; the index's original published cut-point is slightly higher. It should be checked against local data before it changes anything.","cutoff":42.14,"direction":"Higher values lean towards thalassaemia trait, lower values towards iron deficiency. This is the opposite direction to Mentzer and RDWI.","display_name":"CRUISE","index_id":"CRUISE","interpretation":"Above 42.14, which leans towards thalassaemia trait.","lean":"BTT","magnitude":43.08,"source":"Cureus 2024;16(7):e64048. PMID 39114184. DOI 10.7759/cureus.64048.","status":"ok"},{"caveat":null,"cutoff":220.0,"direction":"Lower values lean towards thalassaemia trait, higher values towards iron deficiency.","display_name":"RDWI","index_id":"RDWI","interpretation":"At or above 220, which leans towards iron deficiency.","lean":"IDA","magnitude":308.2,"source":"Jayabose S, Giamelli J, LevondogluTugal O, Sandoval C, Ozkaynak F, Visintainer P. J Pediatr Hematol Oncol 1999;21(4):314. DOI 10.1097/00043426-199907000-00040.","status":"ok"}]},"narrative":[{"safety_critical":false,"text":"The CBC pattern is consistent with Iron Deficiency Anaemia. Iron studies may be considered."},{"safety_critical":false,"text":"Microcytic hypochromic; discrimination indices favour iron-deficiency anaemia."},{"safety_critical":false,"text":"Confirm with ferritin/TSAT before treatment; indices are screening, not diagnostic."},{"safety_critical":false,"text":"Confirmatory: ferritin and transferrin saturation (iron studies); add Hb electrophoresis/HPLC if thalassaemia trait is not excluded. Management suggestion: after confirmation, oral iron \u2014 a ferrous salt, iron polymaltose, or ferrous ascorbate \u2014 with vitamin C to aid non-haem iron absorption; parenteral iron only for intolerance, malabsorption, or severe deficiency (specialist). Names only \u2014 verify dose, schedule and duration per formulary; treat the cause (diet, blood loss). Do not issue an iron order on the CBC alone."},{"safety_critical":false,"text":"Dietary: once iron deficiency is confirmed \u2014 non-vegetarian sources (liver/organ meat, red meat, poultry, fish) give the best-absorbed haem iron; vegetarian sources (green leafy vegetables, pulses/legumes, jaggery, sesame, dates, fortified flour/salt) are non-haem, so pair them with a vitamin-C food (amla, guava, citrus) and keep tea, coffee, milk and antacids away from those meals. Diet supports but does not replace medical iron; quantities per national dietary guidance (verify)."}],"next_actions":["IRON_STUDIES","HB_ELECTROPHORESIS"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"IDA_PROBABLE":{"band":"MEDIUM"}}}},"02":{"title":"Same CBC + iron studies","kind":"CBC + non-CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.1},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":4.1},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":29},"unit":"%"},"MCV":{"value":{"kind":"Number","value":71},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":22.2},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.3},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":17.8},"unit":"%"},"WBC":{"value":{"kind":"Number","value":6.8},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":310},"unit":"x10^9/L"},"MPV":{"value":{"kind":"Number","value":9.4},"unit":"fL"},"NEUT":{"value":{"kind":"Number","value":58},"unit":"%"},"LYMPH":{"value":{"kind":"Number","value":32},"unit":"%"},"MONO":{"value":{"kind":"Number","value":6},"unit":"%"},"EOS":{"value":{"kind":"Number","value":3},"unit":"%"},"BASO":{"value":{"kind":"Number","value":1},"unit":"%"},"FERRITIN":{"value":{"kind":"Number","value":6},"unit":"ng/mL"},"TSAT":{"value":{"kind":"Number","value":7},"unit":"%"}},"context":{"age":{"kind":"Number","value":34},"sex":{"kind":"Text","value":"FEMALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"ANC_NORMAL"},{"label":"ALC_NORMAL"},{"label":"AMC_NORMAL"},{"label":"AEC_NORMAL"},{"label":"ABC_NORMAL"},{"label":"MCV_MICRO"},{"label":"MCH_LOW"},{"label":"RBC_NORMAL_FEMALE"},{"label":"RDW_CV_MILD"},{"label":"MENTZER_IDA"},{"label":"RDWI_IDA"},{"label":"PATRA_IDA"},{"label":"IDA"}],"flags":["RBC_NORMAL_OR_LOW","RDW_MILD","RDW_ELEVATED","MICROCYTIC_CONFIRMED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","IDA_PATTERN_COMPLETE","TRIAD_ALIGNMENT_MEDIUM","IRON_DEFICIENCY_CONFIRMED","IRON_RESTRICTED_ERYTHROPOIESIS","IRON_STUDIES_ALREADY_SUPPLIED","MCH_THALASSAEMIA_SCREEN"],"indices":{"applicable":true,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[{"caveat":"The published cut-point is a single value, 13. The 12-to-14 indeterminate band is this system's own uncertainty zone, not a published convention, and it is what the written report uses.","cutoff":13.0,"direction":"Lower values lean towards thalassaemia trait, higher values towards iron deficiency.","display_name":"Mentzer","index_id":"MENTZER","interpretation":"Above the indeterminate band, which leans towards iron deficiency.","lean":"IDA","magnitude":17.32,"source":"Mentzer WC Jr. Lancet 1973;1(7808):882. PMID 4123424.","status":"ok"},{"caveat":"A lean only. This index comes from a single centre, 406 people aged 3 to 50, so it is not an adult series, and the same study reported the Mentzer index performing far worse than every other published series.","cutoff":5.3,"direction":"Higher values lean towards thalassaemia trait, lower values towards iron deficiency. This is the opposite direction to Mentzer and RDWI.","display_name":"Patra","index_id":"PATRA","interpretation":"Below 5.3, which leans towards iron deficiency.","lean":"IDA","magnitude":3.99,"source":"Patra S, Shome A, Patra CC, Mahto SK. J Family Med Prim Care 2025;14(11):4568-4573. PMID 41403526.","status":"ok"},{"caveat":"A candidate index from a single centre with a modest sample. The cut-point shown is the one that study re-derived for its own North Indian population; the index's original published cut-point is slightly higher. It should be checked against local data before it changes anything.","cutoff":42.14,"direction":"Higher values lean towards thalassaemia trait, lower values towards iron deficiency. This is the opposite direction to Mentzer and RDWI.","display_name":"CRUISE","index_id":"CRUISE","interpretation":"Above 42.14, which leans towards thalassaemia trait.","lean":"BTT","magnitude":43.08,"source":"Cureus 2024;16(7):e64048. PMID 39114184. DOI 10.7759/cureus.64048.","status":"ok"},{"caveat":null,"cutoff":220.0,"direction":"Lower values lean towards thalassaemia trait, higher values towards iron deficiency.","display_name":"RDWI","index_id":"RDWI","interpretation":"At or above 220, which leans towards iron deficiency.","lean":"IDA","magnitude":308.2,"source":"Jayabose S, Giamelli J, LevondogluTugal O, Sandoval C, Ozkaynak F, Visintainer P. J Pediatr Hematol Oncol 1999;21(4):314. DOI 10.1097/00043426-199907000-00040.","status":"ok"}]},"narrative":[{"safety_critical":false,"text":"Anaemia with iron studies that confirm iron deficiency \u2014 the supplied ferritin is below the deficiency threshold, so this is measured iron deficiency rather than a pattern inferred from cell indices."},{"safety_critical":false,"text":"Confirmatory: the iron question is answered \u2014 do not repeat iron studies to make the diagnosis. The open question is the CAUSE: evaluate the gastrointestinal tract for occult blood loss, and in this setting also send stool for ova and parasites (hookworm/soil-transmitted helminths are a high-yield occult cause). In menstruating women take a menstrual history before attributing the loss elsewhere; coeliac disease and other malabsorption should be considered where the history fits. Management suggestion: oral iron \u2014 a ferrous salt, iron polymaltose, or ferrous ascorbate \u2014 taken with a vitamin-C source to aid non-haem iron absorption; parenteral iron is for intolerance, malabsorption or severe deficiency and is a specialist decision. Names only: verify dose, schedule and duration per formulary. Treating the anaemia without finding the cause leaves the cause untreated."},{"safety_critical":false,"text":"Dietary: haem iron (liver and organ meat, red meat, poultry, fish) is the best-absorbed source; vegetarian sources (green leafy vegetables, pulses and legumes, jaggery, sesame, dates, fortified flour or salt) are non-haem, so pair them with a vitamin-C food such as amla, guava or citrus, and keep tea, coffee, milk and antacids away from those meals. Diet supports but does not replace medical iron replacement; quantities per national dietary guidance (verify)."},{"safety_critical":true,"text":"Caution on trait exclusion: iron deficiency lowers HbA2, so a normal HbA2 measured while this patient is iron deficient does NOT exclude beta-thalassaemia trait. If a trait is suspected, repeat the electrophoresis or HPLC once iron-replete rather than acting on the value obtained now."}],"next_actions":["GI_EVALUATION_FOR_BLOOD_LOSS","STOOL_OVA_PARASITE"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"IDA":{"band":"HIGH"}}}},"03":{"title":"Microcytosis, high RBC, raised HbA2","kind":"CBC + non-CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":11.2},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":5.9},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":35.5},"unit":"%"},"MCV":{"value":{"kind":"Number","value":62},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":19.5},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.2},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":13.6},"unit":"%"},"WBC":{"value":{"kind":"Number","value":7},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":260},"unit":"x10^9/L"},"FERRITIN":{"value":{"kind":"Number","value":48},"unit":"ng/mL"},"HBA2":{"value":{"kind":"Number","value":5.4},"unit":"%"}},"context":{"age":{"kind":"Number","value":27},"sex":{"kind":"Text","value":"MALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MILD"},{"label":"MCV_MICRO"},{"label":"MCH_LOW"},{"label":"RBC_NORMAL_MALE"},{"label":"RDW_CV_NORMAL"},{"label":"MENTZER_THAL"},{"label":"RDWI_BTT"},{"label":"PATRA_IDA"},{"label":"BTT"}],"flags":["RBC_MICROCYTIC_THAL_TRIGGER","RBC_NORMAL_OR_LOW","RDW_NORMAL","MICROCYTIC_CONFIRMED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MILD","THALASSEMIA_PATTERN_COMPLETE","TRIAD_ALIGNMENT_HIGH","IRON_STUDIES_ALREADY_SUPPLIED","HBA2_SUPPLIED","MCH_THALASSAEMIA_SCREEN","CONFIRM_VENOUS_HB"],"indices":{"applicable":true,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[{"caveat":"The published cut-point is a single value, 13. The 12-to-14 indeterminate band is this system's own uncertainty zone, not a published convention, and it is what the written report uses.","cutoff":13.0,"direction":"Lower values lean towards thalassaemia trait, higher values towards iron deficiency.","display_name":"Mentzer","index_id":"MENTZER","interpretation":"Below the indeterminate band, which leans towards thalassaemia trait.","lean":"BTT","magnitude":10.51,"source":"Mentzer WC Jr. Lancet 1973;1(7808):882. PMID 4123424.","status":"ok"},{"caveat":"A lean only. This index comes from a single centre, 406 people aged 3 to 50, so it is not an adult series, and the same study reported the Mentzer index performing far worse than every other published series.","cutoff":5.3,"direction":"Higher values lean towards thalassaemia trait, lower values towards iron deficiency. This is the opposite direction to Mentzer and RDWI.","display_name":"Patra","index_id":"PATRA","interpretation":"Below 5.3, which leans towards iron deficiency.","lean":"IDA","magnitude":4.56,"source":"Patra S, Shome A, Patra CC, Mahto SK. J Family Med Prim Care 2025;14(11):4568-4573. PMID 41403526.","status":"ok"},{"caveat":"A candidate index from a single centre with a modest sample. The cut-point shown is the one that study re-derived for its own North Indian population; the index's original published cut-point is slightly higher. It should be checked against local data before it changes anything.","cutoff":42.14,"direction":"Higher values lean towards thalassaemia trait, lower values towards iron deficiency. This is the opposite direction to Mentzer and RDWI.","display_name":"CRUISE","index_id":"CRUISE","interpretation":"Below 42.14, which leans towards iron deficiency.","lean":"IDA","magnitude":41.87,"source":"Cureus 2024;16(7):e64048. PMID 39114184. DOI 10.7759/cureus.64048.","status":"ok"},{"caveat":null,"cutoff":220.0,"direction":"Lower values lean towards thalassaemia trait, higher values towards iron deficiency.","display_name":"RDWI","index_id":"RDWI","interpretation":"Below 220, which leans towards thalassaemia trait.","lean":"BTT","magnitude":142.9,"source":"Jayabose S, Giamelli J, LevondogluTugal O, Sandoval C, Ozkaynak F, Visintainer P. J Pediatr Hematol Oncol 1999;21(4):314. DOI 10.1097/00043426-199907000-00040.","status":"ok"}]},"narrative":[{"safety_critical":false,"text":"Microcytosis with a RAISED HbA2 on electrophoresis/HPLC \u2014 this types the trait as BETA thalassaemia trait. Unlike a CBC-only pattern, this is a typed result from a confirmatory test."},{"safety_critical":false,"text":"Confirmatory: the raised HbA2 supports beta thalassaemia trait; molecular studies define the exact mutation where that matters (for example before partner testing or prenatal counselling). CAUTION: co-existing iron deficiency LOWERS HbA2 and can mask the trait \u2014 if iron studies are abnormal, repeat the HbA2 after iron repletion. CAUTION: HbA2 is also RAISED by B12 or folate deficiency, HIV infection and liver disease (NHS Sickle Cell and Thalassaemia Screening Programme) \u2014 check these before family screening is set in motion. Management suggestion: beta trait is NOT an iron-treatment condition \u2014 do not give iron unless iron deficiency is separately confirmed. Offer genetic/carrier counselling and partner testing, particularly around pregnancy, since two carriers risk a severely affected child. Dietary: no iron-loading rationale; quantities per national dietary guidance (verify)."}],"next_actions":["MOLECULAR_GLOBIN","IRON_STUDIES"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"BTT":{"band":"HIGH"}}}},"04":{"title":"Macrocytic anaemia + B12 and folate","kind":"CBC + non-CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":8.6},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":2.6},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":27},"unit":"%"},"MCV":{"value":{"kind":"Number","value":108},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":33},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.8},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":16.5},"unit":"%"},"WBC":{"value":{"kind":"Number","value":4.1},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":145},"unit":"x10^9/L"},"B12":{"value":{"kind":"Number","value":110},"unit":"pg/mL"},"FOLATE":{"value":{"kind":"Number","value":9},"unit":"ng/mL"},"LDH":{"value":{"kind":"Number","value":640},"unit":"U/L"}},"context":{"age":{"kind":"Number","value":61},"sex":{"kind":"Text","value":"MALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"MCV_MACRO"},{"label":"MCH_NORMAL"},{"label":"RBC_LOW_MALE"},{"label":"RDW_CV_MILD"},{"label":"B12_DEFICIENCY_SUSPECT"}],"flags":["RBC_NORMAL_OR_LOW","RDW_MILD","RDW_ELEVATED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","THROMBOCYTOPENIA","B12_LOW","BICYTOPENIA_PRESENT","B12_FOLATE_ALREADY_SUPPLIED","FOLATE_NOT_ALONE"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"A serum vitamin B12 in the deficiency range (with or without anaemia \u2014 a normal blood count does not exclude a clinically important deficiency). The cut-off is a guide rather than a definitive boundary \u2014 the reporting laboratory's own reference interval and the clinical picture both carry weight."},{"safety_critical":false,"text":"Confirmatory: send serum folate alongside this result if it has not already been done \u2014 cobalamin and folate should be assessed concurrently because their metabolism is closely linked. Where the value is borderline or sits against a strong clinical picture, methylmalonic acid is the second-line test that resolves it; homocysteine is an alternative but is less specific. If pernicious anaemia is suspected \u2014 anaemia, neuropathy or glossitis \u2014 test for anti-intrinsic-factor antibody even if the cobalamin looks normal; a positive result is highly predictive and means lifelong replacement, but a negative result does NOT rule pernicious anaemia out. Look for the cause: dietary restriction, gastric or ileal disease or surgery, and drugs such as metformin or a proton-pump inhibitor. Management suggestion: replace cobalamin \u2014 give B12 BEFORE or with folate, never folate alone. Names only: verify dose, route and duration per formulary. Where clinical features of deficiency are strong, treatment should not be delayed for a discordant test result, because the neurological injury is the part that does not reverse."},{"safety_critical":false,"text":"Dietary: vitamin B12 occurs naturally only in animal-source foods \u2014 dairy, eggs, meat, fish \u2014 or in fortified foods, so a strict vegetarian or vegan diet is a recognised cause and dietary advice alone will not correct an established deficiency or a malabsorptive cause. Quantities per national dietary guidance (verify)."},{"safety_critical":true,"text":"Do NOT give folate alone. Folic acid given by itself while vitamin B12 is deficient can correct the blood picture while the neurological damage continues, and may precipitate subacute combined degeneration of the cord. Give B12 first, or both together."},{"safety_critical":true,"text":"A normal or non-raised MCV does not exclude clinically important B12 deficiency \u2014 neurological impairment occurs with a normal MCV in about a quarter of cases. Do not let a normal cell size defer investigation or treatment of this result."},{"safety_critical":false,"text":"If serum folate is also low, note that folate deficiency itself can falsely depress the serum cobalamin. Do not assume a dual deficiency from the two numbers alone \u2014 methylmalonic acid distinguishes a true cobalamin deficiency from this artefact."},{"safety_critical":true,"text":"If the haemolysis markers are abnormal \u2014 a low or undetectable haptoglobin, a raised LDH, a raised indirect bilirubin \u2014 do not read them as a separate haemolytic disease. Megaloblastic anaemia destroys red-cell precursors inside the marrow, which produces exactly that biochemical picture without peripheral red-cell destruction, and characteristically without schistocytes on the film. Replace the vitamin and recheck the markers; they should correct. If schistocytes ARE present, or the markers persist once the deficiency is treated, then investigate haemolysis in its own right."},{"safety_critical":true,"text":"If the white cells and platelets are also reduced, megaloblastic anaemia is the likeliest explanation for a tri-lineage drop in this setting \u2014 it accounts for around 60% of adult pancytopenia here, against roughly 8% for aplastic anaemia \u2014 and it is the reversible one. Treat the deficiency and repeat the count. This does NOT cancel a marrow examination: it remains indicated if the counts fail to recover on replacement, if blasts or other abnormal cells appear on the film, or if the clinical picture points elsewhere. A reticulocyte response within about a week is the practical early test that the diagnosis was right."}],"next_actions":["MMA","FOLATE"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"B12_DEFICIENCY_SUSPECT":{"band":"MEDIUM"}}}},"05":{"title":"Normocytic anaemia + calcium + rouleaux + bone pain","kind":"CBC + non-CBC + smear + context","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.4},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":3.2},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":28.5},"unit":"%"},"MCV":{"value":{"kind":"Number","value":89},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":29.4},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":33},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":14.2},"unit":"%"},"WBC":{"value":{"kind":"Number","value":5.9},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":210},"unit":"x10^9/L"},"ESR":{"value":{"kind":"Number","value":96},"unit":"mm/hr"},"CREATININE":{"value":{"kind":"Number","value":1.9},"unit":"mg/dL"},"CALCIUM":{"value":{"kind":"Number","value":12.4},"unit":"mg/dL"}},"context":{"age":{"kind":"Number","value":66},"sex":{"kind":"Text","value":"MALE"},"CONTEXT_BONE_PAIN":{"kind":"Bool","value":true},"SMEAR_ROULEAUX":{"kind":"Bool","value":true}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"MCV_NORMO"},{"label":"MCH_NORMAL"},{"label":"RBC_LOW_MALE"},{"label":"RDW_CV_NORMAL"},{"label":"MYELOMA_SUSPECT"}],"flags":["RBC_NORMAL_OR_LOW","RDW_NORMAL","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","ESR_INFLATED_BY_ANAEMIA","HYPERCALCAEMIA_CRAB"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"Anaemia with rouleaux and a CRAB feature (bone pain or hypercalcaemia) \u2014 consider a plasma-cell dyscrasia (myeloma)."},{"safety_critical":false,"text":"Confirmatory: serum/urine protein electrophoresis (SPEP/UPEP), serum free light chains, skeletal survey/imaging, renal + calcium review. Haematology referral."},{"safety_critical":false,"text":"Confirmatory: serum protein electrophoresis + serum free light chains. Management suggestion: myeloma therapy is specialist-directed \u2014 do not manage in primary care; arrange urgent haematology."}],"next_actions":["SERUM_PROTEIN_ELECTROPHORESIS","SERUM_FREE_LIGHT_CHAINS"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"MYELOMA_SUSPECT":{"band":"MEDIUM"}}}},"06":{"title":"Fever in an endemic area, anaemia, low platelets","kind":"CBC + context","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.8},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":3.6},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":30},"unit":"%"},"MCV":{"value":{"kind":"Number","value":84},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":27.2},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":32.6},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":14.9},"unit":"%"},"WBC":{"value":{"kind":"Number","value":5.2},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":72},"unit":"x10^9/L"}},"context":{"age":{"kind":"Number","value":29},"sex":{"kind":"Text","value":"MALE"},"CONTEXT_FEBRILE":{"kind":"Bool","value":true},"CONTEXT_ENDEMIC_AREA":{"kind":"Bool","value":true}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"MCV_NORMO"},{"label":"MCH_NORMAL"},{"label":"RBC_LOW_MALE"},{"label":"RDW_CV_MILD"},{"label":"MALARIA_SUSPECT"}],"flags":["RBC_NORMAL_OR_LOW","RDW_MILD","RDW_ELEVATED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","FEVER_REPORTED","THROMBOCYTOPENIA","BICYTOPENIA_PRESENT","DIMORPHIC_SUSPECT"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"Anaemia with thrombocytopenia in a febrile endemic-area adult \u2014 thrombocytopenia with fever is a classic malaria clue."},{"safety_critical":false,"text":"Confirmatory: malaria rapid test + thick/thin smear. The organism is never diagnosed on the CBC; treat per programme once confirmed."},{"safety_critical":false,"text":"Management suggestion: treat with an antimalarial per the national programme, directed by species and severity; severe anaemia and any danger signs take priority over classification. Confirm the species before treating where possible, and verify the regimen and dose against the national programme guidance \u2014 PATHEX states no dose."}],"next_actions":["MALARIA_RDT_SMEAR"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"MALARIA_SUSPECT":{"band":"MEDIUM"}}}},"07":{"title":"Fever, low platelets and low WBC","kind":"CBC + context","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":14.6},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":5.1},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":46},"unit":"%"},"MCV":{"value":{"kind":"Number","value":88},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":28.6},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":32.5},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":13.2},"unit":"%"},"WBC":{"value":{"kind":"Number","value":2.9},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":58},"unit":"x10^9/L"}},"context":{"age":{"kind":"Number","value":24},"sex":{"kind":"Text","value":"FEMALE"},"CONTEXT_FEBRILE":{"kind":"Bool","value":true}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_NORMAL"},{"label":"MCV_NORMO"},{"label":"MCH_NORMAL"},{"label":"RBC_NORMAL_FEMALE"},{"label":"RDW_CV_NORMAL"},{"label":"SEPSIS_CONTEXT"}],"flags":["RBC_NORMAL_OR_LOW","RDW_NORMAL","FEVER_REPORTED","THROMBOCYTOPENIA","LEUKOPENIA","SAFETY_CRITICAL::SEPSIS_CONTEXT"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"A white cell count outside the reference range together with a low platelet count, in a febrile patient \u2014 the blood-count pattern associated with severe infection."},{"safety_critical":false,"text":"Confirmatory: cultures and a sepsis work-up are clinical decisions and should not wait on the blood count. A peripheral smear adds a left shift, toxic granulation and Dohle bodies where infection is severe, and would show schistocytes if a microangiopathy has developed alongside. Watch the platelet count and coagulation, since disseminated intravascular coagulation can follow. Management suggestion: treat per sepsis pathway on clinical grounds. Verify all agents per formulary."},{"safety_critical":true,"text":"A LOW white cell count in suspected sepsis is not reassuring \u2014 it carries a worse prognosis than a raised one, and the absence of a leucocytosis must never be read as evidence against severe infection."}],"next_actions":["CLINICAL_ASSESSMENT_REQUIRED","PERIPHERAL_SMEAR"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"SEPSIS_CONTEXT":{"band":"MEDIUM"}}}},"08":{"title":"Schistocytes, low platelets, raised LDH","kind":"CBC + non-CBC + smear","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":8.2},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":2.8},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":25},"unit":"%"},"MCV":{"value":{"kind":"Number","value":90},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":29.3},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":32.8},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":18.4},"unit":"%"},"WBC":{"value":{"kind":"Number","value":8.8},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":34},"unit":"x10^9/L"},"RETIC":{"value":{"kind":"Number","value":6.5},"unit":"%"},"LDH":{"value":{"kind":"Number","value":1180},"unit":"U/L"},"CREATININE":{"value":{"kind":"Number","value":2.3},"unit":"mg/dL"}},"context":{"age":{"kind":"Number","value":41},"sex":{"kind":"Text","value":"FEMALE"},"SMEAR_SCHISTOCYTES":{"kind":"Bool","value":true}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"MCV_NORMO"},{"label":"MCH_NORMAL"},{"label":"RBC_LOW_FEMALE"},{"label":"RDW_CV_SEVERE"},{"label":"TMA_SUSPECT"}],"flags":["RBC_NORMAL_OR_LOW","RDW_SEVERE","RDW_ELEVATED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","THROMBOCYTOPENIA","BICYTOPENIA_PRESENT","DIMORPHIC_SUSPECT","TMA_RENAL_PREDOMINANT","RPI_INADEQUATE","RETIC_HIGH","RETIC_SUPPLIED","SAFETY_CRITICAL::TMA_SUSPECT"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":true,"text":"Schistocytes with thrombocytopenia and anaemia \u2014 a microangiopathic haemolytic picture (TTP / HUS / other thrombotic microangiopathy). This is a haematological EMERGENCY."},{"safety_critical":true,"text":"Act now: urgent (STAT) haematology referral. Confirmatory: LDH, haptoglobin, indirect bilirubin, reticulocytes, creatinine, coagulation screen; ADAMTS13 if TTP considered. Do NOT reflexively transfuse platelets in suspected TTP. Definitive management is specialist-led (plasma exchange for TTP) \u2014 do not delay referral."},{"safety_critical":false,"text":"Confirmatory: peripheral smear (schistocytes) + LDH. Management suggestion: EMERGENCY \u2014 arrange urgent haematology; the plasma-exchange pathway is specialist/emergency-directed."}],"next_actions":["PERIPHERAL_SMEAR","LDH"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"TMA_SUSPECT":{"band":"HIGH"}}}},"09":{"title":"Blasts reported on the film","kind":"CBC + smear","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.6},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":3.3},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":29},"unit":"%"},"MCV":{"value":{"kind":"Number","value":90},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":29.1},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":32.6},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":17},"unit":"%"},"WBC":{"value":{"kind":"Number","value":38},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":41},"unit":"x10^9/L"}},"context":{"age":{"kind":"Number","value":52},"sex":{"kind":"Text","value":"MALE"},"SMEAR_BLASTS":{"kind":"Bool","value":true}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_MODERATE"},{"label":"MCV_NORMO"},{"label":"MCH_NORMAL"},{"label":"RBC_LOW_MALE"},{"label":"RDW_CV_MILD"},{"label":"ACUTE_LEUKAEMIA_SUSPECT"}],"flags":["RBC_NORMAL_OR_LOW","RDW_MILD","RDW_ELEVATED","ANEMIA_PRESENT","ANEMIA_SEVERITY_MODERATE","THROMBOCYTOPENIA","LEUKOCYTOSIS","BICYTOPENIA_PRESENT","DIMORPHIC_SUSPECT","SAFETY_CRITICAL::ACUTE_LEUKAEMIA_SUSPECT"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"Confirmatory: flow cytometry + bone-marrow aspirate. Management suggestion: URGENT haematology-oncology referral \u2014 no primary-care drug therapy."}],"next_actions":["FLOW_CYTOMETRY","BONE_MARROW_ASPIRATE","CYTOGENETICS_MOLECULAR"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"ACUTE_LEUKAEMIA_SUSPECT":{"band":"MEDIUM"}}}},"10":{"title":"Severe anaemia","kind":"CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":5.6},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":2.1},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":18},"unit":"%"},"MCV":{"value":{"kind":"Number","value":74},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":26.7},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.1},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":19},"unit":"%"},"WBC":{"value":{"kind":"Number","value":6},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":280},"unit":"x10^9/L"}},"context":{"age":{"kind":"Number","value":45},"sex":{"kind":"Text","value":"FEMALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_SEVERE"},{"label":"MCV_MICRO"},{"label":"MCH_LOW"},{"label":"RBC_LOW_FEMALE"},{"label":"RDW_CV_SEVERE"},{"label":"MENTZER_IDA"},{"label":"RDWI_IDA"},{"label":"PATRA_IDA"},{"label":"SEVERE_ANEMIA_SAFETY_BLOCK"},{"label":"SEVERE_ANEMIA_SAFETY_BLOCK"}],"flags":["RBC_NORMAL_OR_LOW","RDW_SEVERE","RDW_ELEVATED","MICROCYTIC_CONFIRMED","ANEMIA_PRESENT","ANEMIA_SEVERITY_SEVERE","IDA_PATTERN_COMPLETE","TRIAD_ALIGNMENT_MEDIUM","MCH_THALASSAEMIA_SCREEN","FORCES_ACTION::PERIPHERAL_BLOOD_SMEAR","SUPPRESSES::FORMAL_DIAGNOSIS_RULES","SUPPRESSES::SCORING"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":true,"text":"Severe anaemia safety condition detected. Standard index-based differentiation is blocked; urgent clinical review and a Peripheral Blood Smear are required regardless of other indices.\n"},{"safety_critical":true,"text":"SEVERE ANAEMIA \u2014 assess clinical severity and transfusion need FIRST; classification of the anaemia subtype comes after the patient is safe. Check haemodynamic status, symptoms of decompensation and any active bleeding, and escalate urgently. The transfusion decision is clinical and specialist-directed (thresholds per local protocol \u2014 verify). READ THE WHOLE COUNT BEFORE ACTING: this safety block halts subtype classification, and it does not mean the rest of the count is normal. Look at the platelet and white-cell counts on the report yourself \u2014 a severe anaemia can arrive alongside a critically low platelet count or a neutropenic emergency, and either of those may need attention before the anaemia does."}],"next_actions":["PERIPHERAL_BLOOD_SMEAR"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"SEVERE_ANEMIA_SAFETY_BLOCK":{"band":"UNRELIABLE"}}}},"11":{"title":"Implausible MCHC (sample artefact)","kind":"CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":13.9},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":3.4},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":35},"unit":"%"},"MCV":{"value":{"kind":"Number","value":103},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":40.9},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":39.7},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":14},"unit":"%"},"WBC":{"value":{"kind":"Number","value":7.1},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":240},"unit":"x10^9/L"}},"context":{"age":{"kind":"Number","value":58},"sex":{"kind":"Text","value":"MALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_NORMAL"},{"label":"MCV_MACRO"},{"label":"MCH_HIGH"},{"label":"RBC_LOW_MALE"},{"label":"RDW_CV_NORMAL"},{"label":"CANNOT_EVALUATE"}],"flags":["RBC_NORMAL_OR_LOW","RDW_NORMAL","SPURIOUS_SUSPECT","CONFIRM_VENOUS_HB"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"Essential CBC parameters are absent. Assessment cannot be completed with the available data.\n"},{"safety_critical":false,"text":"What would resolve this: the values supplied are internally inconsistent, so no further test will help until the sample is trusted. REPEAT THE FULL BLOOD COUNT on a fresh, correctly-filled EDTA sample. Check for the common pre-analytical causes before re-sending: a clotted or under-filled tube, a drip-arm sample diluted by fluid, delayed transport, lipaemia or a very high white count interfering with the haemoglobin reading, and cold agglutinins causing red-cell clumping. A result that cannot be trusted must not be interpreted, however plausible it looks."},{"safety_critical":false,"text":"The CBC cannot be evaluated on the data provided \u2014 a required input is missing, out of plausible range, or internally inconsistent. Check the entered values and units against the report, add the missing parameters, and re-run. No clinical interpretation is offered on incomplete input."}],"next_actions":["REPEAT_CBC"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"CANNOT_EVALUATE":{"band":"UNRELIABLE"}}}},"12":{"title":"Child aged 9","kind":"scope gate","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.1},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":4.1},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":29},"unit":"%"},"MCV":{"value":{"kind":"Number","value":71},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":22.2},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.3},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":17.8},"unit":"%"},"WBC":{"value":{"kind":"Number","value":6.8},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":310},"unit":"x10^9/L"},"MPV":{"value":{"kind":"Number","value":9.4},"unit":"fL"},"NEUT":{"value":{"kind":"Number","value":58},"unit":"%"},"LYMPH":{"value":{"kind":"Number","value":32},"unit":"%"},"MONO":{"value":{"kind":"Number","value":6},"unit":"%"},"EOS":{"value":{"kind":"Number","value":3},"unit":"%"},"BASO":{"value":{"kind":"Number","value":1},"unit":"%"}},"context":{"age":{"kind":"Number","value":9},"sex":{"kind":"Text","value":"FEMALE"}}},"status":500,"response":{"error":"OUT_OF_SCOPE_PEDIATRIC: age 9 is below this product's validated scope. PATHEX is validated for adults only, so no interpretation has been made and no result is reported for this sample. Paediatric red-cell reference ranges differ by age, and the discrimination indices this product uses were derived in adult populations, so an adult answer here would be wrong rather than merely uncertain. Refer to a paediatric service and interpret against age-specific ranges."}},"13":{"title":"Pregnant patient","kind":"scope gate","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":9.1},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":4.1},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":29},"unit":"%"},"MCV":{"value":{"kind":"Number","value":71},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":22.2},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":31.3},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":17.8},"unit":"%"},"WBC":{"value":{"kind":"Number","value":6.8},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":310},"unit":"x10^9/L"},"MPV":{"value":{"kind":"Number","value":9.4},"unit":"fL"},"NEUT":{"value":{"kind":"Number","value":58},"unit":"%"},"LYMPH":{"value":{"kind":"Number","value":32},"unit":"%"},"MONO":{"value":{"kind":"Number","value":6},"unit":"%"},"EOS":{"value":{"kind":"Number","value":3},"unit":"%"},"BASO":{"value":{"kind":"Number","value":1},"unit":"%"}},"context":{"age":{"kind":"Number","value":28},"sex":{"kind":"Text","value":"FEMALE"},"PREGNANCY_STATUS":{"kind":"Text","value":"PREGNANT"}}},"status":500,"response":{"error":"OUT_OF_SCOPE_PREGNANCY: this product is validated for non-pregnant adults, so no interpretation has been made and no result is reported for this sample. The haemoglobin threshold for anaemia in pregnancy is not the non-pregnant threshold this product applies, and plasma volume expansion lowers the measured haemoglobin independently of iron status, so a non-pregnant answer here would be wrong rather than merely uncertain. Interpret against pregnancy-specific thresholds under obstetric care."}},"14":{"title":"Normal adult CBC","kind":"CBC","request":{"parameters":{"HGB":{"value":{"kind":"Number","value":14.8},"unit":"g/dL"},"RBC":{"value":{"kind":"Number","value":5},"unit":"x10^12/L"},"HCT":{"value":{"kind":"Number","value":44},"unit":"%"},"MCV":{"value":{"kind":"Number","value":88},"unit":"fL"},"MCH":{"value":{"kind":"Number","value":29.6},"unit":"pg"},"MCHC":{"value":{"kind":"Number","value":33.6},"unit":"g/dL"},"RDW_CV":{"value":{"kind":"Number","value":12.9},"unit":"%"},"WBC":{"value":{"kind":"Number","value":6.9},"unit":"x10^9/L"},"PLT":{"value":{"kind":"Number","value":265},"unit":"x10^9/L"},"MPV":{"value":{"kind":"Number","value":9.8},"unit":"fL"},"NEUT":{"value":{"kind":"Number","value":60},"unit":"%"},"LYMPH":{"value":{"kind":"Number","value":30},"unit":"%"},"MONO":{"value":{"kind":"Number","value":7},"unit":"%"},"EOS":{"value":{"kind":"Number","value":2},"unit":"%"},"BASO":{"value":{"kind":"Number","value":1},"unit":"%"}},"context":{"age":{"kind":"Number","value":36},"sex":{"kind":"Text","value":"MALE"}}},"status":200,"response":{"classification":[{"label":"HCT_NOT_HIGH"},{"label":"HGB_NORMAL"},{"label":"ANC_NORMAL"},{"label":"ALC_NORMAL"},{"label":"AMC_NORMAL"},{"label":"AEC_NORMAL"},{"label":"ABC_NORMAL"},{"label":"MCV_NORMO"},{"label":"MCH_NORMAL"},{"label":"RBC_NORMAL_MALE"},{"label":"RDW_CV_NORMAL"},{"label":"NO_FINDINGS"}],"flags":["RBC_NORMAL_OR_LOW","RDW_NORMAL"],"indices":{"applicable":false,"caveat":"These are screening formulas. They triage, they never confirm; a ferritin read with a CRP, and haemoglobin electrophoresis or HPLC for HbA2, are what confirm. Three of the four share the MCV, so agreement between them is not independent corroboration. They also do not point the same way: two of them lean towards thalassaemia trait when the number is LOW and two when it is HIGH, so read each row's stated direction and never the column.","panel_name":"Discrimination indices (iron deficiency vs thalassaemia trait)","rows":[]},"narrative":[{"safety_critical":false,"text":"The CBC values are within reference ranges for the patient's demographic context. No anaemia pattern is suggested by the indices reviewed in this MVP scope.\n"},{"safety_critical":false,"text":"What would change this answer: nothing on this blood count is abnormal, so the count itself has nothing further to give. If the clinical picture still suggests a problem, the tests that would resolve it are FERRITIN with TRANSFERRIN SATURATION for iron stores (a normal haemoglobin does not exclude iron depletion), VITAMIN B12 and FOLATE where diet, gastric surgery or metformin apply, and a RETICULOCYTE COUNT if blood loss or haemolysis is suspected. Where a haemoglobinopathy carrier state matters \u2014 before pregnancy, or for family screening \u2014 HbA2 on electrophoresis is the test, because a carrier can have an entirely normal count."},{"safety_critical":false,"text":"Normal CBC does not exclude early iron deficiency or occult disease \u2014 correlate clinically."}],"next_actions":["CLINICAL_ASSESSMENT_REQUIRED"],"provenance":{"bundle_version":"0.1.0","engine_version":"1.0.0","source_authority_sha256":"4b89ab23fcca403551a732849a10e89e5a54fe2170a501de8776aa6818754a2f"},"scores":{"NO_FINDINGS":{"band":"HIGH"}}}}}};</script>
+<script>(function(){
+  var SIM = window.__PATHEX_SIM__;
+  function sortKeys(v){ if(Array.isArray(v)) return v.map(sortKeys); if(v&&typeof v==="object"){var o={};Object.keys(v).sort().forEach(function(k){o[k]=sortKeys(v[k]);});return o;} return v; }
+  function same(a,b){ return JSON.stringify(sortKeys(a))===JSON.stringify(sortKeys(b)); }
+  function reply(obj,status){ return Promise.resolve(new Response(JSON.stringify(obj),{status:status||200,headers:{"Content-Type":"application/json"}})); }
+  function current(){ var id=new URLSearchParams(location.search).get("case")||"01"; return SIM.cases[id]?id:"01"; }
+  window.__PATHEX_SIM_CASE__=current;
+  var realFetch=window.fetch.bind(window);
+  window.fetch=function(url,opts){
+    var path=String(url).split("?")[0];
+    if(path.endsWith("/health")) return reply(Object.assign({},SIM.health,{status:"SIMULATION"}));
+    if(path.endsWith("/manifest")) return reply(SIM.manifest);
+    if(path.endsWith("/ingest")) return reply({error:"Report upload and OCR need the desktop application. This web simulation replays recorded synthetic cases only."},501);
+    if(path.endsWith("/analyze")){
+      var rec=SIM.cases[current()], body;
+      try{ body=JSON.parse(opts&&opts.body); }catch(e){ body=null; }
+      if(!same(body,rec.request)) return reply({error:"This simulation can only replay the recorded synthetic cases exactly as entered. Reload the case from the selector above."},409);
+      return reply(rec.response,rec.status);
+    }
+    return realFetch(url,opts);
+  };
+})();
+</script>
+<style>#sim-bar{position:sticky;top:0;z-index:50;background:#14335a;color:#fff;font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
+#sim-bar .sim-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+#sim-bar b{background:#f2c14e;color:#14335a;padding:2px 8px;border-radius:99px;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+#sim-bar span{flex:1 1 420px;opacity:.92}
+#sim-bar select{font:inherit;padding:4px 6px;border-radius:6px;border:0;max-width:340px}
+#sim-bar a{color:#cfe3ff}
+.sim-locked{background-color:rgba(127,127,127,.08)!important;cursor:not-allowed}
+</style>
+<meta name="robots" content="noindex">
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PATHEX web simulation · PATHEX</title>
+<style>
+  :root{
+    --blue:#244C74; --blue-700:#1B3A59; --blue-50:#EEF2F7;
+    --bg:#F6F7F9; --card:#FFFFFF; --ink:#1E293B; --ink-soft:#54627A; --ink-faint:#8A96A8;
+    --line:#E4E8EE; --line-soft:#EEF1F5;
+    --green:#1F7A54; --green-bg:#E9F4EE; --amber:#946200; --amber-bg:#FBF2DE;
+    --red:#B42318; --red-bg:#FBEBE9; --gray:#5B6878; --gray-bg:#EEF1F5;
+    --radius:10px; --shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.06);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{display:flex;align-items:center;gap:13px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .wordmark{display:flex;flex-direction:column;line-height:1.1}
+  .wordmark .name{font-weight:800;letter-spacing:.5px;color:var(--blue);font-size:19px}
+  .wordmark .sub{font-size:12px;color:var(--ink-soft)}
+  .powered{font-size:11px;color:var(--ink-faint);border:1px solid var(--line);border-radius:999px;padding:3px 9px;background:var(--blue-50)}
+  .spacer{flex:1}
+  select,input,textarea,button{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 10px}
+  button{cursor:pointer}
+  .btn-primary{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+  .btn-ghost{background:#fff}
+  .sel{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-soft)}
+  nav.tabs{display:flex;gap:8px;padding:10px 20px;background:var(--card);border-bottom:1px solid var(--line)}
+  nav.tabs button[aria-selected="true"]{background:var(--blue);color:#fff;border-color:var(--blue)}
+  main{padding:18px;max-width:1000px;margin:0 auto}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px}
+  .card>.card-h{padding:13px 16px;font-weight:700;font-size:13px;color:var(--blue);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--line-soft)}
+  .card>.card-b{padding:14px 16px}
+  .fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px 14px}
+  .row{display:flex;align-items:center;gap:8px}
+  .row label{flex:0 0 78px;font-size:13px;color:var(--ink-soft)}
+  .row input{flex:1;min-width:60px}
+  .row .unit{flex:0 0 auto;color:var(--ink-faint);font-size:12px;width:64px}
+  details.exp{border:1px solid var(--line-soft);border-radius:9px;background:#FAFBFC;margin-top:12px}
+  details.exp>summary{cursor:pointer;list-style:none;padding:11px 14px;font-size:12.5px;font-weight:600;color:var(--blue);display:flex;align-items:center}
+  details.exp>summary::-webkit-details-marker{display:none}
+  details.exp>summary::after{content:"+";margin-left:auto;color:var(--ink-faint);font-weight:700;font-size:16px}
+  details.exp[open]>summary{border-bottom:1px solid var(--line-soft)}
+  details.exp[open]>summary::after{content:"–"}
+  details.exp>.exp-b{padding:14px}
+  .chip{display:inline-block;background:var(--gray-bg);border:1px solid var(--line);border-radius:999px;padding:3px 11px;margin:3px 5px 0 0;font-size:13px;color:var(--ink)}
+  .chip.warn{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+  .chip.crit{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .band{font-weight:700;color:var(--blue)}
+  .muted{color:var(--ink-soft);font-size:13px}
+  .note{color:var(--ink-soft);font-size:13px;margin-top:6px}
+  .f{color:var(--ink-soft);font-size:12px;margin-right:4px}
+  .ckgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:4px 10px;margin-top:6px}
+  .ck{font-size:13px;color:var(--ink);display:flex;align-items:center;gap:5px;cursor:pointer}
+  .idx-wrap{overflow-x:auto}
+  .idx-tbl{width:100%;border-collapse:collapse;font-size:13px;margin-top:4px}
+  .idx-tbl th,.idx-tbl td{text-align:left;padding:4px 8px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+  .idx-tbl th{color:var(--ink-soft);font-weight:600}
+  .lean-ida{color:#b45309;font-weight:600}.lean-btt{color:#244C74;font-weight:600}
+  @media (max-width:560px){
+    .idx-tbl,.idx-tbl tbody,.idx-tbl tr,.idx-tbl td{display:block;width:auto}
+    .idx-tbl tr.idx-head{display:none}
+    .idx-tbl tr{border-bottom:1px solid var(--line-soft);padding:7px 0}
+    .idx-tbl td{border:0;padding:1px 0}
+    .idx-tbl td:before{content:attr(data-h) ": ";color:var(--ink-soft)}
+    .idx-tbl td.idx-name{font-weight:700;font-size:14px;padding-bottom:3px}
+    .idx-tbl td.idx-name:before{content:""}
+  }
+  .hl{border-radius:11px;padding:13px 15px;margin-top:12px;border:1.5px solid;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+  .hl-h{font-weight:700;font-size:14px;margin-bottom:8px;letter-spacing:.2px}
+  .hl-conf{background:#EEF4FB;border-color:#244C74}.hl-conf .hl-h{color:#244C74}
+  .hl-conf .chip.conf{background:#244C74;color:#fff;border-color:#244C74}
+  .hl-flags{background:#FFF7E6;border-color:#d98a00}.hl-flags .hl-h{color:#b45309}
+  .hl-flags-crit{background:#FDEBEC;border-color:#c0392b}.hl-flags-crit .hl-h{color:#c0392b}
+  .chip.warn{background:#FFF1D6;border-color:#e0a83e;color:#8a5a00}
+  .chip.crit{background:#fff;border-color:#c0392b;color:#c0392b;font-weight:600}
+  .hist-item{padding:9px 11px;border:1px solid var(--line-soft);border-radius:8px;margin-bottom:6px;cursor:pointer;background:#fff}
+  .hist-item:hover{background:#F2F6FB}
+  .pill{font-size:12px;color:var(--ink-soft);margin-left:6px}
+  .sugg{font-size:12px;color:#1a7a3a;margin:4px 0}
+  #fb-accept.active{background:#244C74;color:#fff;border-color:#244C74}
+  #fb-reject.active{background:#c0392b;color:#fff;border-color:#c0392b}
+  #print-area{display:none}
+  @media print{
+    body * {visibility:hidden}
+    #print-area,#print-area *{visibility:visible}
+    #print-area{display:block;position:absolute;top:0;left:0;width:100%;padding:24px;font-family:Arial,system-ui,sans-serif;color:#000}
+    .pr-h{font-size:18px;font-weight:700;color:#244C74;border-bottom:2px solid #244C74;padding-bottom:6px}
+    .pr-id{margin:10px 0;font-size:13px}
+    .pr-s{margin-top:12px;font-weight:700;font-size:13px;color:#244C74}
+    .pchip{display:inline-block;border:1px solid #888;border-radius:10px;padding:2px 8px;margin:2px 4px 0 0;font-size:12px}
+    .pr-f{margin-top:18px;font-size:11px;color:#555;border-top:1px solid #ccc;padding-top:6px}
+    .pr-p{margin:4px 0 0;font-size:12.5px;line-height:1.5}
+    .pr-alert{margin:10px 0;padding:8px 10px;border:1.5px solid #a11;border-left-width:5px;
+              font-size:12.5px;line-height:1.5;color:#000}
+    .pr-alert b{color:#a11;letter-spacing:.04em}
+    .pr-list{margin:4px 0 0;padding-left:20px;font-size:12.5px;line-height:1.6}
+    .pr-t{width:100%;border-collapse:collapse;margin-top:6px;font-size:12.5px}
+    .pr-t th{text-align:left;background:#EEF3F8;color:#244C74;font-size:11px;letter-spacing:.05em;
+             text-transform:uppercase;padding:5px 8px;border:1px solid #C2D2E2}
+    .pr-t td{padding:7px 8px;border:1px solid #C2D2E2;vertical-align:top;line-height:1.45}
+    .pr-fill{background:repeating-linear-gradient(transparent,transparent 21px,#DDD 21px,#DDD 22px)}
+    .pr-hint{margin-top:4px;font-size:10.5px;color:#666;font-style:italic}
+    .pr-sign{margin-top:30px;font-size:12px;display:flex;gap:36px}
+    .pr-sign div{flex:1;border-top:1px solid #444;padding-top:4px}
+  }
+  .safety{border-left:3px solid var(--red);padding-left:10px;color:var(--red)}
+  .hist-item{padding:9px 11px;border:1px solid var(--line);border-radius:8px;margin-bottom:6px;cursor:pointer;background:#fff}
+  .hist-item:hover{background:var(--blue-50)}
+  .pill{font-size:12px;color:var(--ink-faint)}
+  .rx .sugg{background:var(--blue-50);border:1px dashed var(--line);border-radius:8px;padding:8px;margin:4px 0;font-size:13px}
+  .rx label.f{display:block;font-size:13px;color:var(--ink-soft);margin:8px 0 2px}
+  textarea{width:100%}
+  footer{padding:12px 20px;border-top:1px solid var(--line);color:var(--ink-faint);font-size:12px;text-align:center;background:var(--card)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="20" cy="20" r="16" fill="none" stroke="#244C74" stroke-width="2.2"/>
+      <circle cx="20" cy="20" r="9.5" fill="none" stroke="#244C74" stroke-width="1" opacity=".4"/>
+      <line x1="20" y1="2.5" x2="20" y2="11" stroke="#244C74" stroke-width="1.4"/>
+      <line x1="20" y1="29" x2="20" y2="37.5" stroke="#244C74" stroke-width="1.4"/>
+      <line x1="2.5" y1="20" x2="11" y2="20" stroke="#244C74" stroke-width="1.4"/>
+      <line x1="29" y1="20" x2="37.5" y2="20" stroke="#244C74" stroke-width="1.4"/>
+      <circle cx="20" cy="20" r="2.4" fill="#244C74"/>
+    </svg>
+    <div class="wordmark"><span class="name">PATHEX</span><span class="sub" id="hdr-sub">Adult CBC Decision Support</span></div>
+    <span class="powered">Powered by AMEKU</span>
+  </div>
+  <div class="spacer"></div>
+  <span class="sel">Country <select id="sel-country"></select></span>
+  <span class="sel">Mode <select id="sel-tier" disabled title="PATHEX ships a single mode"></select></span>
+</header>
+<nav class="tabs">
+  <button id="tab-analyze" aria-selected="true">Analyze</button>
+  <button id="tab-history" aria-selected="false">History</button>
+</nav>
+<main>
+  <section id="view-analyze">
+    <div class="card">
+      <div class="card-h">CBC Input</div>
+      <div class="card-b">
+        <details class="exp" id="exp-patient" open><summary>Patient (local &amp; private — never leaves this device)</summary><div class="exp-b">
+          <div class="row" style="flex-wrap:wrap;gap:10px;align-items:center">
+            <span><label class="f">Name</label> <input id="pt-name" style="width:150px" autocomplete="off" /></span>
+            <span><label class="f">Date of birth</label> <input id="pt-dob" type="date" /></span>
+            <span><label class="f">ABHA ID</label> <input id="pt-abha" style="width:150px" placeholder="14-digit or abha@sbx" autocomplete="off" /></span>
+            <span><label class="f">MRN / UHID</label> <input id="pt-uhid" style="width:120px" autocomplete="off" /></span>
+            <span><label class="f">Contact</label> <input id="pt-contact" style="width:120px" autocomplete="off" /></span>
+            <span><label class="f">Patient ID (key)</label> <input id="pt-id" readonly style="width:170px;background:#eef2f7" placeholder="auto" /></span>
+          </div>
+          <div class="note" id="pt-abha-msg"></div>
+          <div class="note">Patient ID key = ABHA (validated) ▸ UHID ▸ a one-way hash of name+DOB. Identity (name/DOB/ABHA/UHID/contact) stays on this device only; exports carry neither the ID nor any identifier.</div>
+          <div id="pt-history-banner"></div>
+        </div></details>
+        <div class="row" style="margin-bottom:10px;flex-wrap:wrap;gap:10px">
+          <label style="flex:0 0 auto">Age</label><input id="ctx-age" type="number" min="18" max="120" style="width:90px" />
+          <label style="flex:0 0 auto">Sex</label><select id="ctx-sex"><option value="">—</option><option value="M">M</option><option value="F">F</option></select>
+          <span id="ctx-preg-wrap" style="display:none"><label style="flex:0 0 auto">Pregnant</label><select id="ctx-preg"><option value="">—</option><option value="NOT_PREGNANT">No</option><option value="PREGNANT">Yes</option></select></span>
+        </div>
+        <div class="row" style="flex-wrap:wrap;gap:8px;margin-bottom:6px">
+          <input id="report-file" type="file" accept=".pdf,.png,.jpg,.jpeg,.tif,.tiff,application/pdf,image/*" capture="environment" style="flex:1;min-width:160px" />
+          <button class="btn-ghost" id="btn-ocr" type="button">Extract from PDF / image (OCR)</button>
+        </div>
+        <div class="note" id="ocr-msg">Upload a PDF / JPEG / PNG CBC report to auto-fill values, then review and Run.</div>
+        <div class="fields" id="core-fields" style="margin-top:12px"></div>
+        <details class="exp" id="exp-diff"><summary>WBC differential</summary><div class="exp-b"><div class="fields" id="diff-fields"></div></div></details>
+        <details class="exp" id="exp-other"><summary>Other parameters (ferritin, TSAT, sTfR, B12, folate, retic, CRP, ESR, HbA2, LDH, renal …)</summary><div class="exp-b"><div class="fields" id="other-fields"></div></div></details>
+        <details class="exp" id="exp-context"><summary>Clinical context (drugs, alcohol, diet, exposures)</summary><div class="exp-b">
+          <div class="row" style="flex-wrap:wrap;gap:14px;align-items:center">
+            <span><label class="f">Altitude (m)</label> <input id="ctx-altitude" type="number" min="0" max="6000" style="width:84px" /></span>
+            <span><label class="f">Alcohol</label> <select id="ctx-alcohol"><option value="">—</option><option value="social">Social</option><option value="chronic_alcohol">Chronic</option><option value="binge">Binge</option><option value="recent_withdrawal">Recent withdrawal</option></select></span>
+            <span><label class="f">Smoking</label> <select id="ctx-smoke"><option value="">—</option><option value="light_1_9_per_day">Light</option><option value="moderate_10_19_per_day">Moderate</option><option value="heavy_20_39_per_day">Heavy</option><option value="very_heavy_40_plus_per_day">Very heavy</option></select></span>
+            <span><label class="f">Diet</label> <select id="ctx-diet"><option value="">Mixed</option><option value="vegetarian">Vegetarian</option><option value="strict_vegetarian">Strict vegetarian</option><option value="phytate_rich">Phytate-rich</option></select></span>
+            <span><label class="f">Inflammation</label> <select id="ctx-inflam"><option value="">—</option><option value="acute_infection">Acute infection</option><option value="chronic_inflammation">Chronic inflammation</option><option value="ckd">CKD</option><option value="liver_context">Liver</option></select></span>
+          </div>
+          <div class="note" style="margin-top:8px">Context / exposures</div>
+          <div class="ckgrid" id="ctx-bools"></div>
+          <div class="note" style="margin-top:8px">Medications</div>
+          <div class="ckgrid" id="ctx-drugs"></div>
+        </div></details>
+        <details class="exp" id="exp-smear"><summary>Peripheral smear findings (clinician-reported)</summary><div class="exp-b">
+          <div class="ckgrid" id="smear-grid"></div>
+          <div class="note">Smear morphology drives routing — schistocytes → TMA, hypersegmented → megaloblastic, smudge → CLL, blasts → urgent.</div>
+        </div></details>
+        <div class="row" style="margin-top:14px;gap:10px">
+          <button class="btn-primary" id="btn-run">Run PATHEX</button>
+          <button class="btn-ghost" id="btn-print" disabled>Print report</button>
+          <span class="spacer"></span>
+          <span class="note" id="run-msg"></span>
+        </div>
+        <div class="note" id="save-msg"></div>
+      </div>
+    </div>
+    <div id="dup-warn" class="hl hl-flags-crit" hidden></div>
+    <div id="panels"></div>
+    <div class="card" id="fb-card" hidden><div class="card-h">Outcome feedback (optional)</div>
+      <div class="card-b">
+        <div class="note">Was this PATHEX suggestion clinically useful? Optional — every analysis is already saved to Report History for quality review.</div>
+        <div class="row" style="gap:8px;margin-top:8px;flex-wrap:wrap">
+          <button class="btn-ghost" id="fb-accept" type="button">✓ Accept</button>
+          <button class="btn-ghost" id="fb-reject" type="button">✗ Reject</button>
+        </div>
+        <textarea id="fb-note" rows="2" placeholder="Optional clinical note (do NOT enter patient names / identifiers)" style="width:100%;margin-top:8px"></textarea>
+        <div class="row" style="gap:8px;margin-top:6px"><button class="btn-primary" id="fb-save" type="button" disabled>Save feedback</button><span class="note" id="fb-msg"></span></div>
+      </div>
+    </div>
+  </section>
+  <section id="view-history" hidden>
+    <div class="card"><div class="card-h">Report History (every analysis · auto-saved · content-hashed)</div>
+      <div class="card-b">
+        <div class="row" style="gap:10px;flex-wrap:wrap;align-items:center">
+          <span><label class="f">Filter by Patient ID</label> <input id="hist-filter" placeholder="ABHA / UHID / PT-…" style="width:170px" /></span>
+          <button class="btn-ghost" id="hist-clearfilter" type="button">Clear</button>
+        </div>
+        <div class="row" style="gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px">
+          <span class="f">De-identified JSON export (no ID/PII; age as band):</span>
+          <button class="btn-ghost" id="exp-all" type="button">Export all</button>
+          <span><label class="f">Month</label> <input id="exp-month" type="month" /></span><button class="btn-ghost" id="exp-month-btn" type="button">Export month</button>
+          <span><label class="f">Year</label> <input id="exp-year" type="number" min="2020" max="2099" placeholder="2026" style="width:80px" /></span><button class="btn-ghost" id="exp-year-btn" type="button">Export year</button>
+          <span class="note" id="exp-msg"></span>
+        </div>
+        <div class="row" style="gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px;border-top:1px solid var(--line-soft);padding-top:8px">
+          <span class="f">Secure local store (at rest):</span>
+          <span id="vault-status" class="note"></span>
+          <input id="vault-pass" type="password" placeholder="vault passphrase" style="width:150px" />
+          <button class="btn-ghost" id="vault-btn" type="button">Set / Unlock</button>
+          <button class="btn-ghost" id="backup-btn" type="button">Backup (encrypted)</button>
+          <input id="restore-file" type="file" accept=".pxbak,application/json" style="width:150px" />
+          <button class="btn-ghost" id="restore-btn" type="button">Restore</button>
+          <span class="note" id="vault-msg"></span>
+        </div>
+        <div id="hist-list" style="margin-top:10px"></div><div class="muted" id="hist-empty">No reports yet.</div>
+      </div>
+    </div>
+    <div class="card" id="hist-detail" hidden>
+      <div class="card-h">Report</div>
+      <div class="card-b">
+        <div id="hist-summary"></div>
+        <div class="note" id="hist-integrity"></div>
+        <div id="hist-feedback" class="note"></div>
+        <div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap">
+          <button class="btn-ghost" id="rep-print">Print report (ID · age · sex)</button>
+          <button class="btn-ghost" id="btn-verify">Verify integrity</button>
+        </div>
+        <details class="exp rx" open style="margin-top:10px"><summary>Doctor's prescription (separate from Report History)</summary><div class="exp-b">
+          <label class="f">Prescriber name</label><input id="rx-doctor" placeholder="Dr. ..." style="width:100%" />
+          <div id="rx-med"></div><div id="rx-next"></div><div id="rx-diet"></div>
+          <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
+            <button class="btn-primary" id="rx-save">Attach prescription</button>
+            <button class="btn-ghost" id="rx-print">Print prescription</button>
+          </div>
+          <div class="note" id="rx-msg"></div>
+        </div></details>
+      </div>
+    </div>
+  </section>
+</main>
+<div id="print-area"></div>
+<footer>Powered by AMEKU · PATHEX is decision support, not a diagnosis · confidence shown as a word-band<br><span style="color:#b45309">Pre-pilot, owner-attested: confirmatory routing is active; medicine and diet are shown as guidance only — verify doses per formulary. Not yet clinically validated.</span><br><span class="note" id="ver-line" style="opacity:.8"></span></footer>
+<script>
+const EMBEDDED_MANIFEST = {
+  active_country:"india", active_tier:"mvp", aesthetic:{theme_token:"pathex-base"},
+  panel_registry:{
+    classification:{title:"Result",source:"engine",binds_to:["states.label","scores.tier","narrative.text"]},
+    flags:{title:"Flags & safety",source:"engine",binds_to:["flags"]},
+    confirmatory_basic:{title:"Recommended confirmatory test",source:"engine",binds_to:["next_actions"]},
+    reasoning_layer:{title:"Why — reasoning",source:"engine",binds_to:["narrative.text"]},
+    confirmatory_route:{title:"Confirmatory route",source:"engine",binds_to:["next_actions","narrative.text"]},
+    management_direction:{title:"Management Suggestion (Suggestion to Clinician)",source:"engine",binds_to:["narrative.text"]},
+    ingested_results:{title:"Added test results",source:"engine",binds_to:["ingested_results"]},
+    re_ranking:{title:"Re-ranked differential",source:"engine",binds_to:["re_ranking"]},
+    handoff:{title:"Scope / handoff",source:"engine",binds_to:["narrative.safety_critical","flags"]},
+    history:{title:"Report history",source:"local",binds_to:[]}
+  },
+  ip_protection:{confidence:"word_band_only"},
+  countries:{
+    india:{country_id:"india",display_name:"India",labels:{app_subtitle:"Adult CBC Decision Support",programme_section_title:"National programmes"},programmes_named:["Anemia Mukt Bharat (AMB)","ICMR / ICMR-NIN","National Health Mission (NHM)"]},
+    africa:{country_id:"africa",display_name:"Africa",labels:{app_subtitle:"Adult CBC Decision Support",programme_section_title:"Regional programmes"},programmes_named:["WHO Regional Office for Africa (WHO-AFRO)"]}
+  },
+  tiers:{
+    mvp:{tier_id:"mvp",display_name:"MVP",panels:["classification","reasoning_layer","confirmatory_route","management_direction","flags","handoff","history"]}
+  }
+};
+const FORBIDDEN=["global_class_id","namespace","modifiers_applied","modifier_id","template_id","events","value","ceiling"];
+const FIELDS=[
+  ["HGB","HGB","g/dL","core"],["RBC","RBC","x10^12/L","core"],["HCT","HCT","%","core"],
+  ["MCV","MCV","fL","core"],["MCH","MCH","pg","core"],["MCHC","MCHC","g/dL","core"],
+  ["RDW_CV","RDW-CV","%","core"],["RDW_SD","RDW-SD","fL","core"],
+  ["WBC","WBC","x10^9/L","core"],["PLT","PLT","x10^9/L","core"],["MPV","MPV","fL","core"],
+  ["NEUT","NEUT","%","diff"],["LYMPH","LYMPH","%","diff"],["MONO","MONO","%","diff"],["EOS","EOS","%","diff"],["BASO","BASO","%","diff"],
+  ["FERRITIN","Ferritin","ng/mL","other"],["TSAT","TSAT","%","other"],["STFR","sTfR","mg/L","other"],
+  ["B12","B12","pg/mL","other"],["FOLATE","Folate","ng/mL","other"],["RETIC","Retic","%","other"],
+  ["CRP","CRP","mg/L","other"],["ESR","ESR","mm/hr","other"],["HBA2","HbA2","%","other"],["LDH","LDH","U/L","other"],
+  ["CREATININE","Creatinine","mg/dL","other"],["eGFR","eGFR","mL/min/1.73m2","other"],["CALCIUM","Calcium","mg/dL","other"],
+  ["TSH","TSH","mIU/L","other"],
+  ["PT_PROLONGATION_SEC","PT prolongation","s","other"],["FIBRINOGEN","Fibrinogen","g/L","other"],
+  ["D_DIMER","D-dimer","mg/L FEU","other"],["APTT","aPTT","s","other"]
+];
+const CTX_BOOLS=[
+  ["CONTEXT_FEBRILE","Fever"],["CONTEXT_SPLENOMEGALY","Splenomegaly"],["CONTEXT_LYMPHADENOPATHY","Lymphadenopathy"],
+  ["CONTEXT_ENDEMIC_AREA","Endemic area (malaria/dengue/kala-azar/HbE)"],["CONTEXT_BAREFOOT_RURAL","Barefoot / rural"],
+  ["CONTEXT_HIV_RISK","HIV risk"],["CONTEXT_TB","Known / suspected TB"],["CONTEXT_BONE_PAIN","Bone pain"],
+  ["CONTEXT_FAMILY_LOW_PLT","Family history low platelets"],["CONTEXT_ARSENIC_EXPOSURE","Arsenic / ayurvedic exposure"],
+  ["CONTEXT_DIC_PREDISPOSING_ILLNESS","DIC-predisposing illness (sepsis/malignancy/trauma/obstetric)"],
+  ["CONTEXT_ENDEMIC_MYCOSIS","Endemic mycosis exposure"],
+  ["CONTEXT_HEPARIN","On heparin"],["CONTEXT_SPLENOMEGALY_UI","Splenomegaly"],
+  ["CONTEXT_CAPILLARY_SAMPLE","Finger-prick / point-of-care sample"],
+  ["CONTEXT_DUFFY_NULL_OR_CONSTITUTIONAL","Known Duffy-null / stable constitutional low ANC"],
+  ["transfusion_recent","Recent transfusion"],["haematinic_therapy_active","Iron/B12 therapy active"],
+  ["lead_exposure","Lead exposure"],["copper_zinc_context","Copper/zinc context"],
+  ["mds_context","MDS / dysplasia context"],["ckd_context","CKD context"],["liver_context","Liver context"],
+  ["acute_febrile_context","Acute febrile"]
+];
+const DRUGS=[
+  ["metformin","Metformin","B12"],["proton_pump_inhibitor","PPI","B12"],["antacid","Antacid","B12"],
+  ["chronic_nsaid","Chronic NSAID","GI"],["methotrexate","Methotrexate","MARROW"],["azathioprine","Azathioprine","MARROW"],
+  ["hydroxyurea","Hydroxyurea","MARROW"],["zidovudine","Zidovudine","MARROW"],["carbimazole","Carbimazole","NEUTRO"],
+  ["methimazole","Methimazole","NEUTRO"],["cotrimoxazole","Cotrimoxazole","NEUTRO"],["chemotherapy","Chemotherapy","MARROW"],
+  ["alcohol_chronic","Chronic alcohol","ALC"],["phenytoin","Phenytoin","B12"],["sulfasalazine","Sulfasalazine","FOLATE"]
+];
+const SMEAR=[
+  ["SMEAR_SCHISTOCYTES","Schistocytes"],["SMEAR_SPHEROCYTES","Spherocytes"],["SMEAR_BITE_CELLS","Bite cells"],
+  ["SMEAR_SICKLE_CELLS","Sickle cells"],["SMEAR_HYPERSEGMENTED","Hypersegmented neutrophils"],
+  ["SMEAR_SMUDGE_CELLS","Smudge cells"],["SMEAR_TEARDROP","Teardrop cells"],["SMEAR_ROULEAUX","Rouleaux"],
+  ["SMEAR_BASOPHILIC_STIPPLING","Basophilic stippling"],["SMEAR_TARGET_CELLS","Target cells"],
+  ["SMEAR_NUCLEATED_RBC","Nucleated RBC"],["SMEAR_BLASTS","Blasts / Auer rods"],
+  ["SMEAR_ATYPICAL_LYMPHOID","Atypical lymphoid cells (not clearly blasts or mature lymphs)"]
+];
+let MANIFEST=null,COUNTRY=null,TIER=null,LAST_SAFE=null;
+const $=id=>document.getElementById(id);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;};
+const humanize=s=>String(s).replace(/_/g," ").replace(/\b\w/g,c=>c.toUpperCase());
+const isDataQuality=x=>/_OUT_OF_DECLARED_BOUNDS$/.test(x);
+const FLAG_WORDS={RBC_NORMAL_OR_LOW:"Red cell count not raised"};
+const flagLabel=x=>FLAG_WORDS[x]||(isDataQuality(x)
+  ? humanize(String(x).replace(/_OUT_OF_DECLARED_BOUNDS$/,""))+" — data quality, not a clinical finding: the value entered is outside the plausible range for this parameter, so it was excluded from the interpretation. Re-check the figure and its unit against the report and re-enter."
+  : FLAG_TEXT[x] || humanize(x));
+const FLAG_TEXT={
+  ISOLATED_RAISED_HCT: "Haematocrit raised, haemoglobin not — the haematocrit is above the sex-specific screening bar (M >49, F >48) while the haemoglobin is within range. This is commonly relative rather than a true rise in red cell mass: dehydration, smoking, altitude and diuretics all raise it. Repeat the count on a well-hydrated sample before investigating further."
+};
+const CLASS_TEXT={
+  HCT_NOT_HIGH: "Haematocrit: not above the erythrocytosis threshold"
+};
+const classLabel=x=>CLASS_TEXT[x] || humanize(x);
+async function getManifest(){try{const r=await fetch("/manifest",{cache:"no-store"});if(r.ok)return await r.json();}catch(e){}return EMBEDDED_MANIFEST;}
+const ALT_UNITS={
+  B12:["pg/mL","ng/L","pmol/L"],
+  FOLATE:["ng/mL","ug/L","nmol/L"],
+  CREATININE:["mg/dL","umol/L"],
+  CALCIUM:["mg/dL","mmol/L"],
+  FERRITIN:["ng/mL","ug/L"],
+  PLT:["x10^9/L","/cumm","/uL","x10^3/uL","thou/cumm"],
+  WBC:["x10^9/L","/cumm","/uL","x10^3/uL","thou/cumm"],
+  MCHC:["g/dL","g/L"],
+  CRP:["mg/L","mg/dL"],
+  FIBRINOGEN:["g/L","mg/dL"],
+  TSH:["mIU/L","uIU/mL"]
+};
+function buildFields(){
+  const map={core:$("core-fields"),diff:$("diff-fields"),other:$("other-fields")};
+  Object.values(map).forEach(m=>m.innerHTML="");
+  FIELDS.forEach(([k,lbl,unit,grp])=>{
+    const row=el("div","row");row.append(el("label",null,lbl));
+    const inp=el("input");inp.type="number";inp.step="any";inp.id="f-"+k;inp.dataset.unit=unit;row.append(inp);
+    if(ALT_UNITS[k]){
+      const sel=el("select");sel.className="unit";sel.id="u-"+k;
+      ALT_UNITS[k].forEach(u=>{const o=el("option",null,u);o.value=u;sel.appendChild(o);});
+      sel.value=unit;
+      sel.onchange=()=>{inp.dataset.unit=sel.value;};
+      row.append(sel);
+    } else {
+      row.append(el("span","unit",unit));
+    }
+    map[grp].appendChild(row);
+  });
+  const mk=(host,key,lbl,attr)=>{const w=el("label","ck");const c=el("input");c.type="checkbox";c.id=attr+"-"+key;w.append(c,document.createTextNode(" "+lbl));host.appendChild(w);};
+  $("ctx-bools").innerHTML="";CTX_BOOLS.forEach(([k,l])=>mk($("ctx-bools"),k,l,"cb"));
+  $("ctx-drugs").innerHTML="";DRUGS.forEach(([k,l])=>mk($("ctx-drugs"),k,l,"dg"));
+  $("smear-grid").innerHTML="";SMEAR.forEach(([k,l])=>mk($("smear-grid"),k,l,"sm"));
+}
+const DRUG_EFFECT={B12:"DRUG_B12_MALABSORPTION",GI:"DRUG_GI_BLOOD_LOSS",MARROW:"DRUG_MARROW_SUPPRESSION"};
+function syncPregVisibility(){
+  const isF=$("ctx-sex").value==="F"||$("ctx-sex").value==="FEMALE";
+  $("ctx-preg-wrap").style.display=isF?"":"none";
+  if(!isF)$("ctx-preg").value="";   // never send a stale PREGNANT after switching to M
+}
+document.addEventListener("DOMContentLoaded",()=>{const e=$("ctx-sex");if(e){e.addEventListener("change",syncPregVisibility);syncPregVisibility();}});
+function readInput(){
+  const params={};
+  FIELDS.forEach(([k])=>{const v=$("f-"+k).value;if(v!=="")params[k]={value:{kind:"Number",value:parseFloat(v)},unit:$("f-"+k).dataset.unit};});
+  const sexMap={M:"MALE",F:"FEMALE",MALE:"MALE",FEMALE:"FEMALE"};   // engine SEX enum = MALE/FEMALE (canonical)
+  const ctx={age:{kind:"Number",value:parseInt($("ctx-age").value||"0",10)},sex:{kind:"Text",value:sexMap[$("ctx-sex").value]||$("ctx-sex").value}};
+  const preg=$("ctx-preg").value; if(preg)ctx.PREGNANCY_STATUS={kind:"Text",value:preg};
+  const alt=$("ctx-altitude").value; if(alt!=="")ctx.ALTITUDE_M={kind:"Number",value:parseFloat(alt)};
+  const setSel=(id,key)=>{const v=$(id).value; if(v)ctx[key]={kind:"Text",value:v};};
+  setSel("ctx-alcohol","CONTEXT_ALCOHOL");setSel("ctx-smoke","CX_SMOKE");setSel("ctx-diet","CTX_DIET_VEGETARIAN");setSel("ctx-inflam","CONTEXT_INFLAMMATION");
+  CTX_BOOLS.forEach(([k])=>{if($("cb-"+k).checked)ctx[k]={kind:"Bool",value:true};});
+  const picked=[];DRUGS.forEach(([k,,eff])=>{if($("dg-"+k).checked){picked.push(k);if(DRUG_EFFECT[eff])ctx[DRUG_EFFECT[eff]]={kind:"Bool",value:true};if(eff==="ALC")ctx.CONTEXT_ALCOHOL={kind:"Text",value:"chronic_alcohol"};}});
+  if(picked.length)ctx.CONTEXT_DRUG={kind:"Text",value:picked.join(",")};
+  SMEAR.forEach(([k])=>{if($("sm-"+k).checked)ctx[k]={kind:"Bool",value:true};});
+  return {parameters:params,context:ctx};
+}
+const scrub=o=>Array.isArray(o)?o.map(scrub):(o&&typeof o==="object"?Object.fromEntries(Object.entries(o).filter(([k])=>!FORBIDDEN.includes(k)).map(([k,v])=>[k,scrub(v)])):o);
+async function boot(){
+  hydrate();                 // load (or lock) the local store before any history use
+  MANIFEST=await getManifest();
+  try{const h=await (await fetch("/health",{cache:"no-store"})).json();
+    $("ver-line").textContent="Engine build "+(h.engine_build_id||"?")+" · bundle "+(h.bundle_id||"?")+" "+(h.bundle_version||"")+" · status "+(h.executable_status||"?")+(h.source_authority_sha256_12?(" · src "+h.source_authority_sha256_12):"");}catch(e){}
+  updateVaultStatus();
+  const sc=$("sel-country");sc.innerHTML="";Object.keys(MANIFEST.countries).forEach(id=>{const o=el("option",null,MANIFEST.countries[id].display_name);o.value=id;sc.appendChild(o);});
+  const st=$("sel-tier");st.innerHTML="";Object.keys(MANIFEST.tiers).forEach(id=>{const o=el("option",null,MANIFEST.tiers[id].display_name);o.value=id;st.appendChild(o);});
+  sc.value=MANIFEST.active_country;st.value=MANIFEST.active_tier;
+  sc.onchange=st.onchange=()=>applySelection(sc.value,st.value);
+  buildFields();applySelection(MANIFEST.active_country,MANIFEST.active_tier);renderHistory();
+  const upd=async()=>{
+    const ab=validateAbha($("pt-abha").value);
+    $("pt-abha-msg").textContent=ab.ok===true?("ABHA valid: "+ab.norm):ab.ok===false?"ABHA format invalid (need 14 digits or handle@sbx/@abdm)":"";
+    $("pt-abha-msg").style.color=ab.ok===false?"#c0392b":"#1a7a3a";
+    const n=$("pt-name").value.trim().toLowerCase().replace(/\s+/g," "),d=$("pt-dob").value.trim();
+    if(n&&d){let salt=localStorage.getItem("pathex:pid_salt");if(!salt){salt=([...crypto.getRandomValues(new Uint8Array(16))].map(x=>x.toString(16).padStart(2,"0")).join(""));localStorage.setItem("pathex:pid_salt",salt);}$("pt-id").value="PT-"+(await sha256Hex(n+"|"+d+"|"+salt)).slice(0,12).toUpperCase();}
+    else $("pt-id").value="";
+    patientBanner();
+  };
+  ["pt-name","pt-dob","pt-abha","pt-uhid"].forEach(i=>{$(i).oninput=upd;});
+}
+function applySelection(country,tier){
+  COUNTRY=MANIFEST.countries[country];TIER=MANIFEST.tiers[tier];
+  const subt=(COUNTRY.labels&&COUNTRY.labels.app_subtitle)||"Adult CBC Decision Support";
+  $("hdr-sub").textContent=subt+" — "+humanize(TIER.display_name);
+  if(LAST_SAFE){renderPanels(LAST_SAFE);renderIndexPanel();renderHighlights(LAST_SAFE);}else $("panels").innerHTML="";
+}
+function applyIngest(j){
+    let n=0; const sus=[];
+    (j.fields||[]).forEach(f=>{const inp=$("f-"+f.canonical_id);if(inp&&typeof f.value==="number"){let v=f.value;if(f.canonical_id==="WBC"&&v>100)v=v/1000;if(f.canonical_id==="PLT"&&v>1000)v=v/1000;inp.value=v;n++;if(f.plausible===false&&!((f.canonical_id==="WBC"||f.canonical_id==="PLT")&&v!==f.value)){sus.push(f.canonical_id);inp.style.background="#fff3cd";}else{inp.style.background="";}}});
+    const p=j.patient||{};let pn=0;
+    if(p.name){$("pt-name").value=p.name;pn++;}
+    if(p.dob){const d=String(p.dob).includes("-")&&p.dob.length===10?p.dob:p.dob.replace(/(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{2,4})/,(m,a,b,c)=>{c=c.length===2?("20"+c):c;return c+"-"+b.padStart(2,"0")+"-"+a.padStart(2,"0");});try{$("pt-dob").value=d;}catch(e){}pn++;}
+    if(p.age){$("ctx-age").value=p.age;pn++;}
+    if(p.sex){$("ctx-sex").value=p.sex;pn++;}
+    if(pn){const u=async()=>{};$("pt-name").dispatchEvent(new Event("input"));}
+    let msg=(n||pn)?("Auto-filled "+n+" lab value(s)"+(pn?(" + "+pn+" patient field(s)"):"")+" — review, then Run."):"No recognisable values found.";
+    if(sus.length)msg+="  ⚠ Check highlighted: "+sus.join(", ")+" (implausible — possible mis-read).";
+    $("ocr-msg").textContent=msg;
+}
+async function runOCR(){
+  const f=$("report-file").files[0]; if(!f){$("ocr-msg").textContent="Choose a PDF/JPEG/PNG first.";return;}
+  $("ocr-msg").textContent="Extracting…";
+  try{
+    const isImg=/^image\//.test(f.type)||/\.(png|jpe?g|tiff?)$/i.test(f.name);
+    const isPdf=/pdf/i.test(f.type)||/\.pdf$/i.test(f.name);
+    const onAndroid=!!(window.PathexAndroid && window.PathexAndroid.available && window.PathexAndroid.available());
+    let body;
+    if(isPdf && onAndroid && window.PathexAndroid.ocrPdf){
+      const first=await fetch("/ingest",{method:"POST",body:await f.arrayBuffer()}).then(r=>r.json()).catch(()=>null);
+      if(first && (first.fields||[]).length){ applyIngest(first); return; }
+      $("ocr-msg").textContent="No text layer — reading the page image…";
+      const durl=await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.onerror=rej;fr.readAsDataURL(f);});
+      const toks=await new Promise(res=>{window.__pxOcrResult=t=>res(t||"");try{window.PathexAndroid.ocrPdf(durl);}catch(e){res("");}setTimeout(()=>res(""),30000);});
+      if(!toks){$("ocr-msg").textContent="Could not read this PDF — photograph the report instead.";return;}
+      body=new TextEncoder().encode(toks);
+      const r2=await fetch("/ingest",{method:"POST",body}); applyIngest(await r2.json()); return;
+    }
+    if(isImg && onAndroid){
+      $("ocr-msg").textContent="On-device OCR…";
+      const dataUrl=await new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>res(fr.result);fr.onerror=rej;fr.readAsDataURL(f);});
+      const text=await new Promise(res=>{window.__pxOcrResult=t=>res(t||"");try{window.PathexAndroid.ocr(dataUrl);}catch(e){res("");}setTimeout(()=>res(""),20000);});
+      if(!text){$("ocr-msg").textContent="On-device OCR found no text — try a clearer, well-lit photo.";return;}
+      body=new TextEncoder().encode(text); // ML Kit returns positioned tokens as JSON when the
+    } else {
+      body=await f.arrayBuffer();
+    }
+    const r=await fetch("/ingest",{method:"POST",body});
+    const j=await r.json();
+    if(!r.ok){$("ocr-msg").textContent=j.error||"Extraction failed.";return;}
+    applyIngest(j);
+  }catch(e){$("ocr-msg").textContent="OCR unavailable: "+e;}
+}
+async function run(){
+  if(!$("ctx-sex").value){
+    $("run-msg").textContent="Select the patient's sex before running \u2014 haemoglobin, haematocrit and red-cell thresholds are all sex-specific.";
+    $("ctx-sex").focus();
+    return;
+  }
+  $("run-msg").textContent="Analyzing…";
+  try{
+    const r=await fetch("/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(readInput())});
+    const j=await r.json();
+    if(!r.ok){$("run-msg").textContent=j.error||"Analysis refused.";LAST_SAFE=null;$("panels").innerHTML="";$("btn-print").disabled=true;$("fb-card").hidden=true;return;}
+    LAST_SAFE=scrub(j);$("run-msg").textContent="";renderPanels(LAST_SAFE);renderIndexPanel();renderHighlights(LAST_SAFE);$("btn-print").disabled=false;
+    await autoSave();showFeedback();
+  }catch(e){$("run-msg").textContent="Local server unreachable. Start the PATHEX app/server.";}
+}
+function renderHighlights(safe){
+  ["hl-conf","hl-flags"].forEach(i=>{const e=$(i);if(e)e.remove();});
+  const host=$("panels");
+  const acts=(safe.next_actions||[]).slice();
+  (safe.narrative||[]).forEach(n=>{const m=/Confirmatory:\s*([^.]*)\./.exec(n.text||"");if(m)m[1].split(/[,;]/).forEach(t=>{t=t.trim();if(t&&!acts.includes(t))acts.push(t);});});
+  const conf=el("div","hl hl-conf");conf.id="hl-conf";
+  conf.appendChild(el("div","hl-h","✚ Confirmatory test"));
+  if(acts.length){const w=el("div");acts.forEach(a=>w.appendChild(el("span","chip conf",humanize(a))));conf.appendChild(w);}
+  else conf.appendChild(el("div","note","See reasoning below for the recommended confirmatory pathway."));
+  const fl=(safe.flags||[]);
+  const crit=fl.some(x=>/CRIT|STAT|DO_NOT|MANDATORY|RESTRAINT|SAFETY/.test(x));
+  const fc=el("div","hl "+(crit?"hl-flags-crit":"hl-flags"));fc.id="hl-flags";
+  fc.appendChild(el("div","hl-h",(crit?"⚠ Flags & safety":"⚑ Flags & safety")));
+  const dq=fl.filter(isDataQuality), clin=fl.filter(x=>!isDataQuality(x));
+  if(clin.length){const w=el("div");clin.forEach(x=>w.appendChild(el("span","chip "+(/CRIT|STAT|DO_NOT|MANDATORY|RESTRAINT|SAFETY/.test(x)?"crit":"warn"),flagLabel(x))));fc.appendChild(w);}
+  else fc.appendChild(el("div","note","No safety flags raised."));
+  dq.forEach(x=>fc.appendChild(el("div","note",flagLabel(x))));
+  host.insertBefore(fc,host.firstChild);
+  host.insertBefore(conf,host.firstChild);
+}
+const LEAN_WORDS={BTT:"Thalassaemia trait",IDA:"Iron deficiency",UNDETERMINED:"Neither"};
+function renderIndexPanel(){
+  const old=$("idx-panel");if(old)old.remove();
+  const ix=LAST_SAFE&&LAST_SAFE.indices;
+  if(!ix)return;
+  if(ix.status==="definitions_unavailable"){
+    const d=el("details","exp");d.id="idx-panel";
+    d.appendChild(el("summary",null,"Discrimination indices — unavailable"));
+    const b=el("div","exp-b");
+    b.appendChild(el("div","note","The index definitions could not be read from the clinical pack, so no discrimination index has been calculated. The analysis above is unaffected."));
+    d.appendChild(b);$("panels").appendChild(d);return;
+  }
+  if(!ix.applicable||!(ix.rows||[]).length)return;
+  const d=el("details","exp");d.id="idx-panel";
+  d.appendChild(el("summary",null,(ix.panel_name||"Discrimination indices")+" — triage only, never confirmation"));
+  const b=el("div","exp-b");
+  const wrap=el("div","idx-wrap");
+  const tbl=el("table","idx-tbl");
+  const COLS=["Index","Value","Cut-off","Which way this index runs","This patient"];
+  const head=el("tr","idx-head");
+  COLS.forEach(h=>head.appendChild(el("th",null,h)));
+  tbl.appendChild(head);
+  const cell=(tr,col,cls,text)=>{const td=el("td",cls,text);td.dataset.h=COLS[col];tr.appendChild(td);return td;};
+  const notes=[];
+  ix.rows.forEach(row=>{
+    const tr=el("tr");
+    cell(tr,0,"idx-name",row.display_name);
+    if(row.status==="ok"){
+      cell(tr,1,null,String(row.magnitude));
+      cell(tr,2,null,row.cutoff!=null?String(row.cutoff):"—");
+      cell(tr,3,"muted",row.direction||"—");
+      const c=cell(tr,4,null,null);
+      c.appendChild(el("div",row.lean==="IDA"?"lean-ida":row.lean==="BTT"?"lean-btt":null,LEAN_WORDS[row.lean]||"—"));
+      if(row.interpretation)c.appendChild(el("div","muted",row.interpretation));
+      if(row.caveat)notes.push(row.display_name+": "+row.caveat);
+    }else{
+      cell(tr,1,null,"—");
+      cell(tr,2,null,"—");
+      cell(tr,3,"muted",row.direction||"—");
+      const c=cell(tr,4,null,null);
+      c.appendChild(el("div","muted","Not available"));
+      if(row.reason)c.appendChild(el("div","muted",row.reason));
+    }
+    tbl.appendChild(tr);
+  });
+  wrap.appendChild(tbl);b.appendChild(wrap);
+  notes.forEach(n=>b.appendChild(el("div","note",n)));
+  if(ix.caveat)b.appendChild(el("div","note",ix.caveat));
+  d.appendChild(b);$("panels").appendChild(d);
+}
+function pData(safe){return{
+  classification:()=>{const w=el("div");(safe.classification||[]).forEach(c=>w.appendChild(el("span","chip",classLabel(c.label))));
+    const b=safe.scores||{};Object.keys(b).forEach(l=>{if(b[l]&&b[l].band){const d=el("div","note");d.innerHTML="Confidence: <span class='band'>"+humanize(b[l].band)+"</span> ("+humanize(l)+")";w.appendChild(d);}});
+    (safe.narrative||[]).filter(n=>!n.safety_critical).slice(0,1).forEach(n=>w.appendChild(el("div","note",n.text)));
+    return (safe.classification&&safe.classification.length)?w:null;},
+  flags:()=>{const f=safe.flags||[];if(!f.length)return null;const w=el("div");
+    f.filter(x=>!isDataQuality(x)).forEach(x=>w.appendChild(el("span","chip "+(/CRIT|STAT|DO_NOT|MANDATORY|RESTRAINT/.test(x)?"crit":"warn"),flagLabel(x))));
+    f.filter(isDataQuality).forEach(x=>w.appendChild(el("div","note",flagLabel(x))));return w;},
+  confirmatory_basic:()=>acts(safe),confirmatory_route:()=>acts(safe),
+  reasoning_layer:()=>whyNarr(safe),management_direction:()=>mgmtNarr(safe),
+  handoff:()=>{const s=(safe.narrative||[]).filter(n=>n.safety_critical);if(!s.length)return null;const w=el("div","safety");s.forEach(n=>w.appendChild(el("div",null,n.text)));return w;},
+  ingested_results:()=>safe.ingested_results?el("pre",null,JSON.stringify(safe.ingested_results,null,2)):null,
+  re_ranking:()=>safe.re_ranking?el("pre",null,JSON.stringify(safe.re_ranking,null,2)):null,
+  history:()=>null
+};}
+const acts=safe=>{const a=safe.next_actions||[];if(!a.length)return null;const w=el("div");a.forEach(x=>w.appendChild(el("span","chip",humanize(x))));return w;};
+const narr=safe=>{const n=(safe.narrative||[]).filter(x=>!x.safety_critical);if(!n.length)return null;const w=el("div");n.forEach(x=>w.appendChild(el("div","note",x.text)));return w;};
+const MGMT_RE=/management (?:suggestion|direction)[:\-]?\s*/i;
+function whyNarr(safe){const out=[];(safe.narrative||[]).filter(x=>!x.safety_critical).forEach(x=>{const t=x.text||"";const i=t.search(MGMT_RE);out.push(i>=0?t.slice(0,i).trim():t);});const txt=out.filter(Boolean);if(!txt.length)return null;const w=el("div");txt.forEach(t=>w.appendChild(el("div","note",t)));return w;}
+function mgmtNarr(safe){const out=[];(safe.narrative||[]).filter(x=>!x.safety_critical).forEach(x=>{const t=x.text||"";const i=t.search(MGMT_RE);if(i>=0){const a=t.slice(i).replace(MGMT_RE,"").trim();if(a)out.push("Management suggestion: "+a);}});if(!out.length)return null;const w=el("div");out.forEach(t=>w.appendChild(el("div","note",t)));return w;}
+function renderPanels(safe){
+  const host=$("panels");host.innerHTML="";const reg=MANIFEST.panel_registry;const data=pData(safe);let first=true;
+  TIER.panels.forEach(pid=>{
+    if(pid==="history")return;const meta=reg[pid];if(!meta)return;
+    const body=data[pid]?data[pid]():null;if(body==null)return;            // unfed panel -> not rendered
+    const d=el("details","exp");if(first){d.open=true;first=false;}         // tap-to-expand; first open
+    const s=el("summary",null,meta.title);d.append(s);const b=el("div","exp-b");b.append(body);d.append(b);host.appendChild(d);
+  });
+  if(COUNTRY.programmes_named){const d=el("details","exp");const s=el("summary",null,(COUNTRY.labels&&COUNTRY.labels.programme_section_title)||"Programmes");d.append(s);const b=el("div","exp-b");COUNTRY.programmes_named.forEach(x=>b.appendChild(el("span","chip",x)));d.append(b);host.appendChild(d);}
+}
+const HKEY="pathex.history.v3";     // analysis records: input + output + demographics + feedback
+const PKEY="pathex.patients.v1";    // patient registry pid->{name,abha,uhid} (LOCAL ONLY; never exported)
+const VMETA="pathex.vault.meta";    // {salt,kdf,cipher} if at-rest encryption is enabled
+let HIST=[], PTS={}, VKEY=null, VAULT_ON=false, LOCKED=false;
+const loadHist=()=>HIST;
+const loadPts=()=>PTS;
+async function deriveKey(pass,saltB64){const salt=Uint8Array.from(atob(saltB64),c=>c.charCodeAt(0));const km=await crypto.subtle.importKey("raw",new TextEncoder().encode(pass),"PBKDF2",false,["deriveKey"]);return crypto.subtle.deriveKey({name:"PBKDF2",salt,iterations:210000,hash:"SHA-256"},km,{name:"AES-GCM",length:256},false,["encrypt","decrypt"]);}
+async function encJSON(key,obj){const iv=crypto.getRandomValues(new Uint8Array(12));const ct=new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(JSON.stringify(obj))));const out=new Uint8Array(iv.length+ct.length);out.set(iv);out.set(ct,iv.length);return btoa(String.fromCharCode(...out));}
+async function decJSON(key,b64){const raw=Uint8Array.from(atob(b64),c=>c.charCodeAt(0));const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv:raw.slice(0,12)},key,raw.slice(12));return JSON.parse(new TextDecoder().decode(pt));}
+async function persist(){
+  if(VAULT_ON&&VKEY){localStorage.setItem(HKEY,JSON.stringify({enc:1,blob:await encJSON(VKEY,HIST)}));localStorage.setItem(PKEY,JSON.stringify({enc:1,blob:await encJSON(VKEY,PTS)}));}
+  else{localStorage.setItem(HKEY,JSON.stringify(HIST));localStorage.setItem(PKEY,JSON.stringify(PTS));}
+}
+const saveHist=a=>{HIST=a;persist();};
+const savePts=()=>{persist();};
+function hydrate(){
+  VAULT_ON=!!JSON.parse(localStorage.getItem(VMETA)||"null");
+  const h=JSON.parse(localStorage.getItem(HKEY)||"null"), p=JSON.parse(localStorage.getItem(PKEY)||"null");
+  if(VAULT_ON){LOCKED=true;HIST=[];PTS={};return;}      // encrypted -> wait for unlock
+  HIST=Array.isArray(h)?h:[]; PTS=(p&&!p.enc&&typeof p==="object")?p:{};
+}
+async function vaultUnlock(pass){
+  const meta=JSON.parse(localStorage.getItem(VMETA)||"null"); if(!meta)return false;
+  try{const key=await deriveKey(pass,meta.salt);const h=JSON.parse(localStorage.getItem(HKEY)||"null"),p=JSON.parse(localStorage.getItem(PKEY)||"null");
+    HIST=(h&&h.enc)?await decJSON(key,h.blob):[]; PTS=(p&&p.enc)?await decJSON(key,p.blob):{}; VKEY=key;LOCKED=false;return true;}catch(e){return false;}
+}
+async function vaultEnable(pass){
+  const salt=btoa(String.fromCharCode(...crypto.getRandomValues(new Uint8Array(16))));
+  VKEY=await deriveKey(pass,salt);VAULT_ON=true;LOCKED=false;
+  localStorage.setItem(VMETA,JSON.stringify({salt,kdf:"PBKDF2-210k-SHA256",cipher:"AES-256-GCM",set:new Date().toISOString().slice(0,7)}));
+  await persist();
+}
+async function sha256Hex(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");}
+const ageBand=a=>{a=parseInt(a||0,10);if(!a)return"unknown";const lo=Math.floor(a/10)*10;return lo+"-"+(lo+9);};
+const redactNote=s=>String(s||"").replace(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi,"[redacted]").replace(/\b\d[\d .-]{7,}\d\b/g,"[redacted]").replace(/\b\d{4}-\d{2}-\d{2}\b/g,"[redacted date]");
+let CUR_RID=null;       // rid of the auto-saved record for the current analysis (for feedback/print)
+function validateAbha(v){v=v.trim();if(!v)return{ok:null};const digits=v.replace(/[\s-]/g,"");if(/^\d{14}$/.test(digits))return{ok:true,norm:digits.replace(/(\d{2})(\d{4})(\d{4})(\d{4})/,"$1-$2-$3-$4")};if(/^[a-zA-Z0-9._]{3,}@(sbx|abdm)$/.test(v))return{ok:true,norm:v.toLowerCase()};return{ok:false};}
+function patientKey(){const ab=validateAbha($("pt-abha").value);if(ab.ok)return ab.norm;const u=$("pt-uhid").value.trim();if(u)return u;return $("pt-id").value.trim();}
+function safeOutput(safe){return{classification:(safe.classification||[]).map(x=>({label:x.label})),scores:Object.fromEntries(Object.entries(safe.scores||{}).map(([k,v])=>[k,{band:v&&v.band}])),narrative:(safe.narrative||[]).map(n=>({text:n.text,safety_critical:!!n.safety_critical})),next_actions:safe.next_actions||[],flags:safe.flags||[],indices:safe.indices||null};}
+async function autoSave(){
+  if(!LAST_SAFE)return;const key=patientKey();
+  const rec={rid:"rec-"+(await sha256Hex(Date.now()+":"+Math.random())).slice(0,12),ts:Date.now(),date_coarse:new Date().toISOString().slice(0,7),
+    pid:key||null,demo:{age:parseInt($("ctx-age").value||"0",10)||null,sex:$("ctx-sex").value},
+    input:readInput(),output:safeOutput(LAST_SAFE),feedback:null,prescription:null};
+  rec.content_hash=await sha256Hex(JSON.stringify({pid:rec.pid,input:rec.input,output:rec.output}));
+  const all=loadHist();const dup=all.find(r=>r.content_hash===rec.content_hash);
+  if(dup){$("dup-warn").hidden=false;$("dup-warn").innerHTML="<div class='hl-h'>⚠ Duplicate report</div>This identical report is already in the local database (first recorded "+dup.date_coarse+"). Not saved again.";CUR_RID=dup.rid;$("save-msg").textContent="";return;}
+  $("dup-warn").hidden=true;all.push(rec);saveHist(all);CUR_RID=rec.rid;
+  if(key){PTS[key]={name:$("pt-name").value.trim()||undefined,abha:$("pt-abha").value.trim()||undefined,uhid:$("pt-uhid").value.trim()||undefined,last:rec.date_coarse};savePts();}
+  $("save-msg").textContent="Saved to Report History (#"+rec.rid.slice(4)+" · hash "+rec.content_hash.slice(0,10)+"…).";patientBanner();
+}
+function patientBanner(){const key=patientKey();const b=$("pt-history-banner");b.innerHTML="";if(!key)return;
+  const prior=loadHist().filter(r=>r.pid===key);if(!prior.length)return;
+  const d=el("div","hl hl-conf");d.style.marginTop="8px";d.innerHTML="<div class='hl-h'>ℹ Returning patient</div>"+prior.length+" previous report(s) on file for this patient ID.";
+  const btn=el("button","btn-ghost","View patient history");btn.type="button";btn.onclick=()=>{$("hist-filter").value=key;goHistory();};d.appendChild(btn);b.appendChild(d);}
+let FB_VERDICT=null;
+function showFeedback(){FB_VERDICT=null;$("fb-card").hidden=false;$("fb-note").value="";$("fb-msg").textContent="";$("fb-save").disabled=true;["fb-accept","fb-reject"].forEach(i=>$(i).classList.remove("active"));}
+function pickVerdict(v){FB_VERDICT=v;$("fb-accept").classList.toggle("active",v==="ACCEPT");$("fb-reject").classList.toggle("active",v==="REJECT");$("fb-save").disabled=false;}
+async function saveFeedback(){if(!CUR_RID||!FB_VERDICT){return;}const all=loadHist();const r=all.find(x=>x.rid===CUR_RID);if(!r){$("fb-msg").textContent="(duplicate report — feedback already on the original)";return;}r.feedback={verdict:FB_VERDICT,note:redactNote($("fb-note").value.trim())||undefined,at:new Date().toISOString().slice(0,7)};saveHist(all);$("fb-msg").textContent="Feedback saved ("+FB_VERDICT+"). Thank you.";}
+function goHistory(){$("view-analyze").hidden=true;$("view-history").hidden=false;$("tab-analyze").ariaSelected="false";$("tab-history").ariaSelected="true";renderHistory();}
+function updateVaultStatus(){const s=$("vault-status");if(!s)return;
+  if(VAULT_ON&&LOCKED){s.textContent="🔒 encrypted — locked";s.style.color="#c0392b";}
+  else if(VAULT_ON){s.textContent="🔓 encrypted — unlocked (AES-256-GCM)";s.style.color="#1a7a3a";}
+  else{s.textContent="⚠ NOT encrypted at rest — set a passphrase, or rely on OS full-disk encryption";s.style.color="#b45309";}}
+async function vaultAction(){const p=$("vault-pass").value;if(!p){$("vault-msg").textContent="Enter a passphrase.";return;}
+  try{ if(VAULT_ON&&LOCKED){ if(await vaultUnlock(p)){$("vault-msg").textContent="Unlocked.";} else {$("vault-msg").textContent="Wrong passphrase.";} }
+    else if(VAULT_ON){ $("vault-msg").textContent="Already unlocked."; }
+    else { await vaultEnable(p); $("vault-msg").textContent="Encryption enabled — history is now AES-256-GCM at rest."; } }
+  catch(e){$("vault-msg").textContent="Vault error: "+e;}
+  $("vault-pass").value="";updateVaultStatus();renderHistory();}
+function backupStore(){ // full encrypted backup of the raw stored blobs (safe to copy off-box)
+  const bak={kind:"PATHEX_LOCAL_BACKUP",at:new Date().toISOString().slice(0,7),vault_meta:localStorage.getItem(VMETA),history:localStorage.getItem(HKEY),patients:localStorage.getItem(PKEY)};
+  const blob=new Blob([JSON.stringify(bak,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="pathex_backup_"+bak.at+".pxbak";a.click();
+  $("vault-msg").textContent="Backup downloaded ("+(VAULT_ON?"encrypted":"PLAINTEXT — enable the vault first for a safe copy")+").";}
+async function restoreStore(){const f=$("restore-file").files[0];if(!f){$("vault-msg").textContent="Choose a .pxbak file.";return;}
+  try{const b=JSON.parse(await f.text());if(b.kind!=="PATHEX_LOCAL_BACKUP")throw "not a PATHEX backup";
+    if(b.vault_meta)localStorage.setItem(VMETA,b.vault_meta);else localStorage.removeItem(VMETA);
+    if(b.history)localStorage.setItem(HKEY,b.history);if(b.patients)localStorage.setItem(PKEY,b.patients);
+    VKEY=null;hydrate();updateVaultStatus();renderHistory();
+    $("vault-msg").textContent=VAULT_ON?"Restored — unlock with the vault passphrase to view.":"Restored.";}
+  catch(e){$("vault-msg").textContent="Restore failed: "+e;}}
+function renderHistory(){
+  if(VAULT_ON&&LOCKED){const list=$("hist-list");if(list)list.innerHTML="<div class='note'>🔒 Local store is encrypted — enter the vault passphrase above and press Set / Unlock to view history.</div>";$("hist-empty").hidden=true;return;}
+  const f=$("hist-filter").value.trim().toLowerCase();let all=loadHist().slice().reverse();if(f)all=all.filter(r=>(r.pid||"").toLowerCase().includes(f));
+  const list=$("hist-list");list.innerHTML="";$("hist-empty").hidden=loadHist().length>0;
+  all.forEach(rec=>{const it=el("div","hist-item");
+    const outKey=Object.keys(rec.output.scores||{})[0];
+    const lead=(outKey&&humanize(outKey))||(rec.output.classification[0]&&classLabel(rec.output.classification[0].label))||"Report";const fb=rec.feedback?(" · "+rec.feedback.verdict):"";
+    it.innerHTML="<b>"+lead+"</b> <span class='pill'>"+(rec.pid||"no-id")+" · "+rec.date_coarse+fb+"</span>";it.onclick=()=>showRecord(rec.rid);list.appendChild(it);});}
+function showRecord(rid){const rec=loadHist().find(r=>r.rid===rid);if(!rec)return;$("hist-detail").hidden=false;$("hist-detail").dataset.rid=rid;
+  const s=$("hist-summary");s.innerHTML="";
+  s.appendChild(el("div",null,"Patient ID: "+(rec.pid||"—")+"   ·   Age "+(rec.demo.age||"—")+"   ·   "+(rec.demo.sex||"—")+"   ·   "+rec.date_coarse));
+  s.appendChild(el("div",null,"Result: "+rec.output.classification.map(c=>humanize(c.label)).join(", ")));
+  s.appendChild(el("div","note","Recommended: "+(rec.output.next_actions.map(humanize).join(", ")||"see reasoning")));
+  $("hist-integrity").textContent="Integrity (SHA-256): "+rec.content_hash;
+  $("hist-feedback").textContent=rec.feedback?("Doctor feedback: "+rec.feedback.verdict+(rec.feedback.note?(" — "+rec.feedback.note):"")):"Doctor feedback: (none recorded)";
+  buildRx(rec);}
+function rxField(host,title,suggArr,key){host.innerHTML="";const sugg=(suggArr||[]).map(humanize).join("; ");host.appendChild(el("label","f",title));if(sugg){const d=el("div","sugg");d.textContent="Our suggestion: "+sugg;host.appendChild(d);const b=el("button","btn-ghost","Use suggestion");b.type="button";b.onclick=()=>{host.querySelector("textarea").value=sugg;};host.appendChild(b);}const ta=el("textarea");ta.rows=2;ta.placeholder="Doctor's "+title.toLowerCase();ta.dataset.key=key;host.appendChild(ta);}
+function buildRx(rec){const mgmt=(rec.output.narrative||[]).filter(n=>!n.safety_critical).map(n=>n.text);rxField($("rx-med"),"Medication",mgmt,"medication");rxField($("rx-next"),"Next test",rec.output.next_actions,"next_test");rxField($("rx-diet"),"Dietary suggestion",mgmt.filter(t=>/diet|food|iron-rich|vegetarian/i.test(t)),"diet");if(rec.prescription){$("rx-doctor").value=rec.prescription.prescriber||"";}}
+const getRx=k=>{const ta=document.querySelector('#hist-detail textarea[data-key="'+k+'"]');return ta?ta.value.trim():"";};
+async function attachRx(){const rid=$("hist-detail").dataset.rid;const all=loadHist();const rec=all.find(r=>r.rid===rid);if(!rec)return;rec.prescription={prescriber:$("rx-doctor").value.trim(),medication:getRx("medication"),next_test:getRx("next_test"),diet:getRx("diet"),attached_at:new Date().toISOString().slice(0,7)};saveHist(all);$("rx-msg").textContent="Prescription attached to this report (separate from Report-History feedback).";}
+async function verifyIntegrity(){const rid=$("hist-detail").dataset.rid;const rec=loadHist().find(r=>r.rid===rid);if(!rec)return;const re=await sha256Hex(JSON.stringify({pid:rec.pid,input:rec.input,output:rec.output}));$("rx-msg").textContent=re===rec.content_hash?"Integrity OK — analysis content unchanged.":"Integrity MISMATCH — record altered.";}
+function deidRecord(r){
+  const input=JSON.parse(JSON.stringify(r.input||{}));
+  if(input.context){ if(input.context.age){input.context.age={kind:"Text",value:ageBand(r.demo.age)};} }
+  return{rid:r.rid,date_coarse:r.date_coarse,sex:r.demo.sex||null,age_band:ageBand(r.demo.age),input,output:r.output,feedback:r.feedback||null,prescription_present:!!r.prescription};
+}
+function exportScope(records,label){
+  const data={export_kind:"PATHEX_DEIDENTIFIED_REPORT_HISTORY",scope:label,generated_coarse:new Date().toISOString().slice(0,7),count:records.length,
+    note:"De-identified for PATHEX quality/reliability review. Contains NO patient ID, name, DOB, ABHA, UHID or contact; age is a band. Input parameters + full output + sex + age-band + doctor feedback only.",records:records.map(deidRecord)};
+  const s=JSON.stringify(data,null,2);
+  const pids=records.map(r=>r.pid).filter(Boolean);
+  const leak=/"name"|"dob"|"abha"|"uhid"|"mrn"|"contact"|PT-[0-9A-F]{12}/i.test(s)||pids.some(p=>p&&s.includes(p));
+  if(leak){$("exp-msg").textContent="Export aborted: identifier detected (safety guard).";return;}
+  const blob=new Blob([s],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="pathex_history_"+label+".json";a.click();
+  $("exp-msg").textContent="Exported "+records.length+" record(s) — "+label+" (de-identified).";}
+function exportAll(){exportScope(loadHist(),"all");}
+function exportMonth(){const m=$("exp-month").value;if(!m){$("exp-msg").textContent="Pick a month.";return;}exportScope(loadHist().filter(r=>r.date_coarse===m),m);}
+function exportYear(){const y=$("exp-year").value;if(!y){$("exp-msg").textContent="Pick a year.";return;}exportScope(loadHist().filter(r=>(r.date_coarse||"").startsWith(y)),y);}
+function chips(arr){return (arr||[]).map(classLabel).map(x=>"<span class='pchip'>"+x+"</span>").join(" ");}
+function esc(s){return String(s==null?"":s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));}
+const RX_CLAUSE=/(confirmatory|management (?:suggestion|direction)|dietary)\s*[:\-]\s*/ig;
+function splitClauses(text){
+  const out={basis:"",confirmatory:"",management:"",dietary:""};
+  const t=String(text||"").trim(); if(!t)return out;
+  const marks=[]; let m; RX_CLAUSE.lastIndex=0;
+  while((m=RX_CLAUSE.exec(t))!==null) marks.push({key:m[1].toLowerCase(),from:m.index,to:m.index+m[0].length});
+  out.basis=(marks.length?t.slice(0,marks[0].from):t).trim();
+  marks.forEach((mk,i)=>{
+    const body=t.slice(mk.to,(i+1<marks.length)?marks[i+1].from:t.length).trim();
+    if(!body)return;
+    const k=mk.key.startsWith("management")?"management":(mk.key==="dietary"?"dietary":"confirmatory");
+    out[k]=out[k]?(out[k]+" "+body):body;
+  });
+  return out;
+}
+function medRows(management){
+  const t=String(management||"").trim(); if(!t)return [];
+  const first=t.split(/(?<=\.)\s+/)[0]||t;
+  const m=/^([^—–]+)[—–]([^—–]+)[—–]/.exec(first);
+  if(m){
+    const cls=m[1].trim().replace(/[:,]$/,"");
+    const agents=m[2].split(/,| or /i).map(s=>s.replace(/^\s*(a|an)\s+/i,"").trim()).filter(Boolean);
+    if(agents.length) return agents.map(a=>cls.charAt(0).toUpperCase()+cls.slice(1)+" — "+a);
+  }
+  const f=first.replace(/\s+$/,"").replace(/\.$/,"");
+  return f?[f.charAt(0).toUpperCase()+f.slice(1)]:[];
+}
+function dietCols(dietary){
+  const t=String(dietary||"");
+  const grab=re=>{const m=re.exec(t);return m?m[1].split(/,| and | or /i).map(s=>s.trim()).filter(Boolean):[];};
+  const nonveg=grab(/ha?em iron\s*\(([^)]+)\)/i);
+  const veg=grab(/vegetarian sources\s*\(([^)]+)\)/i);
+  let avoid=grab(/keep\s+([^.]*?)\s+away/i);
+  if(!avoid.length)avoid=grab(/avoid\s+([^.]*?)(?:\s+with|\.|$)/i);
+  return {nonveg,veg,avoid};
+}
+function buildPrint(pid,age,sex,safe,prescriber){
+  const narr=safe.narrative||[];
+  const alerts=narr.filter(n=>n.safety_critical).map(n=>n.text).filter(Boolean);
+  const parts=narr.filter(n=>!n.safety_critical).map(n=>splitClauses(n.text));
+  const join=k=>parts.map(p=>p[k]).filter(Boolean).join(" ");
+  const basis=join("basis"), management=join("management"), dietary=join("dietary");
+  const acts=(safe.next_actions||[]).map(humanize);
+  const confNote=join("confirmatory");
+  const sec=(title,body)=>body?("<div class='pr-s'>"+title+"</div>"+body):"";
+  const cap=t=>{t=String(t||"").trim();return t?t.charAt(0).toUpperCase()+t.slice(1):t;};
+  const para=t=>"<p class='pr-p'>"+esc(cap(t))+"</p>";
+  const today=new Date().toISOString().slice(0,10);
+  $("print-area").innerHTML=
+    "<div class='pr-h'>PATHEX — Adult CBC Decision Support (MVP)</div>"+
+    "<div class='pr-id'><b>Patient ID:</b> "+esc(pid||"—")+" &nbsp; <b>Age:</b> "+esc(age||"—")+
+      " &nbsp; <b>Sex:</b> "+esc(sex||"—")+" &nbsp; <b>Date:</b> "+today+"</div>"+
+    alerts.map(a=>"<div class='pr-alert'><b>SAFETY — READ BEFORE ACTING</b><br>"+esc(a)+"</div>").join("")+
+    sec("Findings","<div>"+(chips((safe.classification||[]).map(c=>c.label))||"—")+"</div>")+
+    ((safe.flags||[]).length
+      ? sec("Flags and data quality","<div>"+(safe.flags||[]).map(x=>"<div>"+esc(flagLabel(x))+"</div>").join("")+"</div>")
+      : "")+
+    sec("Investigations to confirm",
+        acts.length
+          ? "<ol class='pr-list'>"+acts.map(a=>"<li>"+esc(a)+"</li>").join("")+"</ol>"
+          : para("None required from this result alone."))+
+    sec("Medication advice", (()=>{ const rows=medRows(management);
+        return "<table class='pr-t'><tr><th style='width:52%'>Medicine</th>"+
+               "<th>Dose &middot; Frequency &middot; Duration</th></tr>"+
+               (rows.length?rows:["—"]).map(r=>"<tr><td>"+esc(r)+"</td><td class='pr-fill'></td></tr>").join("")+
+               "</table><div class='pr-hint'>Dose, frequency and duration to be completed by the prescriber per formulary.</div>";})())+
+    (dietary?sec("Dietary advice", (()=>{ const d=dietCols(dietary);
+        const col=a=>a.length?a.map(x=>esc(x)).join("<br>"):"—";
+        return "<table class='pr-t'><tr><th>Non-vegetarian</th><th>Vegetarian</th>"+
+               "<th>Avoid with iron meals</th></tr><tr>"+
+               "<td>"+col(d.nonveg)+"</td><td>"+col(d.veg)+"</td><td>"+col(d.avoid)+"</td></tr></table>";})()):"")+
+    "<div class='pr-sign'>"+
+      "<div>Prescriber: "+esc(prescriber||"")+"</div>"+
+      "<div>Signature</div>"+
+      "<div>Registration no.</div>"+
+    "</div>"+
+    "<div class='pr-f'>This sheet is decision support, not a diagnosis, and does not replace the "+
+      "treating clinician's judgement. Medicines are named as classes only — verify every drug, "+
+      "dose, route and duration against your formulary before prescribing. Confidence is shown as "+
+      "a word-band, never as a number.</div>";
+  window.print();
+}
+function printCurrent(){if(!LAST_SAFE)return;buildPrint(patientKey(),$("ctx-age").value,$("ctx-sex").value,LAST_SAFE,"");}
+function printRecord(){const rid=$("hist-detail").dataset.rid;const rec=loadHist().find(r=>r.rid===rid);if(!rec)return;buildPrint(rec.pid,rec.demo.age,rec.demo.sex,rec.output,rec.prescription&&rec.prescription.prescriber);}
+$("btn-run").onclick=run;$("btn-ocr").onclick=runOCR;$("btn-print").onclick=printCurrent;
+$("fb-accept").onclick=()=>pickVerdict("ACCEPT");$("fb-reject").onclick=()=>pickVerdict("REJECT");$("fb-save").onclick=saveFeedback;
+$("rx-save").onclick=attachRx;$("rep-print").onclick=printRecord;$("rx-print").onclick=printRecord;$("btn-verify").onclick=verifyIntegrity;
+$("exp-all").onclick=exportAll;$("exp-month-btn").onclick=exportMonth;$("exp-year-btn").onclick=exportYear;
+$("vault-btn").onclick=vaultAction;$("backup-btn").onclick=backupStore;$("restore-btn").onclick=restoreStore;
+$("hist-filter").oninput=renderHistory;$("hist-clearfilter").onclick=()=>{$("hist-filter").value="";renderHistory();};
+$("tab-analyze").onclick=()=>{$("view-analyze").hidden=false;$("view-history").hidden=true;$("tab-analyze").ariaSelected="true";$("tab-history").ariaSelected="false";};
+$("tab-history").onclick=goHistory;
+boot();
+</script>
+<script>(function(){
+  var SIM=window.__PATHEX_SIM__, id=window.__PATHEX_SIM_CASE__(), rec=SIM.cases[id];
+  var bar=document.createElement("div"); bar.id="sim-bar";
+  var opts=Object.keys(SIM.cases).map(function(k){var c=SIM.cases[k];return '<option value="'+k+'"'+(k===id?" selected":"")+'>'+k+' · '+c.title+'</option>';}).join("");
+  bar.innerHTML='<div class="sim-in"><b>Web simulation</b><span>The real PATHEX interface, replaying responses recorded from the real engine for synthetic cases. Nothing is computed in your browser, inputs are locked, and no data leaves this page.</span>'+
+    '<label>Case <select id="sim-case">'+opts+'</select></label><a href="../">Back to the project page</a></div>';
+  document.body.insertBefore(bar,document.body.firstChild);
+  document.getElementById("sim-case").addEventListener("change",function(e){ location.search="?case="+e.target.value; });
+  function set(i,v){var e=document.getElementById(i); if(!e) return; e.value=v; e.dispatchEvent(new Event("input",{bubbles:true})); e.dispatchEvent(new Event("change",{bubbles:true}));}
+  function fill(){
+    var p=rec.request.parameters, c=rec.request.context;
+    set("pt-name","SYNTHETIC DEMO"); set("pt-uhid","SYN-00"+id);
+    document.querySelectorAll("details").forEach(function(d){d.open=true;});
+    Object.keys(p).forEach(function(k){ set("f-"+k,p[k].value.value); var u=document.getElementById("u-"+k); });
+    if(c.age) set("ctx-age",c.age.value);
+    if(c.sex) set("ctx-sex",c.sex.value==="FEMALE"?"F":"M");
+    if(c.PREGNANCY_STATUS) set("ctx-preg",c.PREGNANCY_STATUS.value);
+    Object.keys(c).forEach(function(k){ ["cb-","sm-","dg-"].forEach(function(pre){ var e=document.getElementById(pre+k); if(e){e.checked=true; e.dispatchEvent(new Event("change",{bubbles:true}));} }); });
+    document.querySelectorAll('[id^="f-"],[id^="ctx-"],[id^="cb-"],[id^="sm-"],[id^="dg-"],[id^="pt-"],select[id^="u"],#report-file,#btn-ocr').forEach(function(e){
+      if(e.tagName==="INPUT" && e.type!=="checkbox" && e.type!=="file") e.readOnly=true; else e.disabled=true; e.classList.add("sim-locked"); });
+    var m=document.getElementById("ocr-msg"); if(m) m.textContent="Report upload and OCR run in the desktop application only. This case was entered for you: press Run PATHEX.";
+  }
+  if(document.readyState==="complete") setTimeout(fill,60); else window.addEventListener("load",function(){setTimeout(fill,60);});
+})();
+</script>
+</body>
+</html>

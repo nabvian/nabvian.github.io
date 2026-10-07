@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PATHEX — explainable decision support for the adult blood count</title>
+<meta name="description" content="A deterministic, offline, source-cited decision-support prototype for the adult complete blood count, built for low- and middle-income settings. Research prototype; not clinically validated; code private.">
+<meta property="og:title" content="PATHEX — explainable decision support for the adult blood count">
+<meta property="og:description" content="93 structured inputs, 115 outcomes, 51 confirmatory tests, every one with its reasoning. Research prototype in clinical refinement; not validated.">
+<meta property="og:image" content="https://nabvian.github.io/img/pathex-light.jpg">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../showcase.css">
+<style>
+  :root { --brand: #1d4f7d; --brand-soft: #e4eef7; --on-brand: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand: #8cc0ea; --brand-soft: #13283a; --on-brand: #08192a; } }
+  :root[data-theme="dark"] { --brand: #8cc0ea; --brand-soft: #13283a; --on-brand: #08192a; }
+  .brand i { background: url(logo.svg) center / cover no-repeat; }
+  .hero-logo { width: 72px; height: 72px; border-radius: 16px; margin-bottom: 14px; display: block; }
+  .prototype { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+  .prototype div { border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--line)); background: var(--warn-soft); border-radius: 10px; padding: 12px 14px; }
+  .prototype b { display: block; color: var(--warn); font-size: 14.5px; }
+  .prototype span { font-size: 13px; color: var(--text-secondary); }
+  .chain { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 12px; font-size: 13.5px; }
+  .chain span { padding: 4px 10px; border-radius: 99px; background: var(--surface-1); border: 1px solid var(--line); color: var(--text-secondary); }
+  .chain span.k { background: var(--brand-soft); color: var(--brand); border-color: transparent; font-weight: 650; }
+  .chain b { color: var(--text-muted); font-weight: 700; }
+  ul.tags { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+  ul.tags li { font-size: 13px; padding: 3px 9px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); color: var(--text-secondary); }
+  .incard h3 { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .incard h3 .n, .outgrp summary span, .kind .n { font-variant-numeric: tabular-nums; color: var(--brand); font-weight: 760; }
+  .kind .n { font-size: clamp(30px, 4vw, 42px); letter-spacing: -0.02em; line-height: 1.05; display: block; }
+  .outgrp { border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; background: var(--surface-1); margin-bottom: 8px; }
+  .outgrp summary { cursor: pointer; display: flex; justify-content: space-between; gap: 10px; }
+  .e2e td small { display: block; color: var(--text-muted); font-size: 12px; }
+  .impact-num { font-size: clamp(32px, 5vw, 48px); font-weight: 780; letter-spacing: -0.03em; line-height: 1.05; color: var(--brand); }
+  .sources li { margin-bottom: 6px; font-size: 13.5px; }
+  .road.done { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+  .road.done::before { content: "✓"; color: var(--good); }
+  .road.now { border-color: color-mix(in srgb, var(--warn) 55%, var(--line)); }
+  .demo-cta { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
+  @media (max-width: 860px) { .prototype { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice-bar" role="note"><strong>Research prototype.</strong> Not clinically validated, not clinically signed off, and not a medical device. Never used on a patient. All cases shown are synthetic. The source code and knowledge base are private.</div>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>PATHEX</a>
+    <nav aria-label="Sections">
+      <a href="#inputs">Inputs</a>
+      <a href="#outputs">Outputs</a>
+      <a href="#demo">Try it</a>
+      <a href="#roadmap">Future scope</a>
+      <a href="#impact">Who it helps</a>
+      <a href="/">All projects</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="hero-logo" src="logo.svg" alt="PATHEX logo" width="72" height="72">
+    <div class="chips"><span class="chip brand">Clinical decision support · haematology</span><span class="chip">Deterministic · offline</span><span class="chip">Built for low- and middle-income settings</span><span class="chip">Code private · showcase</span></div>
+    <h1>The blood count raises a suspicion. PATHEX names the test that settles it.</h1>
+    <p class="lede">PATHEX reads an adult complete blood count, together with whatever other results and clinical context the clinician has, and returns a ranked suspicion, its confidence, the confirmatory test to order next, and the reasoning in plain language. It runs entirely on the clinician's own computer, needs no internet, and sends no patient data anywhere. It is rule-based, not machine learning: the same inputs always give the same answer, and every answer can be traced.</p>
+    <div class="hero-actions">
+      <a class="button" href="demo/">Try the web simulation</a>
+      <a class="button ghost" href="#status">What it is not yet</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>93</strong><span>structured inputs: 16 CBC and 18 other laboratory values, plus smear, context, medication and patient fields</span></div>
+      <div class="stat"><strong>115</strong><span>outcomes, each with its own reasoning, confidence band and next step</span></div>
+      <div class="stat"><strong>51</strong><span>distinct confirmatory tests and investigations it can route to</span></div>
+      <div class="stat"><strong>144</strong><span>named sources in the knowledge base's citation register</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="status" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Where it stands · October 2026</p>
+    <h2>An engineering prototype in clinical refinement — not yet validated</h2>
+    <p class="section-copy">What this page shows is engineering work: a working knowledge base and reasoning system, tested end to end on synthetic cases. Clinical validation is the stage still ahead, and nothing here should be read as evidence of clinical accuracy.</p>
+    <div class="prototype">
+      <div><b>Research prototype</b><span>for research and validation use only</span></div>
+      <div><b>Not clinically validated</b><span>no measured sensitivity or specificity on real patients</span></div>
+      <div><b>Not clinically signed off</b><span>thresholds and routes await clinical review</span></div>
+      <div><b>Not a medical device</b><span>no regulatory approval; never used on a patient</span></div>
+    </div>
+    <div class="two-col" style="margin-top:18px">
+      <div class="card">
+        <h3>What is built</h3>
+        <ul class="plain">
+          <li><b>The knowledge base</b> for the adult blood count: 115 outcomes, 51 confirmatory tests and management suggestions on 80 of the outcomes.</li>
+          <li><b>The desktop application</b>, which is the main product, with report upload and automatic reading of printed CBC reports.</li>
+          <li><b>Safety behaviour</b>: refusals, safety blocks and data-quality checks (below).</li>
+          <li><b>End-to-end tests</b> on synthetic cases through the real interface.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What comes next</h3>
+        <ul class="plain">
+          <li><b>Clinical refinement</b>: a clinician reviews each threshold, route and wording against its cited source.</li>
+          <li><b>Validation</b> against de-identified laboratory records where the confirmatory result is already known.</li>
+          <li><b>Only then</b> any use in care, and only within the scope the validation supports.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it reasons</p>
+    <h2>A count suspects. Another result confirms the direction. The clinician orders the test.</h2>
+    <p class="section-copy">A blood count alone rarely proves a cause, so PATHEX does not diagnose from it. It raises a suspicion and names the test that would confirm or refute it. Each additional result the clinician supplies — iron studies, a film comment, a calcium, the clinical context — can turn a vague picture into a specific, actionable one.</p>
+    <div class="chain" aria-label="Reasoning chain">
+      <span class="k">Values</span><b>→</b><span>classified against cited thresholds</span><b>→</b><span>combined into patterns</span><b>→</b><span>conflicts checked</span><b>→</b><span class="k">one outcome</span><b>→</b><span>confidence band</span><b>→</b><span class="k">confirmatory test</span><b>→</b><span>management suggestion</span>
+    </div>
+    <div class="grid3" style="margin-top:18px">
+      <div class="card"><h3>Blood count only</h3><p class="muted">Female, 34 · Hb 9.1 · MCV 71 · RDW 17.8</p><p><b>Iron deficiency, probable</b> · medium confidence<br><span class="muted small">Next: iron studies; Hb electrophoresis</span></p></div>
+      <div class="card"><h3>+ iron studies</h3><p class="muted">The same count with ferritin 6 and TSAT 7</p><p><b>Iron-deficiency anaemia</b> · high confidence<br><span class="muted small">Next: look for the cause — GI evaluation for blood loss; stool for ova and parasites</span></p></div>
+      <div class="card"><h3>+ film and context</h3><p class="muted">Normocytic anaemia, calcium 12.4, rouleaux, bone pain</p><p><b>Myeloma suspected</b> · medium confidence<br><span class="muted small">Next: serum protein electrophoresis; serum free light chains</span></p></div>
+    </div>
+    <p class="muted small">All three are recorded outputs from the real system on synthetic cases.</p>
+  </div>
+</section>
+
+<section id="inputs" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Inputs · the full list</p>
+    <h2>93 structured inputs, and only the blood count is required</h2>
+    <p class="section-copy">This is every item the clinician's screen accepts. Everything except the CBC is optional; PATHEX reasons with whatever is present and never fills in a missing value. A printed CBC report can be uploaded and read automatically, and each value is shown for review before it is used.</p>
+    <div class="two-col">
+      <div class="card incard"><h3>CBC <span class="n">16</span></h3><p class="muted small">The standard analyser output: red cells, white cells, differential and platelets.</p><ul class="tags"><li>HGB (g/dL)</li><li>RBC (x10^12/L)</li><li>HCT (%)</li><li>MCV (fL)</li><li>MCH (pg)</li><li>MCHC (g/dL)</li><li>RDW-CV (%)</li><li>RDW-SD (fL)</li><li>WBC (x10^9/L)</li><li>PLT (x10^9/L)</li><li>MPV (fL)</li><li>NEUT (%)</li><li>LYMPH (%)</li><li>MONO (%)</li><li>EOS (%)</li><li>BASO (%)</li></ul></div>
+      <div class="card incard"><h3>Non-CBC laboratory values <span class="n">18</span></h3><p class="muted small">Iron studies, haematinics, haemolysis, haemoglobin typing, renal, calcium, thyroid and coagulation. Common unit variants are accepted and converted, and an unrecognised unit is refused.</p><ul class="tags"><li>Ferritin (ng/mL)</li><li>TSAT (%)</li><li>sTfR (mg/L)</li><li>B12 (pg/mL)</li><li>Folate (ng/mL)</li><li>Retic (%)</li><li>CRP (mg/L)</li><li>ESR (mm/hr)</li><li>HbA2 (%)</li><li>LDH (U/L)</li><li>Creatinine (mg/dL)</li><li>eGFR (mL/min/1.73m2)</li><li>Calcium (mg/dL)</li><li>TSH (mIU/L)</li><li>PT prolongation (s)</li><li>Fibrinogen (g/L)</li><li>D-dimer (mg/L FEU)</li><li>aPTT (s)</li></ul></div>
+    </div>
+    <div class="two-col">
+      <div class="card incard"><h3>Peripheral smear findings <span class="n">13</span></h3><p class="muted small">Coded film comments entered by the clinician. Often the single most decisive extra input.</p><ul class="tags"><li>Schistocytes</li><li>Spherocytes</li><li>Bite cells</li><li>Sickle cells</li><li>Hypersegmented neutrophils</li><li>Smudge cells</li><li>Teardrop cells</li><li>Rouleaux</li><li>Basophilic stippling</li><li>Target cells</li><li>Nucleated RBC</li><li>Blasts / Auer rods</li><li>Atypical lymphoid cells (not clearly blasts or mature lymphs)</li></ul></div>
+      <div class="card incard"><h3>Clinical context <span class="n">23</span></h3><p class="muted small">History and findings that route infection, regional and safety-relevant outcomes.</p><ul class="tags"><li>Fever</li><li>Splenomegaly</li><li>Lymphadenopathy</li><li>Endemic area (malaria/dengue/kala-azar/HbE)</li><li>Barefoot / rural</li><li>HIV risk</li><li>Known / suspected TB</li><li>Bone pain</li><li>Family history low platelets</li><li>Arsenic / ayurvedic exposure</li><li>DIC-predisposing illness (sepsis/malignancy/trauma/obstetric)</li><li>Endemic mycosis exposure</li><li>On heparin</li><li>Finger-prick / point-of-care sample</li><li>Known Duffy-null / stable constitutional low ANC</li><li>Recent transfusion</li><li>Iron/B12 therapy active</li><li>Lead exposure</li><li>Copper/zinc context</li><li>MDS / dysplasia context</li><li>CKD context</li><li>Liver context</li><li>Acute febrile</li></ul></div>
+    </div>
+    <div class="two-col">
+      <div class="card incard"><h3>Medication history <span class="n">15</span></h3><p class="muted small">Drugs that suppress the marrow, cause blood loss or impair B12 absorption.</p><ul class="tags"><li>Metformin</li><li>PPI</li><li>Antacid</li><li>Chronic NSAID</li><li>Methotrexate</li><li>Azathioprine</li><li>Hydroxyurea</li><li>Zidovudine</li><li>Carbimazole</li><li>Methimazole</li><li>Cotrimoxazole</li><li>Chemotherapy</li><li>Chronic alcohol</li><li>Phenytoin</li><li>Sulfasalazine</li></ul></div>
+      <div class="card incard"><h3>Patient and setting <span class="n">8</span></h3><p class="muted small">Name, date of birth and record numbers are also accepted, but stay on the device and are never part of the analysis.</p><ul class="tags"><li>Age</li><li>Sex</li><li>Pregnancy status</li><li>Altitude of residence</li><li>Alcohol use</li><li>Smoking</li><li>Diet (incl. vegetarian, phytate-rich)</li><li>Inflammation status (acute infection, chronic, CKD, liver)</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="outputs">
+  <div class="wrap">
+    <p class="eyebrow">Outputs</p>
+    <h2>Four kinds of output from every analysis</h2>
+    <div class="grid4">
+      <div class="card kind"><span class="n">115</span><h3>Outcomes</h3><p class="muted small">One ranked outcome per analysis, with a confidence band. Most are named as suspicions, because a blood count rarely proves a cause.</p></div>
+      <div class="card kind"><span class="n">51</span><h3>Confirmatory tests</h3><p class="muted small">The specific test or investigation that would confirm or refute the outcome.</p></div>
+      <div class="card kind"><span class="n">80</span><h3>Management suggestions</h3><p class="muted small">Outcomes that carry a directional management suggestion for the clinician. No doses are ever given; local formulary applies.</p></div>
+      <div class="card kind"><span class="n">279</span><h3>Reasoning texts</h3><p class="muted small">Plain-language explanations, of which 47 are safety statements, such as "this is not a thalassaemia-trait diagnosis and must not be recorded as one".</p></div>
+    </div>
+    <h3 style="margin-top:22px">All 115 outcomes</h3>
+    <p class="muted small">Grouped by clinical area. Open a group to see every outcome in it.</p>
+    <details class="outgrp"><summary><b>Safety, scope and data-quality states</b><span>15</span></summary><ul class="tags"><li>Severe-anaemia safety block</li><li>Cannot evaluate (refused)</li><li>Analysis blocked</li><li>Indeterminate</li><li>Cannot resolve on the CBC</li><li>Urgent haematology review</li><li>No findings</li><li>Anaemia unclassified</li><li>Non microcytic anaemia outside scope</li><li>WBC missing for differential</li><li>Capillary screen confirm venous</li><li>CBC abnormal unresolved no anaemia</li><li>Hb fractions unreliable after transfusion</li><li>Haematinic levels on treatment</li><li>Anaemia after Hb adjustment</li></ul></details><details class="outgrp"><summary><b>Iron and microcytic anaemia</b><span>21</span></summary><ul class="tags"><li>Iron-deficiency anaemia (IDA)</li><li>Iron-deficiency anaemia, probable</li><li>Iron deficiency no anaemia</li><li>Iron stores low no anaemia</li><li>Iron replete microcytosis</li><li>ACD suspected</li><li>Microcytic anaemia untyped</li><li>Microcytic borderline indices</li><li>Microcytic, borderline indices — Patra leans trait</li><li>Microcytic, borderline indices — Patra leans iron deficiency</li><li>Ferritin raised evaluate</li><li>Dietary iron risk</li><li>Dietary iron B12 risk</li><li>Blood loss suspected</li><li>Hookworm / soil-transmitted helminth iron deficiency suspected</li><li>Lead toxicity suspected</li><li>Sideroblastic suspected</li><li>Copper deficiency suspected</li><li>Copper deficiency tests indicated</li><li>Dimorphic picture</li><li>Dual deficiency suspected</li></ul></details><details class="outgrp"><summary><b>Thalassaemia and haemoglobin disorders</b><span>11</span></summary><ul class="tags"><li>β-thalassaemia trait (BTT)</li><li>Thalassaemia trait possible</li><li>Thalassaemia trait probable</li><li>Alpha trait suspected</li><li>Coexisting β-thalassaemia trait and iron deficiency</li><li>Haemoglobinopathy suspected</li><li>Haemoglobinopathy screen indicated</li><li>HbA2 equivocal band</li><li>HbA2 variant range</li><li>HbF raised evaluate</li><li>Sickle suspected</li></ul></details><details class="outgrp"><summary><b>Macrocytic anaemia, B12 and folate</b><span>10</span></summary><ul class="tags"><li>Macrocytic anaemia</li><li>Macrocytosis no anaemia</li><li>Macrocytosis non megaloblastic workup</li><li>Non megaloblastic macrocytosis suspected</li><li>Megaloblastic suspected</li><li>B12 deficiency suspected</li><li>Folate deficiency suspected</li><li>B12 folate indeterminate</li><li>B12 risk factor present</li><li>Liver macrocytosis consider</li></ul></details><details class="outgrp"><summary><b>Haemolysis, normocytic anaemia and red-cell output</b><span>13</span></summary><ul class="tags"><li>Haemolysis suspected</li><li>Compensated haemolysis suspected</li><li>AIHA suspected</li><li>G6PD deficiency suspected</li><li>Membranopathy suspected</li><li>PNH suspected</li><li>Normocytic anaemia</li><li>Hypoproliferative suspected</li><li>CKD anaemia suspected</li><li>Hypothyroid anaemia suspected</li><li>Hyperthyroid anaemia suspected</li><li>Thyroid result needs action</li><li>Erythrocytosis suspected</li></ul></details><details class="outgrp"><summary><b>Marrow, malignancy and urgent referrals</b><span>18</span></summary><ul class="tags"><li>Acute leukaemia suspected</li><li>CML suspected</li><li>CLL / CLPD suspected</li><li>Prolymphocytic atypical lymphoid suspected</li><li>MPN suspected</li><li>MDS suspected</li><li>Aplastic anaemia suspected</li><li>Marrow infiltration suspected</li><li>Marrow process suspected</li><li>Pancytopenia suspected</li><li>Myeloma suspected</li><li>Myeloma screen indicated</li><li>Lymphoma referral consider</li><li>HLH suspected</li><li>Hyperleukocytosis urgent</li><li>Hyperbasophilia myeloid workup</li><li>Hypercalcaemia urgent</li><li>Hypercalcaemia needs cause</li></ul></details><details class="outgrp"><summary><b>White cells</b><span>8</span></summary><ul class="tags"><li>Neutropenia suspected</li><li>Agranulocytosis suspected</li><li>Benign ethnic neutropenia context</li><li>Lymphopenia suspected</li><li>Eosinophilia suspected</li><li>Eosinophilia investigate</li><li>Hypereosinophilia suspected</li><li>Leukaemoid reaction suspected</li></ul></details><details class="outgrp"><summary><b>Platelets and coagulation</b><span>10</span></summary><ul class="tags"><li>Thrombocytopenia suspected</li><li>Critical thrombocytopenia</li><li>Inherited thrombocytopenia suspected</li><li>Reactive thrombocytosis suspected</li><li>Extreme thrombocytosis evaluate</li><li>HIT suspected</li><li>TMA suspected</li><li>DIC suspected</li><li>PT prolongation investigate</li><li>Hypersplenism context</li></ul></details><details class="outgrp"><summary><b>Infection and regional (India-relevant)</b><span>9</span></summary><ul class="tags"><li>Malaria suspected</li><li>Dengue suspected</li><li>Kala azar suspected</li><li>Enteric fever context</li><li>Sepsis context</li><li>Viral pattern context</li><li>HIV context</li><li>TB anaemia suspected</li><li>Fungal marrow suspected</li></ul></details>
+    <div class="card" style="margin-top:14px">
+      <h3>All 51 confirmatory tests and investigations</h3>
+      <ul class="tags"><li>Absolute neutrophil count</li><li>BCR-ABL</li><li>Blood lead level</li><li>Bone-marrow aspirate</li><li>Bone-marrow trephine biopsy</li><li>CRP</li><li>Caeruloplasmin</li><li>Creatinine / eGFR</li><li>Cytogenetics / molecular studies</li><li>Dengue NS1 / serology</li><li>Direct antiglobulin (Coombs) test</li><li>EMA binding test</li><li>Erythropoietin level</li><li>Ferritin</li><li>Flow cytometry</li><li>Folate</li><li>Free T4</li><li>G6PD assay</li><li>GI evaluation for blood loss</li><li>HIV test</li><li>Haptoglobin</li><li>Hb electrophoresis / HPLC</li><li>INR</li><li>IgE</li><li>Iron studies</li><li>JAK2 mutation</li><li>LDH</li><li>Liver function tests</li><li>Malaria RDT / smear</li><li>Methylmalonic acid</li><li>Molecular globin studies</li><li>Parathyroid hormone</li><li>Peripheral blood smear</li><li>Platelet genetic panel</li><li>Repeat CBC</li><li>Reticulocyte count</li><li>Serum copper</li><li>Serum free light chains</li><li>Serum protein electrophoresis</li><li>Serum triglycerides</li><li>Serum zinc</li><li>Sickling / solubility test</li><li>Splenic / marrow aspirate</li><li>Stool ova and parasites</li><li>TB work-up</li><li>TSH</li><li>Transferrin saturation</li><li>Venous CBC</li><li>Vitamin B12</li><li>rK39 (kala-azar)</li><li>von Willebrand factor</li></ul>
+    </div>
+    <div class="card">
+      <h3>Discrimination index panel</h3>
+      <p class="muted">For microcytic anaemia, PATHEX also shows four published indices that help separate iron deficiency from thalassaemia trait: Mentzer, RDW index, Patra and CRUISE. Each row states which way that index runs and where this patient falls, because two of the four lean towards trait when the value is low and two when it is high. The panel is labelled as triage only: iron studies and HbA₂ confirm, the indices never do.</p>
+    </div>
+  </div>
+</section>
+
+<section id="demo" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Try it</p>
+    <div class="demo-cta">
+      <div>
+        <h2>The real interface, in your browser</h2>
+        <p class="section-copy">The web simulation uses PATHEX's actual interface and replays responses recorded from the real system for 14 synthetic cases. Nothing is computed in the browser and the knowledge base is not shipped to it, so the inputs are locked to those cases. Report upload is available only in the desktop application.</p>
+      </div>
+      <a class="button" href="demo/">Open the web simulation</a>
+    </div>
+    <h3>Screens from the desktop application (4K)</h3>
+    <p class="muted small">Captured at 3840 × 2160 from the running application with synthetic patients. Select any screen to view it full size.</p>
+    <div class="gallery"><figure><button type="button" class="shot-btn" data-shot="0"><img src="thumbs/01-input-cbc.jpg" alt="CBC input: The patient panel stays on the device; the blood count is entered or read from a report" width="800" height="500" loading="lazy"></button><figcaption><b>CBC input.</b> The patient panel stays on the device; the blood count is entered or read from a report</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="1"><img src="thumbs/02-input-noncbc.jpg" alt="Non-CBC laboratory input: Iron studies, B12, folate, reticulocytes, CRP, ESR, HbA2, renal, calcium, thyroid and coagulation — all optional" width="800" height="500" loading="lazy"></button><figcaption><b>Non-CBC laboratory input.</b> Iron studies, B12, folate, reticulocytes, CRP, ESR, HbA2, renal, calcium, thyroid and coagulation — all optional</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="2"><img src="thumbs/03-input-smear-context.jpg" alt="Smear findings and clinical context: Coded film findings, clinical context and medication history" width="800" height="500" loading="lazy"></button><figcaption><b>Smear findings and clinical context.</b> Coded film findings, clinical context and medication history</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="3"><img src="thumbs/04-myeloma-result.jpg" alt="Myeloma suspicion: Normocytic anaemia + calcium 12.4 + rouleaux + bone pain → protein studies and urgent referral" width="800" height="500" loading="lazy"></button><figcaption><b>Myeloma suspicion.</b> Normocytic anaemia + calcium 12.4 + rouleaux + bone pain → protein studies and urgent referral</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="4"><img src="thumbs/05-ida-confirmed.jpg" alt="Iron deficiency, confirmed by iron studies: The same blood count with ferritin 6 and TSAT 7: confidence rises, and the next step becomes finding the cause" width="800" height="500" loading="lazy"></button><figcaption><b>Iron deficiency, confirmed by iron studies.</b> The same blood count with ferritin 6 and TSAT 7: confidence rises, and the next step becomes finding the cause</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="5"><img src="thumbs/06-index-panel.jpg" alt="Discrimination index panel: Four indices, each with its own direction and caveat; here three lean iron deficiency and one does not" width="800" height="500" loading="lazy"></button><figcaption><b>Discrimination index panel.</b> Four indices, each with its own direction and caveat; here three lean iron deficiency and one does not</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="6"><img src="thumbs/07-malaria-context.jpg" alt="Malaria suspicion from context: Anaemia + low platelets + fever in an endemic area → malaria RDT or smear" width="800" height="500" loading="lazy"></button><figcaption><b>Malaria suspicion from context.</b> Anaemia + low platelets + fever in an endemic area → malaria RDT or smear</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="7"><img src="thumbs/08-tma-urgent.jpg" alt="Microangiopathy (urgent): Schistocytes + low platelets → TMA suspected, high confidence" width="800" height="500" loading="lazy"></button><figcaption><b>Microangiopathy (urgent).</b> Schistocytes + low platelets → TMA suspected, high confidence</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="8"><img src="thumbs/09-child-refused.jpg" alt="Child refused: Age 9: no interpretation is produced, and the reason is stated" width="800" height="500" loading="lazy"></button><figcaption><b>Child refused.</b> Age 9: no interpretation is produced, and the reason is stated</figcaption></figure><figure><button type="button" class="shot-btn" data-shot="9"><img src="thumbs/10-history-export.jpg" alt="History and de-identified export: Exports carry no name or ID; age becomes a 10-year band and the date a month" width="800" height="500" loading="lazy"></button><figcaption><b>History and de-identified export.</b> Exports carry no name or ID; age becomes a 10-year band and the date a month</figcaption></figure></div>
+  </div>
+</section>
+
+<section id="tested">
+  <div class="wrap">
+    <p class="eyebrow">Tested end to end</p>
+    <h2>14 synthetic cases through the real interface</h2>
+    <p class="section-copy">Each case was entered through the application's own interface and answered by the real system. These show that the software behaves as designed; they say nothing about clinical accuracy, which only validation on real records can establish.</p>
+    <div class="table-wrap card">
+      <table class="claims e2e">
+        <thead><tr><th>#</th><th>Synthetic case</th><th>Outcome</th><th>Confidence</th><th>Next step it names</th></tr></thead>
+        <tbody><tr><td>01</td><td>CBC only — microcytic anaemia<small>CBC</small></td><td><b>Iron deficiency, probable</b></td><td>Medium</td><td class='small'>Iron studies · Hb electrophoresis / HPLC</td></tr><tr><td>02</td><td>Same CBC + iron studies<small>CBC + non-CBC</small></td><td><b>Iron-deficiency anaemia</b></td><td>High</td><td class='small'>GI evaluation for blood loss · Stool ova and parasites</td></tr><tr><td>03</td><td>Microcytosis, high RBC, raised HbA2<small>CBC + non-CBC</small></td><td><b>β-thalassaemia trait</b></td><td>High</td><td class='small'>Molecular globin studies · Iron studies</td></tr><tr><td>04</td><td>Macrocytic anaemia + B12 and folate<small>CBC + non-CBC</small></td><td><b>B12 deficiency suspected</b></td><td>Medium</td><td class='small'>Methylmalonic acid · Folate</td></tr><tr><td>05</td><td>Normocytic anaemia + calcium + rouleaux + bone pain<small>CBC + non-CBC + smear + context</small></td><td><b>Myeloma suspected</b></td><td>Medium</td><td class='small'>Serum protein electrophoresis · Serum free light chains</td></tr><tr><td>06</td><td>Fever in an endemic area, anaemia, low platelets<small>CBC + context</small></td><td><b>Malaria suspected</b></td><td>Medium</td><td class='small'>Malaria RDT / smear</td></tr><tr><td>07</td><td>Fever, low platelets and low WBC<small>CBC + context</small></td><td><b>Sepsis context</b></td><td>Medium</td><td class='small'>Clinical assessment · Peripheral blood smear</td></tr><tr><td>08</td><td>Schistocytes, low platelets, raised LDH<small>CBC + non-CBC + smear</small></td><td><b>TMA suspected (urgent)</b></td><td>High</td><td class='small'>Peripheral blood smear · LDH</td></tr><tr><td>09</td><td>Blasts reported on the film<small>CBC + smear</small></td><td><b>Acute leukaemia suspected (urgent)</b></td><td>Medium</td><td class='small'>Flow cytometry · Bone-marrow aspirate · Cytogenetics / molecular studies</td></tr><tr><td>10</td><td>Severe anaemia<small>CBC</small></td><td><b>Severe-anaemia safety block</b></td><td>Unreliable</td><td class='small'>Peripheral blood smear</td></tr><tr><td>11</td><td>Implausible MCHC (sample artefact)<small>CBC</small></td><td><b>Cannot evaluate — repeat CBC</b></td><td>Unreliable</td><td class='small'>Repeat CBC</td></tr><tr><td>12</td><td>Child aged 9<small>scope gate</small></td><td><b>Refused — out of scope</b></td><td>—</td><td class='small'>No interpretation made; reason stated</td></tr><tr><td>13</td><td>Pregnant patient<small>scope gate</small></td><td><b>Refused — out of scope</b></td><td>—</td><td class='small'>No interpretation made; reason stated</td></tr><tr><td>14</td><td>Normal adult CBC<small>CBC</small></td><td><b>No findings</b></td><td>High</td><td class='small'>Clinical assessment</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="sources" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">Data sources</p>
+      <h2>Thresholds cite named sources, not a laboratory's printed range</h2>
+      <p class="muted">The knowledge base keeps a register of 144 sources, and its rules carry 207 citations into it. The engine checks those citations every time it starts, and refuses to start if one points to a source that is not registered.</p>
+      <ul class="plain">
+        <li><b>Guidelines and public-health bodies</b>: WHO, NICE, the British Society for Haematology, ICSH, KDIGO, the International Myeloma Working Group, ICMR, and India's Ministry of Health including Anemia Mukt Bharat.</li>
+        <li><b>Peer-reviewed literature</b>, 75 of the sources with a PubMed identifier, and StatPearls for clinical background.</li>
+        <li><b>India-relevant knowledge</b>: alignment with Anemia Mukt Bharat, Indian epidemiology, carrier prevalence, and altitude adjustment of haemoglobin.</li>
+      </ul>
+    </div>
+    <div>
+      <p class="eyebrow">What is special</p>
+      <h2>A source that does not hold up is flagged, not hidden</h2>
+      <ul class="plain">
+        <li><b>Reference ranges printed on a lab report are never the standard.</b> They vary by analyser and laboratory; only published sources define a threshold.</li>
+        <li><b>Every source carries a status.</b> Where a cited source turned out not to support a value, the register records it; sources that were withdrawn or could not be located are marked as not citable.</li>
+        <li><b>Citation is not validation.</b> A clinician still has to review each threshold against its source; that review is the clinical-refinement stage now under way.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="safety">
+  <div class="wrap">
+    <p class="eyebrow">Safety and privacy by design</p>
+    <h2>Refuse rather than guess</h2>
+    <div class="grid3">
+      <div class="card"><h3>Scope gates</h3><p class="muted">Patients under 18 and pregnant patients are refused, with the reason stated, because their reference ranges differ. The refusal is enforced twice: in the application and again inside the knowledge base.</p></div>
+      <div class="card"><h3>Safety blocks</h3><p class="muted">Severe anaemia stops the subtype analysis and routes to urgent review. Physiologically impossible values, such as an MCHC of 39.7, return "cannot evaluate — repeat the count" instead of an answer.</p></div>
+      <div class="card"><h3>No silent drops</h3><p class="muted">A result in an unrecognised unit is refused with a message, not ignored. A missing value is never filled in, and a value the system does not understand never reads as normal.</p></div>
+      <div class="card"><h3>Stays on the device</h3><p class="muted">The application works offline and makes no external network calls. Name, date of birth, ABHA ID, record number and contact never leave the computer.</p></div>
+      <div class="card"><h3>De-identified export</h3><p class="muted">For quality review, records export without name or ID; age becomes a 10-year band and the date a month. Checked on a synthetic record: no name, ID or exact age in the export.</p></div>
+      <div class="card"><h3>Never a dose</h3><p class="muted">Management suggestions are directional. No dose is ever produced, and every suggestion points to the local formulary and the confirmatory test first.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="modular" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">Architecture</p>
+      <h2>A blind engine and a separate knowledge base</h2>
+      <p class="muted">PATHEX is a knowledge base running on AMEKU, a general rule engine that contains no clinical vocabulary. Every threshold, outcome and wording lives in the knowledge base as data, and the engine only executes it. That separation is what makes the reasoning traceable: each output can be followed back to the rule, threshold and cited source that produced it.</p>
+    </div>
+    <div>
+      <p class="eyebrow">Local adaptation</p>
+      <h2>A new region is a data change, not an engine change</h2>
+      <p class="muted">Region-specific knowledge — reference ranges, national programme alignment, local epidemiology, altitude — sits in its own data files. From an engineering point of view, adapting PATHEX to another country means adding or replacing those files; the engine does not change. Clinically, every new region still needs its own source review and validation before use.</p>
+    </div>
+  </div>
+</section>
+
+<section id="roadmap">
+  <div class="wrap">
+    <p class="eyebrow">Future scope</p>
+    <h2>Validate first, then widen the scope</h2>
+    <p class="section-copy">Each step must be validated on its own before the next one is used clinically.</p>
+    <ol class="roadmap">
+      <li class="road done"><b>Adult CBC knowledge base</b><ul><li>115 outcomes, desktop application, safety behaviour</li><li>Built; tested end to end on synthetic cases</li></ul></li>
+      <li class="road now"><b>Clinical refinement and validation</b><ul><li>Clinician review of thresholds, routes and wording</li><li>Validation on de-identified records with known confirmatory results</li><li>Current stage</li></ul></li>
+      <li class="road"><b>Pregnancy wing</b><ul><li>Pregnancy-specific haemoglobin thresholds and reasoning</li><li>Pregnant patients are refused today</li></ul></li>
+      <li class="road"><b>Neonatal wing</b><ul><li>Age-specific reference ranges for newborns</li><li>Children are refused today</li></ul></li>
+      <li class="road"><b>Blood-cell level</b><ul><li>Reading cell morphology on the peripheral smear, so the most decisive extra input is produced, not only typed in</li></ul></li>
+      <li class="road"><b>Timeline</b><ul><li>Reasoning over a patient's series of counts: direction, speed, chronicity and response to treatment</li><li>Designed; not yet built</li></ul></li>
+    </ol>
+    <div class="card" style="margin-top:16px">
+      <h3>The timeline layer, as designed</h3>
+      <p class="muted">Today PATHEX answers "is this count abnormal?". The timeline layer would answer "in which direction, how fast, and for how long has this patient's blood been changing?" — deterministically, on the same engine. Its design proceeds in stages, each with an exit test: a series contract, then velocity and trend, chronicity, confounders such as a recent transfusion, and treatment response, then presentation. A trend is never asserted from too few counts or across a confounding event. This is a design, not built software, and no timeline durations are promised.</p>
+    </div>
+  </div>
+</section>
+
+<section id="impact" class="band">
+  <div class="wrap">
+    <p class="eyebrow">After validation · who it helps</p>
+    <h2>Anaemia is common; the specialist who reads the count often is not</h2>
+    <div class="grid3">
+      <div class="card"><div class="impact-num">1.92 billion</div><p class="muted">people had anaemia in 2021, 24.3% of the world's population.<sup><a href="#r1">1</a></sup></p></div>
+      <div class="card"><div class="impact-num">244 million</div><p class="muted">women with anaemia in WHO's South-East Asia region, and 106 million in Africa — the two regions carrying the heaviest burden.<sup><a href="#r2">2</a></sup></p></div>
+      <div class="card"><div class="impact-num">57% · 25%</div><p class="muted">of women and men aged 15–49 in India were anaemic in 2019–21.<sup><a href="#r3">3</a></sup></p></div>
+    </div>
+    <div class="two-col">
+      <div class="card">
+        <h3>Who benefits, and how</h3>
+        <ul class="plain">
+          <li><b>Doctors at primary health centres</b>, who interpret blood counts without a haematologist nearby: a structured reading and the specific next test, in seconds and offline.</li>
+          <li><b>Patients</b>: fewer missed follow-ups — the ferritin that was never ordered, the film that was never requested — and fewer avoidable harms, such as iron given to a thalassaemia carrier, or iron deficiency in an adult accepted without asking where the iron is being lost.</li>
+          <li><b>Laboratories</b>: implausible values and likely reporting errors are flagged rather than passed through.</li>
+          <li><b>Public-health programmes</b>, such as anaemia programmes, that need consistent, de-identified records for quality review.</li>
+          <li><b>Other low- and middle-income countries</b>, where the burden is highest, through local data files and local validation.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Free where it matters most</h3>
+        <p class="muted">After successful validation, the licensed version of PATHEX will be provided <b>free of cost to government primary health centres and to charitable hospitals and clinics</b>.</p>
+        <h3>Read these numbers carefully</h3>
+        <p class="muted">They show the size of the need, not a number of people PATHEX will help. PATHEX does not treat anaemia; it helps a clinician interpret a blood count and choose the next test. Its current scope is non-pregnant adults, so the largest groups above — young children and pregnant women — are exactly the ones the next wings are for. It will help no one until it is validated.</p>
+      </div>
+    </div>
+    <ol class="sources">
+      <li id="r1">GBD 2021 Anaemia Collaborators. Prevalence, years lived with disability, and trends in anaemia burden by severity and cause, 1990–2021. <i>Lancet Haematology</i>, 31 July 2023. <a href="https://healthdata.org/node/10712">IHME summary</a>.</li>
+      <li id="r2">World Health Organization, <a href="https://www.who.int/news-room/fact-sheets/detail/anaemia">Anaemia fact sheet</a>, 10 February 2025.</li>
+      <li id="r3">National Family Health Survey (NFHS-5), 2019–21, Ministry of Health and Family Welfare, Government of India: <a href="https://rchiips.org/nfhs/NFHS-5_FCTS/India.pdf">India fact sheet</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="support">
+  <div class="wrap">
+    <p class="eyebrow">Support</p>
+    <h2>Supported by Emergent Ventures</h2>
+    <p class="section-copy">PATHEX's development has received a grant of USD 10,000 from Emergent Ventures (Mercatus Center, George Mason University). If you work in a pathology department, a primary-care programme or a charitable hospital and could help with clinical review or validation, please get in touch through <a href="https://github.com/nabvian">github.com/nabvian</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p>PATHEX · Koushik Das · <a href="/">all projects</a> · <a href="https://github.com/nabvian">github.com/nabvian</a></p>
+    <p>Research prototype. Not clinically validated, not clinically signed off, not a medical device, and never used on a patient. It raises suspicions and suggests tests; it does not diagnose and never recommends a dose. All patients shown are synthetic.</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot">
+  <button type="button" class="close" aria-label="Close">×</button>
+  <button type="button" class="prev" aria-label="Previous screenshot">‹</button>
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button type="button" class="next" aria-label="Next screenshot">›</button>
+</div>
+<script>
+  const SHOTS = [["01-input-cbc", "CBC input", "The patient panel stays on the device; the blood count is entered or read from a report"], ["02-input-noncbc", "Non-CBC laboratory input", "Iron studies, B12, folate, reticulocytes, CRP, ESR, HbA2, renal, calcium, thyroid and coagulation \u2014 all optional"], ["03-input-smear-context", "Smear findings and clinical context", "Coded film findings, clinical context and medication history"], ["04-myeloma-result", "Myeloma suspicion", "Normocytic anaemia + calcium 12.4 + rouleaux + bone pain \u2192 protein studies and urgent referral"], ["05-ida-confirmed", "Iron deficiency, confirmed by iron studies", "The same blood count with ferritin 6 and TSAT 7: confidence rises, and the next step becomes finding the cause"], ["06-index-panel", "Discrimination index panel", "Four indices, each with its own direction and caveat; here three lean iron deficiency and one does not"], ["07-malaria-context", "Malaria suspicion from context", "Anaemia + low platelets + fever in an endemic area \u2192 malaria RDT or smear"], ["08-tma-urgent", "Microangiopathy (urgent)", "Schistocytes + low platelets \u2192 TMA suspected, high confidence"], ["09-child-refused", "Child refused", "Age 9: no interpretation is produced, and the reason is stated"], ["10-history-export", "History and de-identified export", "Exports carry no name or ID; age becomes a 10-year band and the date a month"]];
+  const box = document.getElementById("lightbox"), boxImg = box.querySelector("img"), boxCap = box.querySelector("figcaption");
+  let cur = 0, opener = null;
+  const show = (i) => { cur = (i + SHOTS.length) % SHOTS.length; const [f, t, c] = SHOTS[cur]; boxImg.src = "shots/" + f + ".png"; boxImg.alt = t + ": " + c; boxCap.textContent = (cur + 1) + " / " + SHOTS.length + " · " + t + " · " + c; };
+  const close = () => { box.classList.remove("on"); boxImg.removeAttribute("src"); opener?.focus(); };
+  document.addEventListener("click", (e) => { const b = e.target.closest("[data-shot]"); if (b) { opener = b; show(Number(b.dataset.shot)); box.classList.add("on"); box.querySelector(".close").focus(); } });
+  box.querySelector(".close").addEventListener("click", close);
+  box.querySelector(".prev").addEventListener("click", () => show(cur - 1));
+  box.querySelector(".next").addEventListener("click", () => show(cur + 1));
+  box.addEventListener("click", (e) => { if (e.target === box) close(); });
+  document.addEventListener("keydown", (e) => { if (!box.classList.contains("on")) return; if (e.key === "Escape") close(); else if (e.key === "ArrowRight") show(cur + 1); else if (e.key === "ArrowLeft") show(cur - 1); });
+</script>
+</body>
+</html>

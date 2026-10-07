@@ -15,6 +15,7 @@ recorded data.
 | UMNA — capabilities without silent regression | [umna-benchmarks](https://nabvian.github.io/umna-benchmarks/) | [umna-benchmarks](https://github.com/nabvian/umna-benchmarks) |
 | RE-FORM X — formulation research workspace | [projects/reform-x](https://nabvian.github.io/projects/reform-x/) (showcase) | private |
 | LUMERA — structured evidence from chest radiographs | [projects/lumera](https://nabvian.github.io/projects/lumera/) (showcase) | private |
+| PATHEX — explainable decision support for the adult blood count | [projects/pathex](https://nabvian.github.io/projects/pathex/) (showcase + web simulation) | private |
 | Ultrasound Guidance — trusted capture, then probe guidance | [projects/ultrasound-guidance](https://nabvian.github.io/projects/ultrasound-guidance/) (showcase) | private |
 | Graphspace — typed computational graphs | [graphspace](https://nabvian.github.io/graphspace/) | [graphspace](https://github.com/nabvian/graphspace) |
 
