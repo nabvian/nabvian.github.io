@@ -64,7 +64,7 @@
     <div class="stats">
       <div class="stat"><strong>72</strong><span>traceable claims across two worked proteins, each with its source rows</span></div>
       <div class="stat"><strong>4</strong><span>hypotheses under test, none yet proven</span></div>
-      <div class="stat"><strong>5</strong><span>benchmark runs, each pre-registered before it ran</span></div>
+      <div class="stat"><strong>6</strong><span>benchmark versions, each pre-registered before it ran</span></div>
       <div class="stat"><strong>441 / 441</strong><span>refusals independently confirmed warranted by a separate check of the raw records</span></div>
     </div>
   </div>
@@ -343,8 +343,9 @@
     <p class="section-copy">
       The pipeline works on real public data: for a known protein and substitution it produces a
       full report in a couple of seconds, with every claim traced. Its refusals have now been
-      checked against the raw records and hold up. What has <em>not</em> happened is the part that
-      remains — a benchmark able to confirm that its supported verdicts are right.
+      checked against the raw records and hold up. What has <em>not</em> happened is a confirmation
+      that its supported verdicts are right — and the reason is no longer a guess: the independent
+      measurements such a test needs do not exist in public data, for this system or any other.
     </p>
 
     <div class="table-wrap" style="margin-top:20px">
@@ -352,8 +353,8 @@
         <thead><tr><th>Claim</th><th>How it was tested</th><th>Result</th><th>Standing</th></tr></thead>
         <tbody>
           <tr><td>Runs end to end on real records</td><td>Two well-studied human proteins, all seven questions</td><td>Full report in about two seconds, store self-verified</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
-          <tr><td>Never supports a change in the wrong direction</td><td>Five pre-registered runs against a public benchmark of measured mutation effects</td><td>No wrong-direction verdict in any run</td><td><span class="status warn">PASSES, BUT WEAKLY</span></td></tr>
-          <tr><td>Supported verdicts are accurate</td><td>Same benchmark; needed at least ten supported verdicts to judge</td><td>Not testable — the public data holds too few comparable pairs</td><td><span class="status no">UNTESTED</span></td></tr>
+          <tr><td>Never supports a change in the wrong direction</td><td>Six pre-registered versions against a public benchmark, then every supported verdict across 71 proteins</td><td>No wrong-direction verdict in any run; 0 of 18 supported verdicts contradict their own evidence</td><td><span class="status warn">PASSES, BUT WEAKLY</span></td></tr>
+          <tr><td>Supported verdicts are accurate</td><td>The public benchmark, then independent measurements from papers the system never read, across 71 proteins</td><td>Not testable: of 18 supported verdicts, only 1 has an independent measurement to check it against</td><td><span class="status no">UNTESTABLE ON PUBLIC DATA</span></td></tr>
           <tr><td>Refusals are honest rather than evasive</td><td>Every unanswered benchmark unit traced by hand to its cause</td><td>88% failed on measurements absent from public sources, not on the rules</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
           <tr><td>Refusals hide nothing the records hold</td><td>All 441 refusals re-checked from the raw records by separate code, with a positive control</td><td>441 of 441 confirmed warranted, 0 false negatives; control found pairs in 10 of 10</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
           <tr><td>The benchmark can find this system's own errors</td><td>Defects found by the benchmark and by hand-reading reports</td><td>Four real defects found and fixed, including one that removed the only supported claim</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
@@ -382,7 +383,7 @@
           measured against that protein at all, and for most of the rest never in a comparable way.
           The benchmark and the available measurements barely overlap.
         </p>
-        <p class="small">That is a finding about the state of public data as much as about this system, and it is why a different benchmark is now needed.</p>
+        <p class="small">That is a finding about the state of public data as much as about this system. A separate test, below, asked whether a different benchmark would help, and measured that it would not.</p>
       </div>
       <div class="card">
         <h3>What the testing did establish</h3>
@@ -393,6 +394,37 @@
           <li><b>Failures stay in the record.</b> Including the void run and the withdrawn claim.</li>
         </ul>
       </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>Why accuracy cannot yet be measured, and why that is itself a result</h3>
+      <p class="muted">
+        Checking whether a supported verdict is <em>right</em> needs an independent answer to check it
+        against: a second laboratory, in a paper this system never read, measuring both the changed
+        and the unchanged protein against the same compound. The test was built that way and
+        registered before the proteins were fetched, and the evidence base was widened from 56
+        proteins to 71 to give it the best chance of succeeding.
+      </p>
+      <p class="muted">
+        Across those 71 proteins the system makes <b>18 supported claims about binding</b>. For
+        <b>17 of them no independent measurement exists.</b> For nine, other laboratories measured the
+        compound but only ever against one form of the protein. For eight, nobody else measured it at
+        all. The public benchmark cannot help either: none of the cases it labels is one this system
+        can decide, so no amount of re-running it would have answered the question.
+      </p>
+      <p class="muted">
+        The single case that could be checked points the same way. For a well-known drug-resistance
+        change, the system reports binding 25 to 45 times weaker, and an independent laboratory
+        measured 19 times weaker — the same direction, just short of the threshold the rules require
+        before counting it. One agreeing case proves nothing, and is not offered as proof.
+      </p>
+      <p class="muted">
+        <b>The obstacle is the published record, not this benchmark or this system.</b> A second
+        laboratory independently measuring both forms, and publishing it separately, is close to
+        absent from the public databases; nearly everything decidable here traces back to a handful
+        of large screening panels. That bounds what any system of this kind can presently be shown to
+        do, and building the data to lift that bound is the honest next piece of work.
+      </p>
     </div>
   </div>
 </section>
@@ -443,9 +475,10 @@
         <ul><li>Records gathered and completed; seven questions answered with their rows; every run reproducible</li></ul></li>
       <li class="done"><b>Adversarial self-testing</b><span class="when">Done</span>
         <ul><li>Pre-registered benchmark runs; four defects found and fixed; one run voided and one claim withdrawn in the record</li></ul></li>
-      <li class="now"><b>A benchmark that can actually judge it</b><span class="when">Current</span>
-        <ul><li>The present benchmark cannot: the measurements it needs are largely absent from public data</li>
-            <li>Requires reference data built from variant measurements that public sources genuinely curate</li></ul></li>
+      <li class="now"><b>Data that can judge accuracy at all</b><span class="when">Current</span>
+        <ul><li>Measured, not assumed: of 18 supported claims across 71 proteins, 17 have no independent measurement anywhere in public data</li>
+            <li>Needs paired replication — a second laboratory measuring both forms of the same protein against the same compound</li>
+            <li>Until that exists, accuracy here is untestable for any system, and saying so is part of the work</li></ul></li>
       <li><b>Independent review</b>
         <ul><li>Verdicts checked by people who did not build the system, on proteins they choose</li>
             <li>Disagreements published alongside agreements</li></ul></li>
