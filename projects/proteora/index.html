@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTEORA — a verdict about a protein variant, with the evidence that produced it</title>
+<meta name="description" content="A research prototype that answers questions about a single amino-acid substitution from published evidence, and refuses to answer when the evidence cannot decide. Four hypotheses under test. Code private; not a medical device.">
+<meta property="og:title" content="PROTEORA — a verdict, with the evidence that produced it">
+<meta property="og:description" content="Seven questions about one protein variant, each answered only from held evidence, each refusal explained. A research prototype testing four hypotheses.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="proteora.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="notice" role="note">
+  <strong>Research prototype. Unvalidated.</strong>
+  PROTEORA is an experiment, not a product and not a medical device. It has never been used in
+  patient care, it gives no clinical, diagnostic or treatment advice, and nothing it produces
+  should inform a decision about a person. Its central hypotheses are <em>unproven</em> — the page
+  below says exactly where they stand, including where the evidence so far does not support them.
+</div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>PROTEORA</a>
+    <nav aria-label="Sections">
+      <a href="#aim">The aim</a>
+      <a href="#how">How it works</a>
+      <a href="#hypotheses">Hypotheses</a>
+      <a href="#case">Example</a>
+      <a href="#not">What it is not</a>
+      <a href="#status">Status</a>
+      <a href="#if">If it holds</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="hero-logo" src="logo.svg" width="76" height="76"
+         alt="PROTEORA logo: an alpha helix with one residue marked, the substitution in question">
+    <div class="chips">
+      <span class="chip brand">Molecular evidence · protein variants</span>
+      <span class="chip">Rust · deterministic</span>
+      <span class="chip">Code private · showcase</span>
+      <span class="chip">Research prototype</span>
+    </div>
+    <h1>A verdict about one protein variant, and the evidence that produced it.</h1>
+    <p class="lede">
+      Name a protein and a single amino-acid substitution in it. PROTEORA assembles what public
+      science has actually measured and curated about that exact change, answers seven separate
+      questions about it, and attaches to every answer the rows it used. Where the held evidence
+      cannot decide a question, it returns a refusal that names what is missing — never a
+      confident-looking number standing in for an absent measurement.
+    </p>
+    <div class="actions">
+      <a class="button" href="#status">Where it actually stands</a>
+      <a class="button ghost" href="#hypotheses">The four hypotheses</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>72</strong><span>traceable claims across two worked proteins, each with its source rows</span></div>
+      <div class="stat"><strong>4</strong><span>hypotheses under test, none yet proven</span></div>
+      <div class="stat"><strong>5</strong><span>benchmark runs, each pre-registered before it ran</span></div>
+      <div class="stat"><strong>441 / 441</strong><span>refusals independently confirmed warranted by a separate check of the raw records</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="aim" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">The problem</p>
+      <h2>A single number cannot carry its own doubt</h2>
+      <p class="muted">
+        Ask the field what a protein substitution does and the usual answer is one number from a
+        trained model — a score, a probability, a predicted change in stability or binding. Such
+        models are genuinely useful, and they have a shared property: the output looks the same
+        whether it rests on decades of measurement or on nothing at all. The confidence is in the
+        format, not in the evidence.
+      </p>
+      <p class="muted">
+        For a well-studied variant that is a small problem. For the rare and the newly observed —
+        exactly where a researcher most needs help — it is the whole problem. A plausible number
+        where no measurement exists is not a weak answer. It is a wrong one, and it is
+        indistinguishable from a right one.
+      </p>
+    </div>
+    <div>
+      <p class="eyebrow">What I am building</p>
+      <h2>A system whose answers and refusals are equally informative</h2>
+      <p class="muted">
+        PROTEORA is an attempt at the other design. It holds no opinion of its own. It reads what
+        sources have published, keeps each measurement as a row that remembers where it came from,
+        and lets a question be decided only by rows that genuinely bear on it.
+      </p>
+      <ul class="plain">
+        <li><b>Every claim traces back</b> to the record, publication and row it came from.</li>
+        <li><b>A refusal states its cause</b> — which source was silent, which was unreachable, which evidence would settle it.</li>
+        <li><b>Nothing is fused into a score.</b> There is no single number to over-read.</li>
+        <li><b>Assumptions are printed</b> beside the verdicts that used them, including the ones that are judgement rather than published fact.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>One substitution in; seven answered or refused questions out</h2>
+    <p class="section-copy">
+      The input is deliberately small: a protein identifier and a substitution written the way
+      people write it, such as <code>A123V</code>. Everything else is assembled from public
+      curated science — sequence and structure records, variant archives, measured small-molecule
+      affinities, curated disease links. No private data, no uploads, no patient information at any
+      point.
+    </p>
+    <div class="flow" style="margin-top:20px">
+      <div class="step"><b>Gather</b><p>Public records for that protein are fetched, completed to the end of their listings, and checked against what each source says it holds.</p></div>
+      <div class="step"><b>Store as evidence</b><p>Each measurement becomes a typed row carrying its origin, its conditions and the exact form of the protein measured. One measurement restated by several sources stays one row.</p></div>
+      <div class="step"><b>Ask</b><p>Each question gathers only the rows that bear on it, and decides by a written rule. Rows that are not comparable are not compared.</p></div>
+      <div class="step"><b>Report</b><p>A verdict per question, each with its rows, its assumptions, and — for a refusal — what is missing and what would settle it.</p></div>
+    </div>
+
+    <h3 style="margin-top:34px">The four answers it is allowed to give</h3>
+    <div class="verdicts">
+      <div class="v ok"><span class="k">SUPPORTED</span><p>Held rows support the statement, under a rule written down in advance.</p></div>
+      <div class="v no"><span class="k">CONTRADICTED</span><p>Held rows contradict it. Reported as readily as support.</p></div>
+      <div class="v ins"><span class="k">INSUFFICIENT</span><p>Evidence is held but cannot decide. The reason says why, and what would.</p></div>
+      <div class="v na"><span class="k">NOT ASSESSED</span><p>The question does not apply, or no source that could answer it covers this protein.</p></div>
+    </div>
+    <p class="small" style="margin-top:14px">
+      There is deliberately no fifth answer meaning "probably". A probability would be the single
+      number this project exists to avoid.
+    </p>
+
+    <div class="two-col" style="margin-top:34px">
+      <div class="card">
+        <h3>The seven questions</h3>
+        <p class="muted">Each is answered separately, because the evidence for one says nothing about another.</p>
+        <ul class="plain">
+          <li><b>Sequence</b> — is this really the reference residue, and do curators record this change?</li>
+          <li><b>Structure</b> — what covers this position, by annotation and by solved structure?</li>
+          <li><b>Population</b> — has the change been observed in population sequencing?</li>
+          <li><b>Clinical</b> — how do clinical archives classify it, and for which condition?</li>
+          <li><b>Binding</b> — does measured small-molecule affinity change, compound by compound?</li>
+          <li><b>Interaction</b> — is a change in protein–protein binding measured?</li>
+          <li><b>Pathway and disease</b> — what is linked to the gene, as distinct from this variant?</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Four rules that never bend</h3>
+        <ul class="plain">
+          <li><b>Unknown is refused and counted</b>, never quietly rendered as "no effect".</li>
+          <li><b>Unlike measurements are never merged</b> — different kinds of experiment stay in separate channels even when the numbers look comparable.</li>
+          <li><b>One experiment is one witness</b>, however many places restate it.</li>
+          <li><b>Evidence about one species is never read onto another's protein</b>, even where the gene name matches.</li>
+        </ul>
+        <p class="small">Each of these was added after it caught a real error in this system's own output. Several are described under Status below.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hypotheses" class="band">
+  <div class="wrap">
+    <p class="eyebrow">The research</p>
+    <h2>Four hypotheses, named but not yet proven</h2>
+    <p class="section-copy">
+      PROTEORA exists to test four connected propositions. They are stated here as claims that
+      could fail, because each one can. Their internals are not published; what follows is what
+      each is for and how it would be judged.
+    </p>
+
+    <div class="grid3" style="margin-top:22px">
+      <div class="hyp">
+        <span class="tag">RKMS</span>
+        <h3>Evidence can be stored so that its origin never detaches from it</h3>
+        <p>
+          A store in which every claim keeps its lineage, its conditions and the exact form of the
+          entity measured — and in which the same measurement arriving from several directions is
+          recognised as one, not counted repeatedly.
+        </p>
+        <p class="test"><b>Fails if</b> provenance cannot survive storage and retrieval without being rebuilt, or if restatements cannot be told from independent results.</p>
+      </div>
+      <div class="hyp">
+        <span class="tag">CASCADE</span>
+        <h3>A question can be compiled into exactly the evidence that bears on it</h3>
+        <p>
+          Rather than searching a general structure of everything known, each question generates
+          the narrow relation it needs, decides by a written rule, and returns a verdict with its
+          rows. Conflicting evidence is reconciled in the open, without collapsing into a score.
+        </p>
+        <p class="test"><b>Fails if</b> questions cannot be answered without a persistent general structure, or if reconciliation cannot avoid a hidden weighting.</p>
+      </div>
+      <div class="hyp">
+        <span class="tag">ESF</span>
+        <h3>A query needs only a small, local state — not the whole knowledge base</h3>
+        <p>
+          The working state for one question is assembled for that question and discarded after it,
+          so answering stays bounded no matter how much evidence exists in total.
+        </p>
+        <p class="test"><b>Fails if</b> the state needed grows with the size of the store rather than with the question.</p>
+      </div>
+      <div class="hyp">
+        <span class="tag">COMPUTING</span>
+        <h3>Computation should be spent on what would change the answer</h3>
+        <p>
+          When evidence cannot decide, the system already knows what is missing. That same statement
+          should direct which calculation or experiment to run next — effort aimed at the specific
+          doubt, rather than at producing a number for its own sake.
+        </p>
+        <p class="test"><b>Status: design only.</b> Specified and reviewed; deliberately not built until the three above are standing.</p>
+      </div>
+    </div>
+
+    <blockquote class="pull" style="margin-top:26px">
+      The target the whole design is judged against: <b>no unsupported claim, and no dropped
+      claim.</b> Nothing asserted that the evidence does not carry, and nothing the evidence does
+      carry silently lost. Both failures are errors; only the first is usually counted.
+    </blockquote>
+  </div>
+</section>
+
+<section id="case" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Worked example</p>
+    <h2>Two proteins, nine substitutions, every claim traceable</h2>
+    <p class="section-copy">
+      The two most heavily studied proteins in cancer biology, chosen precisely because the
+      evidence about them is rich: if a system cannot say anything here, it can say nothing
+      anywhere. Nine substitutions, seven questions each. Nothing below was configured for the
+      demonstration; it is what the pipeline returns from the public records.
+    </p>
+
+    <div class="table-wrap" style="margin-top:20px">
+      <table>
+        <thead><tr><th>Protein</th><th>Substitution</th><th>Supported</th><th>Contradicted</th><th>Refused</th></tr></thead>
+        <tbody>
+          <tr><td>EGFR</td><td>L858R</td><td>9</td><td>0</td><td>376</td></tr>
+          <tr><td>EGFR</td><td>T790M</td><td>10</td><td>0</td><td>120</td></tr>
+          <tr><td>EGFR</td><td>G719S</td><td>8</td><td>0</td><td>83</td></tr>
+          <tr><td>EGFR</td><td>L861Q</td><td>8</td><td>0</td><td>84</td></tr>
+          <tr><td>EGFR</td><td>C797S</td><td>5</td><td>0</td><td>11</td></tr>
+          <tr><td>BRAF</td><td>V600E</td><td>8</td><td>1</td><td>323</td></tr>
+          <tr><td>BRAF</td><td>V600K</td><td>6</td><td>0</td><td>7</td></tr>
+          <tr><td>BRAF</td><td>G469A</td><td>9</td><td>0</td><td>4</td></tr>
+          <tr><td>BRAF</td><td>K601E</td><td>9</td><td>0</td><td>4</td></tr>
+          <tr><td colspan="2"><b>Total</b></td><td><b>72</b></td><td><b>1</b></td><td><b>1,012</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small" style="margin-top:10px">
+      The refusals outnumber the claims by fourteen to one, and most are a single question asked
+      separately of several hundred compounds. Each carries its own reason.
+    </p>
+
+    <div class="two-col" style="margin-top:28px">
+      <div class="card">
+        <h3>What a claim looks like</h3>
+        <p class="muted">Four of the seventy-two, in the system's own words:</p>
+        <ul class="plain">
+          <li><b>EGFR L858R</b> — classified with a strong clinical-impact tier, and separately as a drug-response variant on a record reviewed by an expert panel.</li>
+          <li><b>BRAF V600E</b> — 228 structure chains across 123 solved entries cover residue 600; the reference residue there is V.</li>
+          <li><b>BRAF K601E</b> — classified pathogenic, oncogenic, and at a potential clinical-impact tier, each by a named archive record.</li>
+          <li><b>EGFR C797S</b> — five claims only. The records hold far less about it, and the report says so rather than padding.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>The contradiction, and why it is right</h3>
+        <p class="muted">
+          BRAF V600E is <b>CONTRADICTED</b> as a germline-pathogenic variant while simultaneously
+          <b>SUPPORTED</b> as oncogenic. That is not a conflict in the system; it is the biology.
+          The archive's germline classifications for it conflict, and it is a somatic driver, not
+          an inherited pathogenic allele.
+        </p>
+        <p class="muted">
+          A system that reported one number for this variant would have to choose. This one reports
+          both, each against the record it came from.
+        </p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>A claim this exercise withdrew</h3>
+      <p class="muted">
+        Enumerating these claims turned up a wrong one. EGFR T790M was supported as binding a
+        compound far more weakly, "in 2 independent publications". Checking those two documents
+        showed one was a paper and the other a data deposition re-stating that same paper's
+        numbers — one experiment, counted twice. The rule that detects restatement was too narrow:
+        it required the two records to carry identical sets of values, and the deposition carried
+        a subset.
+      </p>
+      <p class="muted">
+        The rule was widened, the benchmark re-registered and re-run to confirm nothing else moved,
+        and that verdict is now a refusal naming the restatement. <b>It is the third time one
+        experiment has passed as two witnesses</b>, each time escaping the previous fix by a
+        narrower margin. Public databases restate measurements in forms that closely resemble
+        independent corroboration, and each route has to be found and closed on its own.
+      </p>
+      <p class="small">
+        It was found by reading two proteins by hand. The benchmark, which could answer only ten
+        units, could never have reached it — which is the argument for doing both.
+      </p>
+    </div>
+
+    <blockquote class="pull" style="margin-top:24px">
+      <b>What this demonstrates, and what it does not.</b> It shows the system runs end to end and
+      produces traceable, checkable claims on real public evidence. It is <b>not</b> a measurement
+      of accuracy: two proteins chosen for being well studied cannot establish how the system
+      behaves on a protein nobody has studied, and the claims above were not scored against an
+      independent reference. That remains the open problem.
+    </blockquote>
+  </div>
+</section>
+
+<section id="not">
+  <div class="wrap">
+    <p class="eyebrow">Boundaries</p>
+    <h2>What PROTEORA is not, and will not become</h2>
+    <div class="two-col" style="margin-top:14px">
+      <ul class="plain never">
+        <li><b>Not a medical device, and not clinical software.</b> It gives no diagnosis, no prognosis and no treatment guidance, for any person.</li>
+        <li><b>Not a predictor.</b> It makes no claim about variants nobody has measured. Where there is no evidence, the answer is a refusal, not an estimate.</li>
+        <li><b>Not a scoring system.</b> There is no overall number, no ranking and no confidence percentage to quote out of context.</li>
+      </ul>
+      <ul class="plain never">
+        <li><b>Not a literature reader.</b> It takes figures from curated records, never by interpreting the text of a paper.</li>
+        <li><b>Not a source of new measurements.</b> Everything it reports was measured by someone else and is attributed to them.</li>
+        <li><b>Not validated.</b> No part of it has been through clinical, regulatory or independent scientific validation.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="status" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Where it stands — October 2026</p>
+    <h2>Runs end to end; its central claim remains untested</h2>
+    <p class="section-copy">
+      The pipeline works on real public data: for a known protein and substitution it produces a
+      full report in a couple of seconds, with every claim traced. Its refusals have now been
+      checked against the raw records and hold up. What has <em>not</em> happened is the part that
+      remains — a benchmark able to confirm that its supported verdicts are right.
+    </p>
+
+    <div class="table-wrap" style="margin-top:20px">
+      <table>
+        <thead><tr><th>Claim</th><th>How it was tested</th><th>Result</th><th>Standing</th></tr></thead>
+        <tbody>
+          <tr><td>Runs end to end on real records</td><td>Two well-studied human proteins, all seven questions</td><td>Full report in about two seconds, store self-verified</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
+          <tr><td>Never supports a change in the wrong direction</td><td>Five pre-registered runs against a public benchmark of measured mutation effects</td><td>No wrong-direction verdict in any run</td><td><span class="status warn">PASSES, BUT WEAKLY</span></td></tr>
+          <tr><td>Supported verdicts are accurate</td><td>Same benchmark; needed at least ten supported verdicts to judge</td><td>Not testable — the public data holds too few comparable pairs</td><td><span class="status no">UNTESTED</span></td></tr>
+          <tr><td>Refusals are honest rather than evasive</td><td>Every unanswered benchmark unit traced by hand to its cause</td><td>88% failed on measurements absent from public sources, not on the rules</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
+          <tr><td>Refusals hide nothing the records hold</td><td>All 441 refusals re-checked from the raw records by separate code, with a positive control</td><td>441 of 441 confirmed warranted, 0 false negatives; control found pairs in 10 of 10</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
+          <tr><td>The benchmark can find this system's own errors</td><td>Defects found by the benchmark and by hand-reading reports</td><td>Four real defects found and fixed, including one that removed the only supported claim</td><td><span class="status ok">DEMONSTRATED</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col" style="margin-top:26px">
+      <div class="card">
+        <h3>The zero, and why it is the point</h3>
+        <p class="muted">
+          On the binding question, against that public benchmark, PROTEORA makes
+          <b>zero supported claims</b>. Standing alone that number is ambiguous: it fits a system
+          with nothing to say, and equally a system quietly losing the evidence it holds.
+        </p>
+        <p class="muted">
+          So the refusals were audited. A checker written separately, in another language, reading
+          the raw source records rather than anything the system produced, asked of all 441
+          refusals whether the records in fact held a comparable pair of measurements.
+          <b>All 441 were confirmed warranted; none hid a measurement.</b> Run against the ten
+          units the system did answer, as a control, the same checker found the pair every time —
+          so the zeros are informative rather than a broken instrument.
+        </p>
+        <p class="muted">
+          The cause is ordinary and traceable: for 342 of those units the compound was never
+          measured against that protein at all, and for most of the rest never in a comparable way.
+          The benchmark and the available measurements barely overlap.
+        </p>
+        <p class="small">That is a finding about the state of public data as much as about this system, and it is why a different benchmark is now needed.</p>
+      </div>
+      <div class="card">
+        <h3>What the testing did establish</h3>
+        <ul class="plain">
+          <li><b>It withdrew its own claim.</b> The one supported verdict it produced turned out to rest on a single experiment recorded twice. The rule was tightened and the claim retracted.</li>
+          <li><b>It caught a cross-species error.</b> Evidence about a human gene was being read onto a non-human protein of the same name. Now structurally impossible.</li>
+          <li><b>Every run was pre-registered.</b> Inputs fixed and fingerprinted before each run; one earlier run was declared void rather than reported, because its setup had drifted.</li>
+          <li><b>Failures stay in the record.</b> Including the void run and the withdrawn claim.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="if">
+  <div class="wrap">
+    <p class="eyebrow">If the hypotheses hold</p>
+    <h2>What it could offer, stated conditionally because it is conditional</h2>
+    <p class="section-copy">
+      None of the following is claimed today. Each follows only if the hypotheses above survive
+      testing that has not yet happened.
+    </p>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card">
+        <h3>An honest map of what is known</h3>
+        <p class="muted">For any variant, a clear separation between what has actually been measured, what has been measured but cannot settle the question, and what nobody has looked at — each distinguishable at a glance.</p>
+      </div>
+      <div class="card">
+        <h3>Experiments chosen by what is missing</h3>
+        <p class="muted">A system that records precisely why it could not decide can propose the specific measurement that would decide it. Scarce laboratory effort could follow the doubt instead of the convention.</p>
+      </div>
+      <div class="card">
+        <h3>Evidence that survives review</h3>
+        <p class="muted">Conclusions that can be re-derived from their sources months later, by someone else, without rerunning a model or trusting the person who produced them.</p>
+      </div>
+      <div class="card">
+        <h3>A measurable floor under predictions</h3>
+        <p class="muted">Predictive models could be scored against what is genuinely known versus genuinely unknown, rather than against mixtures of the two.</p>
+      </div>
+      <div class="card">
+        <h3>Reasoning that does not collapse at scale</h3>
+        <p class="muted">If a query's cost tracks the question rather than the size of the knowledge base, the same approach holds as evidence accumulates.</p>
+      </div>
+      <div class="card">
+        <h3>A pattern beyond proteins</h3>
+        <p class="muted">Nothing in the four hypotheses is specific to molecular biology. Any field where conclusions must survive audit faces the same problem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <p class="eyebrow">How it grows</p>
+    <h2>The order of work, and what has to be true at each step</h2>
+    <ol class="road" style="margin-top:18px">
+      <li class="done"><b>Evidence store and questions</b><span class="when">Done</span>
+        <ul><li>Records gathered and completed; seven questions answered with their rows; every run reproducible</li></ul></li>
+      <li class="done"><b>Adversarial self-testing</b><span class="when">Done</span>
+        <ul><li>Pre-registered benchmark runs; four defects found and fixed; one run voided and one claim withdrawn in the record</li></ul></li>
+      <li class="now"><b>A benchmark that can actually judge it</b><span class="when">Current</span>
+        <ul><li>The present benchmark cannot: the measurements it needs are largely absent from public data</li>
+            <li>Requires reference data built from variant measurements that public sources genuinely curate</li></ul></li>
+      <li><b>Independent review</b>
+        <ul><li>Verdicts checked by people who did not build the system, on proteins they choose</li>
+            <li>Disagreements published alongside agreements</li></ul></li>
+      <li><b>Directed computation</b>
+        <ul><li>The fourth hypothesis built, once the first three stand: the recorded gap chooses the next calculation</li></ul></li>
+      <li><b>Wider evidence, same discipline</b>
+        <ul><li>More evidence types, admitted only where provenance and comparability survive</li></ul></li>
+    </ol>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="eyebrow">Collaborate</p>
+    <h2>Most useful right now: someone who will try to break it</h2>
+    <p class="section-copy">
+      The open problem is a benchmark honest enough to judge this, and reviewers willing to
+      disagree in public. If you work on protein variant evidence, curate measurement data, or want
+      to test whether the refusals are genuinely well-founded, please get in touch through
+      <a href="https://github.com/nabvian">github.com/nabvian</a>.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><b>PROTEORA</b> · Koushik Das · <a href="https://github.com/nabvian">github.com/nabvian</a></p>
+    <p>
+      <b>Research prototype; unvalidated; source code private.</b> Not a medical device and not
+      clinical software. It provides no diagnostic, prognostic or treatment advice, has never been
+      used in patient care, and must not inform any decision about a person. It processes no
+      patient data. All evidence shown comes from public curated scientific sources and belongs to
+      those sources, under their own terms; PROTEORA produces no measurements of its own.
+    </p>
+    <p>
+      The four hypotheses on this page are <b>unproven</b>. Everything under "If the hypotheses
+      hold" is conditional and must not be read as a current capability. Figures under "Where it
+      stands" come from this project's own pre-registered testing, which is self-assessment and has
+      not been independently reproduced.
+    </p>
+  </div>
+</footer>
+</body>
+</html>
