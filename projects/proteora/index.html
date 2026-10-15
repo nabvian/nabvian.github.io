@@ -338,8 +338,14 @@
 
 <section id="status" class="band">
   <div class="wrap">
-    <p class="eyebrow">Where it stands — October 2026</p>
+    <p class="eyebrow">Where it stands — version 0.1, frozen 15 October 2026</p>
     <h2>Runs end to end; its central claim remains untested</h2>
+    <p class="section-copy" style="margin-bottom:18px">
+      Every figure on this page is taken from version 0.1, which is now <b>frozen</b>. It will not
+      drift under the numbers quoted here: a benchmark record only means something while the thing
+      it measured stays still. Work on the next version happens in a separate copy, and anything
+      that changes these figures will be published as its own version with its own measurements.
+    </p>
     <p class="section-copy">
       The pipeline works on real public data: for a known protein and substitution it produces a
       full report in a couple of seconds, with every claim traced. Its refusals have now been
@@ -426,6 +432,30 @@
         do, and building the data to lift that bound is the honest next piece of work.
       </p>
     </div>
+
+    <div class="card" style="margin-top:20px">
+      <h3>A limitation found after this page was first published</h3>
+      <p class="muted">
+        Checking the structural question across every protein held, not only the two worked through
+        above, found <b>44 of 227 supported structural verdicts resting on a predicted annotation
+        and nothing else</b> — no curated or experimentally observed annotation covering that
+        residue.
+      </p>
+      <p class="muted">
+        The statement each of those verdicts makes is literally true: an annotation does cover the
+        residue, and a predicted annotation is an annotation. But the verdict is displayed as
+        supported without saying that prediction is all that supports it, and a reader may take it
+        for a settled fact about the protein. By this project's own rule a prediction should not
+        carry a claim on its own.
+      </p>
+      <p class="muted">
+        <b>None of the 72 claims in the worked example above is affected</b> — every one of them
+        rests on at least one curated or observed record, and that was checked rather than assumed.
+        The fix is to carry the evidence class on the verdict itself, as is already done where a
+        clinical record rests on a single submitter. It is recorded here before it is made, because
+        a limitation found after publishing is still a limitation.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -470,6 +500,31 @@
   <div class="wrap">
     <p class="eyebrow">How it grows</p>
     <h2>The order of work, and what has to be true at each step</h2>
+
+    <div class="card" style="margin-bottom:22px">
+      <h3>It grows by addition, not by redesign</h3>
+      <p class="muted">
+        The three layers underneath — the evidence store, the question compiler and the query-local
+        working state — are the part that has been measured and that works. Nothing planned
+        replaces them. New capability arrives <b>above</b> them: further areas of science as new
+        question types, and a controller that decides which evidence is worth gathering next. Both
+        read what is already there and write ordinary evidence rows.
+      </p>
+      <p class="muted">
+        This is a design constraint rather than an aspiration, and it is checked the same way
+        anything else here is. Four properties must survive every addition, because they are the
+        results rather than decoration: <b>the working state tracks the question, not the size of
+        the database</b>; <b>no stored web of relationships is traversed to answer anything</b>;
+        <b>four verdicts and no fused score</b>; and <b>every refusal carries its reason</b>. An
+        addition that costs one of them has failed, whatever else it offers.
+      </p>
+      <p class="small">
+        A consequence worth stating plainly: a controller deciding what to compute may use a
+        probability internally to choose its next step, and that probability still never becomes
+        the answer. The reported output stays the four verdicts and the rows behind them.
+      </p>
+    </div>
+
     <ol class="road" style="margin-top:18px">
       <li class="done"><b>Evidence store and questions</b><span class="when">Done</span>
         <ul><li>Records gathered and completed; seven questions answered with their rows; every run reproducible</li></ul></li>
