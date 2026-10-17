@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENSTPI — a research hypothesis about turning EEG reports into an honest history</title>
+<meta name="description" content="A research hypothesis: years of EEG reports can become one computable, traceable history of a person's brain activity, which says what is known, what was never reported, and what cannot yet be concluded. Shown on synthetic data only. Not a medical device.">
+<meta property="og:title" content="ENSTPI — a research hypothesis about EEG histories">
+<meta property="og:description" content="Four testable hypotheses, an end-to-end prototype on synthetic reports, and an honest count of what is done and what is still to prove.">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="enstpi.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="notice" role="note">
+  <strong>Research hypothesis. Synthetic data only.</strong>
+  ENSTPI is an experiment, not a product and not a medical device. No real patient data has been
+  used. It gives no diagnosis or treatment advice, and its hypotheses are <em>untested</em>. This
+  page says exactly how far the work has got.
+</div>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>ENSTPI</a>
+    <nav aria-label="Sections">
+      <a href="#problem">The problem</a>
+      <a href="#hypothesis">Hypothesis</a>
+      <a href="#see">On synthetic data</a>
+      <a href="#progress">Progress</a>
+      <a href="#future">If it succeeds</a>
+      <a href="#benefit">Who benefits</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="hero-logo" src="logo.svg" width="76" height="76"
+         alt="ENSTPI logo: an EEG trace that turns into a staircase of connected states">
+    <div class="chips">
+      <span class="chip brand">Neurology · EEG research</span>
+      <span class="chip">Research hypothesis</span>
+      <span class="chip">Synthetic data only</span>
+      <span class="chip">Code private · showcase</span>
+    </div>
+    <h1>Can years of EEG reports become one honest, computable history?</h1>
+    <p class="lede">
+      A person with epilepsy may have several EEGs over the years, each read and reported on its
+      own. ENSTPI tests whether those reports can be turned into one traceable history of what was
+      observed. Each finding would be marked as present, reported absent, or simply never reported.
+      Changes would be measured only where they can honestly be compared, and no conclusion would
+      go further than the evidence allows.
+    </p>
+    <div class="actions">
+      <a class="button" href="#progress">What is done, what is pending</a>
+      <a class="button ghost" href="#see">See it on synthetic data</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>4</strong><span>testable hypotheses, none tested yet on real data</span></div>
+      <div class="stat"><strong>6 of 15</strong><span>milestones complete, all of them engineering on synthetic data</span></div>
+      <div class="stat"><strong>13</strong><span>synthetic reports taken end to end, from report text to a declined question</span></div>
+      <div class="stat"><strong>131</strong><span>automated checks passing; every run re-creates byte-identical output</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="problem" class="band">
+  <div class="wrap">
+    <p class="eyebrow">The problem</p>
+    <h2>EEG is read one examination at a time</h2>
+    <p class="section-copy">
+      Each EEG produces its own report. How one EEG relates to the next, and what changed in
+      treatment or in the person's life between them, is usually held informally in the
+      clinician's memory. It is rarely stored in a form that can be searched, compared, or checked
+      later. Published studies show why a single examination is a weak unit.
+    </p>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card">
+        <div class="fact">50% → 84%</div>
+        <p class="muted">Among patients whose EEGs eventually showed epileptiform abnormalities, the first
+        recording showed them in 50% and the third in 84%.<sup><a href="#r1">1</a></sup> One normal-looking EEG
+        does not mean the finding is absent.</p>
+      </div>
+      <div class="card">
+        <div class="fact">53% → 72%</div>
+        <p class="muted">In a population study of people with epilepsy, the cumulative yield of epileptiform
+        abnormalities was 53% after the first EEG and 72% after the third.<sup><a href="#r2">2</a></sup></p>
+      </div>
+      <div class="card">
+        <div class="fact">55.5%</div>
+        <p class="muted">Patients failed to document 55.5% of the seizures recorded during video-EEG
+        monitoring.<sup><a href="#r3">3</a></sup> Outcomes, too, are noisy.</p>
+      </div>
+    </div>
+    <p class="section-copy" style="margin-top:20px">
+      So a single observation is uncertain, and the <em>absence</em> of a finding is especially weak.
+      A history that carries this uncertainty with it, instead of hiding it, does not yet exist as a
+      standard, computable object. That gap is what ENSTPI is built to test.
+    </p>
+  </div>
+</section>
+
+<section id="hypothesis">
+  <div class="wrap">
+    <p class="eyebrow">The research hypothesis</p>
+    <h2>One central idea, four ways it could be wrong</h2>
+    <blockquote class="pull">
+      A person's EEG reports, read together with what changed between them, can form a history of
+      observed brain activity that is faithful to the source, reproducible, and honest about what it
+      does not know. That history can carry information a single EEG does not.
+    </blockquote>
+    <p class="section-copy" style="margin-top:18px">
+      Each part is stated so that it can fail. The analysis plan is to be registered before any real
+      data is examined, and a locked half of the data stays unseen until then.
+    </p>
+    <div class="grid4" style="margin-top:20px">
+      <div class="hyp"><span class="tag">H1 · Reading</span>
+        <h3>Reports are read as well as people read them</h3>
+        <p>Turning report text into structured findings agrees with two trained human readers at
+        least as well as the two readers agree with each other.</p>
+        <p class="test"><b>Wrong if:</b> agreement is lower than human–human agreement for any main finding.</p></div>
+      <div class="hyp"><span class="tag">H2 · Change</span>
+        <h3>The history notices meaningful change</h3>
+        <p>Changes that experts judge meaningful between consecutive EEGs are picked out better by the
+        history than by simply comparing the reports' labels.</p>
+        <p class="test"><b>Wrong if:</b> it does no better than the label comparison.</p></div>
+      <div class="hyp"><span class="tag">H3 · Looking ahead</span>
+        <h3>The history adds information</h3>
+        <p>Adding the EEG history to the latest EEG and standard clinical facts improves prediction of a
+        future outcome fixed in advance.</p>
+        <p class="test"><b>Wrong if:</b> there is no improvement beyond the margin set in advance, or
+        predictions become less well calibrated.</p></div>
+      <div class="hyp"><span class="tag">H4 · Honesty</span>
+        <h3>Observational answers agree with trials</h3>
+        <p>Estimates drawn from routine records agree in direction with randomised trial results where
+        those exist, and are never presented as stronger evidence than their design allows.</p>
+        <p class="test"><b>Wrong if:</b> the direction disagrees, or any result is overstated.</p></div>
+    </div>
+
+    <div class="card" style="margin-top:26px">
+      <h3>What ENSTPI is not</h3>
+      <ul class="plain never">
+        <li><b>Not a diagnostic tool.</b> It will never say "this person has epilepsy" or "start this medicine".</li>
+        <li><b>Not a brain-health score.</b> No single number summarises a person.</li>
+        <li><b>Not a "digital twin".</b> EEG reports cannot support that claim, and this project does not make it.</li>
+        <li><b>Not a source of proven causes.</b> Records of routine care can suggest a question, and the system says when they cannot answer it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="see" class="band">
+  <div class="wrap">
+    <p class="eyebrow">See it on synthetic data</p>
+    <h2>Real output, invented patients</h2>
+    <p class="section-copy">
+      The three images below are taken from an actual run of the prototype. The reports were
+      written by hand for testing and describe no real person. The values, statuses and refusals are
+      exactly what the system produced.
+    </p>
+
+    <figure class="shot">
+      <img src="synthetic-1.jpg" width="2560" height="1460" loading="lazy"
+           alt="A synthetic EEG report on the left with phrases highlighted; on the right a table of six findings, each marked present, reported absent or not reported, with the sentence it came from.">
+      <figcaption><b>From report to observed state.</b> Every value points back to the sentence it came
+      from. Asymmetry and seizures are never mentioned, so they stay "not reported". They are not
+      quietly assumed to be normal.</figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="synthetic-2.jpg" width="2560" height="1660" loading="lazy"
+           alt="A table of one synthetic person's three EEGs over eleven months, showing each finding at each date and the direction of change between them where a comparison is possible.">
+      <figcaption><b>One person, three EEGs.</b> Directions of change are kept where both EEGs report the
+      finding. The system declines to give an overall change score, because only two of six findings
+      are comparable and the recording type differs. An empty value is the honest answer here.</figcaption>
+    </figure>
+
+    <figure class="shot">
+      <img src="synthetic-3.jpg" width="2560" height="940" loading="lazy"
+           alt="A result panel reading 'No hypothesis generated' with two reasons, beside checks showing the run is reproducible and all tests pass.">
+      <figcaption><b>A question asked, and declined.</b> Asked whether epileptiform discharges disappear
+      more often after a medication change, the prototype produced no hypothesis and recorded why. A
+      research tool that turns every pattern into a "finding" floods science with false leads.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="progress">
+  <div class="wrap">
+    <p class="eyebrow">Progress</p>
+    <h2>6 of 15 milestones complete. The hard part is still ahead.</h2>
+    <p class="section-copy">
+      Everything completed so far is engineering, checked on synthetic data. None of the four
+      hypotheses has been tested, because that needs real, de-identified EEG reports and independent
+      human readers. Both are being arranged.
+    </p>
+    <div class="progress" aria-label="Milestones: 6 complete, 1 in progress, 8 pending">
+      <div class="meter"><i class="d" style="width:40%"></i><i class="n" style="width:6.67%"></i></div>
+      <div class="legend"><span class="ld">Complete · 6</span><span class="ln">In progress · 1</span><span>Pending · 8</span></div>
+    </div>
+
+    <ol class="road">
+      <li class="done"><b>Research question and four falsifiable hypotheses written down</b><span class="when done">Complete</span></li>
+      <li class="done"><b>EEG vocabulary grounded in an international standard</b><span class="when done">Complete</span>
+        <ul><li>Every finding term resolved by a tool against the published HED-SCORE vocabulary for EEG; none typed by hand</li></ul></li>
+      <li class="done"><b>Report → evidence → observed state, on synthetic reports</b><span class="when done">Complete</span>
+        <ul><li>Present, reported absent, not reported and not assessable kept apart; every value traceable to its sentence</li></ul></li>
+      <li class="done"><b>Change over time, only where it can be compared</b><span class="when done">Complete</span>
+        <ul><li>Imprecise dates and missing findings are flagged instead of being filled in</li></ul></li>
+      <li class="done"><b>From a question to a hypothesis, or a reasoned refusal, end to end</b><span class="when done">Complete</span>
+        <ul><li>Self-tests with planted traps: an association that only looks real is declined; reruns are byte-identical</li></ul></li>
+      <li class="done"><b>Real-data intake ready</b><span class="when done">Complete</span>
+        <ul><li>Subject identities replaced by keyed pseudonyms before analysis; half of the subjects locked away for the final test; a quality report that needs no answer key</li></ul></li>
+      <li class="now"><b>Access to a public research EEG corpus</b><span class="when now">In progress</span>
+        <ul><li>Application for the Temple University Hospital EEG Corpus, a de-identified research collection</li></ul></li>
+      <li class="pending"><b>Review of the vocabulary by two clinical neurophysiologists</b><span class="when">Pending</span></li>
+      <li class="pending"><b>Analysis plan registered before any real data is examined</b><span class="when">Pending</span></li>
+      <li class="pending"><b>H1: reading accuracy against two independent human readers</b><span class="when">Pending</span></li>
+      <li class="pending"><b>H2: does the history notice meaningful change?</b><span class="when">Pending</span></li>
+      <li class="pending"><b>H3: does the history add information about future outcomes?</b><span class="when">Pending</span></li>
+      <li class="pending"><b>H4: do observational answers agree with randomised trials?</b><span class="when">Pending</span></li>
+      <li class="pending"><b>External validation at another site, including an Indian hospital</b><span class="when">Pending</span></li>
+      <li class="pending"><b>Beyond reports: raw EEG signal features, then research on controlled interventions</b><span class="when">Pending</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="future" class="band">
+  <div class="wrap">
+    <p class="eyebrow">If it succeeds</p>
+    <h2>What it could make possible</h2>
+    <p class="section-copy">
+      None of the following is claimed today. Each follows only if the hypotheses above survive
+      testing that has not yet happened.
+    </p>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card">
+        <h3>A history, not a pile of reports</h3>
+        <p class="muted">Years of EEGs for one person, read together: what was seen, what was never looked
+        for, and what changed between visits. Every entry can be traced back to its sentence.</p>
+      </div>
+      <div class="card">
+        <h3>Research from records that already exist</h3>
+        <p class="muted">Hospitals hold decades of EEG reports. If they can be read faithfully, they become a
+        research resource without a single new recording.</p>
+      </div>
+      <div class="card">
+        <h3>Fewer false leads</h3>
+        <p class="muted">Questions that routine records cannot answer are declined with reasons. Effort then
+        goes to the questions that deserve a proper trial.</p>
+      </div>
+      <div class="card">
+        <h3>Results anyone can re-check</h3>
+        <p class="muted">The same input always gives the same output, with its full trail. A reviewer months
+        later can re-derive a result instead of trusting it.</p>
+      </div>
+      <div class="card">
+        <h3>A bridge to the signal itself</h3>
+        <p class="muted">Later phases would add features from the raw EEG recording, checked against what the
+        reports say, so that each source can audit the other.</p>
+      </div>
+      <div class="card">
+        <h3>A pattern beyond EEG</h3>
+        <p class="muted">Any test that is repeated over a lifetime and reported in words faces the same problem.
+        EEG in epilepsy is where the idea is tested first.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="benefit">
+  <div class="wrap">
+    <p class="eyebrow">Who benefits, if it works</p>
+    <h2>Medical science, patients, and the countries where most people with epilepsy live</h2>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card">
+        <h3>Medical science</h3>
+        <ul class="plain">
+          <li><b>Routine records become usable evidence</b>, with the uncertainty of each observation kept visible.</li>
+          <li><b>Questions are ranked by how answerable they are</b>, so trials can be aimed where records cannot decide.</li>
+          <li><b>Studies can be reproduced exactly</b>, down to the sentence each result came from.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Patients</h3>
+        <ul class="plain">
+          <li><b>Their history is read as a whole</b> in research, not as isolated snapshots.</li>
+          <li><b>Missing information is not mistaken for good news.</b> "Not reported" is never treated as "normal".</li>
+          <li><b>Better questions about treatment</b> can reach the trials that answer them sooner.</li>
+        </ul>
+        <p class="small" style="margin-top:10px">ENSTPI is a research tool. Any benefit to patients would come through
+        research findings that clinicians then evaluate, not through the tool itself.</p>
+      </div>
+      <div class="card">
+        <h3>Low- and middle-income countries</h3>
+        <p class="muted">Around 50 million people worldwide have epilepsy, and nearly 80% of them live in low- and
+        middle-income countries. Three quarters of people with epilepsy in low-income countries do not
+        get the treatment they need. Yet up to 70% could live seizure-free if properly diagnosed and
+        treated.<sup><a href="#r4">4</a></sup></p>
+        <ul class="plain">
+          <li><b>Works from report text</b>, which many hospitals already have, with no special equipment.</li>
+          <li><b>Runs on an ordinary computer, offline</b>, so records never need to leave the hospital.</li>
+          <li><b>Research about local populations</b>, with validation planned at an Indian hospital rather than only in high-income cohorts.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="references">
+  <div class="wrap">
+    <p class="eyebrow">Sources</p>
+    <h2>References</h2>
+    <ol class="refs">
+      <li id="r1">Salinsky M, Kanter R, Dasheiff RM. Effectiveness of multiple EEGs in supporting the diagnosis of epilepsy: an operational curve. <i>Epilepsia</i> 1987;28:331–4. <a href="https://doi.org/10.1111/j.1528-1157.1987.tb03652.x">doi:10.1111/j.1528-1157.1987.tb03652.x</a></li>
+      <li id="r2">Baldin E, et al. Yield of epileptiform electroencephalogram abnormalities in incident unprovoked seizures: a population-based study. <i>Epilepsia</i> 2014;55:1389–98. <a href="https://doi.org/10.1111/epi.12720">doi:10.1111/epi.12720</a></li>
+      <li id="r3">Hoppe C, Poepel A, Elger CE. Epilepsy: accuracy of patient seizure counts. <i>Arch Neurol</i> 2007;64:1595–9. <a href="https://doi.org/10.1001/archneur.64.11.1595">doi:10.1001/archneur.64.11.1595</a></li>
+      <li id="r4">World Health Organization. Epilepsy — fact sheet, 7 February 2024. <a href="https://www.who.int/news-room/fact-sheets/detail/epilepsy">who.int/news-room/fact-sheets/detail/epilepsy</a></li>
+    </ol>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="eyebrow">Collaborate</p>
+    <h2>Most useful right now: people who will test it hard</h2>
+    <p class="section-copy">
+      Clinical neurophysiologists willing to read reports independently, and hospitals interested in
+      external validation, are the most valuable help at this stage. Please get in touch through
+      <a href="https://github.com/nabvian">github.com/nabvian</a>.
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><b>ENSTPI</b> · Koushik Das · <a href="https://github.com/nabvian">github.com/nabvian</a></p>
+    <p>
+      <b>Research hypothesis; unvalidated; source code private.</b> Not a medical device and not
+      clinical software. It provides no diagnostic, prognostic or treatment advice, has never been
+      used in patient care, and must not inform any decision about a person. Every report and
+      patient shown on this page is synthetic.
+    </p>
+    <p>
+      The four hypotheses on this page are <b>untested</b>. Everything under "If it succeeds" and "Who
+      benefits" is conditional and must not be read as a current capability. Figures about epilepsy
+      come from the cited sources; figures about the prototype come from its own automated checks
+      on synthetic data, which have not been independently reproduced.
+    </p>
+  </div>
+</footer>
+</body>
+</html>
