@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" role="img" aria-label="CREE: an RNA structure with a verdict on every helix">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d5247"/><stop offset="1" stop-color="#062b25"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="400" fill="url(#bg)"/>
+  <g transform="translate(40 70) scale(3.6)">
+    <path d="M14.5 57 L20.5 51.5 V22.5 A11.5 11.5 0 0 1 43.5 22.5 V51.5 L49.5 57" fill="none" stroke="#d2f4ea" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M23.5 27.5H40.5" stroke="#5f9a8d" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M23.5 34H40.5M23.5 40.5H40.5M23.5 47H40.5" stroke="#ffd166" stroke-width="3.6" stroke-linecap="round"/>
+  </g>
+  <g font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+    <text x="300" y="96" fill="#8fbfb3" font-size="17" font-weight="600" letter-spacing="2.4">EVERY HELIX, A VERDICT</text>
+    <rect x="300" y="120" width="300" height="54" rx="10" fill="#183a2c" stroke="#2f6a4e"/>
+    <text x="318" y="144" fill="#ffd166" font-size="17" font-weight="800" letter-spacing="1">SUPPORTED</text>
+    <text x="318" y="164" fill="#b7cfc6" font-size="14">by independent lines of evidence</text>
+    <rect x="300" y="186" width="300" height="54" rx="10" fill="#1a3532" stroke="#3a6660"/>
+    <text x="318" y="210" fill="#9fd3c5" font-size="17" font-weight="800" letter-spacing="1">INSUFFICIENT</text>
+    <text x="318" y="230" fill="#a9c2bb" font-size="14">the evidence cannot decide</text>
+    <rect x="300" y="252" width="300" height="54" rx="10" fill="#33202a" stroke="#6b3240"/>
+    <text x="318" y="276" fill="#ff8a94" font-size="17" font-weight="800" letter-spacing="1">CONTRADICTED</text>
+    <text x="318" y="296" fill="#c49aa2" font-size="14">measured probing data argue against it</text>
+  </g>
+</svg>

@@ -17,6 +17,7 @@ recorded data.
 | LUMERA — structured evidence from chest radiographs | [projects/lumera](https://nabvian.github.io/projects/lumera/) (showcase) | private |
 | PATHEX — explainable decision support for the adult blood count | [projects/pathex](https://nabvian.github.io/projects/pathex/) (showcase + web simulation) | private |
 | Ultrasound Guidance — trusted capture, then probe guidance | [projects/ultrasound-guidance](https://nabvian.github.io/projects/ultrasound-guidance/) (showcase) | private |
+| CREE — RNA structure with a verdict on every helix | [projects/cree](https://nabvian.github.io/projects/cree/) (showcase) | private |
 | Graphspace — typed computational graphs | [graphspace](https://nabvian.github.io/graphspace/) | [graphspace](https://github.com/nabvian/graphspace) |
 
 The thumbnails in `img/` are screenshots of each demo, in light and dark.
