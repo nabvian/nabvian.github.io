@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CREE — an RNA structure with a verdict on every helix</title>
+<meta name="description" content="CREE (Computational RNA Evidence Engine) predicts RNA secondary structure from physics, a learned model and chemical probing data, counts evidence only as far as it is independent, and returns a verdict on every helix plus a flag that says when not to trust the answer. Research showcase; code private.">
+<meta property="og:title" content="CREE — an RNA structure with a verdict on every helix">
+<meta property="og:description" content="A trust-and-fusion layer for RNA structure prediction. Version 0.1.0: preregistered, tested blind on 5,388 RNAs from unseen families, failures reported. Code private; results shown here.">
+<meta property="og:image" content="https://nabvian.github.io/projects/cree/og.png">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../showcase.css">
+<style>
+  :root { --brand: #0b6e5f; --brand-soft: #e1f2ed; --on-brand: #ffffff; --gold: #9a6b00; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand: #5cd3b8; --brand-soft: #10302a; --on-brand: #04221c; --gold: #ffd166; } }
+  :root[data-theme="dark"] { --brand: #5cd3b8; --brand-soft: #10302a; --on-brand: #04221c; --gold: #ffd166; }
+  .brand i { background: url(logo.svg) center / cover no-repeat; }
+  .hero-logo { width: 76px; height: 76px; border-radius: 17px; margin-bottom: 14px; display: block; }
+  .fig { margin: 0 0 16px; }
+  .fig a { display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
+  .fig img { display: block; width: 100%; height: auto; }
+  .fig figcaption { margin-top: 8px; font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; }
+  .fig figcaption b { color: var(--text-primary); }
+  .verdicts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+  .v { padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-1); font-size: 14px; color: var(--text-secondary); }
+  .v b { display: block; font: 750 13px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .04em; margin-bottom: 4px; }
+  .v.sup b { color: var(--good); } .v.con b { color: var(--bad); } .v.ins b { color: var(--warn); } .v.na b { color: var(--text-muted); }
+  .gb { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .gb .card h3 { display: flex; align-items: center; gap: 8px; }
+  .gb .card h3 .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .gb ul { margin: 0; padding-left: 18px; color: var(--text-secondary); font-size: 14.5px; }
+  .gb li { margin-bottom: 8px; }
+  .gb li b { color: var(--text-primary); }
+  .novel { counter-reset: n; list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .novel li { counter-increment: n; position: relative; padding: 14px 16px 14px 52px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); color: var(--text-secondary); font-size: 14.5px; }
+  .novel li::before { content: counter(n); position: absolute; left: 14px; top: 14px; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: var(--on-brand); font-weight: 700; font-size: 13px; }
+  .novel li b { display: block; color: var(--text-primary); margin-bottom: 2px; }
+  .cmp td.me { color: var(--brand); font-weight: 700; }
+  .never li { margin-bottom: 8px; }
+  .never b { color: var(--text-primary); }
+  .disclaimer { border: 1px solid color-mix(in srgb, var(--warn) 40%, var(--line)); background: var(--warn-soft); border-radius: 14px; padding: 18px 20px; }
+  .disclaimer p, .disclaimer li { color: var(--text-primary); font-size: 14.5px; }
+  .disclaimer ul { margin: 8px 0 0; padding-left: 20px; }
+  .refs li { margin-bottom: 5px; font-size: 13.5px; color: var(--text-secondary); }
+  .road.done { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+  .road.done::before { content: "✓"; color: var(--good); }
+  .roadmap.r4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .arch.a5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  @media (max-width: 1000px) { .arch.a5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .arch.a5 { grid-template-columns: 1fr; } }
+  .tag { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 650; color: var(--warn); }
+  @media (max-width: 1000px) { .verdicts, .roadmap.r4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gb { grid-template-columns: 1fr; } }
+  @media (max-width: 760px) { .novel { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .verdicts, .roadmap.r4 { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice-bar" role="note"><strong>Research software showcase.</strong> The source code is private; this page shows recorded results and screenshots only. Not peer-reviewed. Not a medical device and not for clinical decisions.</div>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>CREE</a>
+    <nav aria-label="Sections">
+      <a href="#what">What it is</a>
+      <a href="#novelty">What is new</a>
+      <a href="#status">Where it stands</a>
+      <a href="#results">Results</a>
+      <a href="#v02">Version 0.2.0</a>
+      <a href="#impact">If it succeeds</a>
+      <a href="#collaborate">Collaborate</a>
+      <a href="/">All projects</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="hero-logo" src="logo.svg" alt="CREE logo: an RNA hairpin; three base pairs confirmed in gold, one left undecided" width="76" height="76">
+    <div class="chips"><span class="chip brand">RNA structure · evidence and trust</span><span class="chip">Version 0.1.0 · October 2026</span><span class="chip">Rust + Python · ViennaRNA · PyTorch</span><span class="chip">Code private · showcase</span></div>
+    <h1>An RNA structure with a verdict on every helix.</h1>
+    <p class="lede"><b>CREE</b> (Computational RNA Evidence Engine) predicts how an RNA molecule folds, using three kinds of evidence: thermodynamics, a learned model, and chemical probing data (SHAPE) when an experiment exists. It combines them only as far as they are truly independent. Instead of one structure presented as fact, it returns calibrated probabilities, a verdict for each helix with its reasons, and a flag that says when not to trust the answer. CREE is a <b>trust-and-fusion layer</b>: it can wrap another folding tool and tell you which of that tool's helices to believe.</p>
+    <div class="hero-actions">
+      <a class="button" href="#results">See the results</a>
+      <a class="button ghost" href="#status">What is good, what is not</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>5,388</strong><span>RNAs from families never seen in training, used once as a blind test</span></div>
+      <div class="stat"><strong>91.2%</strong><span>of helices CREE marks SUPPORTED are correct when it wraps the BPfold folder (target ≥ 90%)</span></div>
+      <div class="stat"><strong>0.786 → 0.862</strong><span>mean F1 on 13 never-used RNAs when their SHAPE data are added</span></div>
+      <div class="stat"><strong>0.623 vs 0.783</strong><span>raw folding accuracy (F1) of CREE's default vs BPfold: CREE is <em>not</em> the most accurate folder</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="what" class="band">
+  <div class="wrap two-col">
+    <div>
+      <p class="eyebrow">The problem</p>
+      <h2>A predicted structure does not say which parts to believe</h2>
+      <p class="muted">RNA molecules fold back on themselves into helices and loops, and that shape decides much of what they do: how a gene is regulated, where a drug or an antisense strand can bind, how stable a messenger RNA is. Computer programs predict these shapes, and they are often right, but a prediction usually arrives as a single structure, or as probabilities whose reliability on a new kind of RNA is unknown.</p>
+      <p class="muted">Recent reviews describe a generalisation problem: learned folding models score well on RNA families like those they were trained on, then drop on families they have never seen. A scientist looking at one prediction cannot tell which helix is solid, which is a guess, and whether the probing experiment they ran agrees.</p>
+    </div>
+    <div>
+      <p class="eyebrow">The approach</p>
+      <h2>Count evidence, not opinions; say when the evidence runs out</h2>
+      <ul class="plain">
+        <li><b>Three kinds of evidence</b>: thermodynamic physics (ViennaRNA 2.7.2), a learned model, and measured SHAPE reactivity.</li>
+        <li><b>Independence first.</b> Evidence is grouped by what it is derived from, so two models trained on the same data count once. A high probability that rests on one group alone is never called SUPPORTED.</li>
+        <li><b>Roles.</b> Measured data outrank physics, physics outranks a learned model. A learned model can add support but cannot veto a helix that measurement and physics both support.</li>
+        <li><b>Calibration with a stated target.</b> The SUPPORTED threshold is fitted per evidence combination, so that at least 90% of SUPPORTED helices should be correct, using a distribution-free statistical bound.</li>
+        <li><b>Abstention.</b> When the experts disagree, or the RNA looks unlike anything in training, CREE flags the whole prediction.</li>
+        <li><b>A verifiable record.</b> Every run writes a hash-pinned record that can be recomputed and checked; an edited record is refused.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="eyebrow" style="margin-top:26px">The four verdicts a helix can receive</p>
+    <div class="verdicts" aria-label="The four helix verdicts">
+      <div class="v sup"><b>SUPPORTED</b>at least two independent groups agree and the calibrated probability clears the threshold</div>
+      <div class="v con"><b>CONTRADICTED</b>measured data argue against the helix and no measured data support it</div>
+      <div class="v ins"><b>INSUFFICIENT</b>the evidence cannot decide: one group only, or experts disagree</div>
+      <div class="v na"><b>NOT_ASSESSED</b>no usable evidence for this helix</div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Five stages between a sequence and a record you can check</h2>
+    <p class="section-copy">Each stage is a separate, tested component. A Rust core validates input, enforces invariants and writes the record; Python workers run the physics and the learned model.</p>
+    <div class="arch a5">
+      <article class="stage"><span class="n">Stage 1</span><b>Evidence</b><ul><li>ViennaRNA pair and unpaired probabilities</li><li>Learned model (ResNet over the sequence)</li><li>SHAPE reactivities as pseudo-energies</li></ul></article>
+      <article class="stage"><span class="n">Stage 2</span><b>Fuse</b><ul><li>Physics-first by default</li><li>Dependence model groups evidence by origin</li><li>Rejects a model whose position totals exceed 1</li></ul></article>
+      <article class="stage"><span class="n">Stage 3</span><b>Calibrate</b><ul><li>Pair and unpaired probabilities mapped on held-out data</li><li>Thresholds per evidence class, Learn-then-Test bound</li></ul></article>
+      <article class="stage"><span class="n">Stage 4</span><b>Judge</b><ul><li>Verdict per helix with its reason</li><li>Disagreement and out-of-distribution flags</li><li>Abstain when warranted</li></ul></article>
+      <article class="stage"><span class="n">Stage 5</span><b>Record</b><ul><li>Hashes of config, input, models and worker code</li><li><code>cree verify</code> recomputes; exit 4 on mismatch, exit 5 on code drift</li></ul></article>
+    </div>
+    <div class="rail"><b>Core rule:</b> a verdict is only as strong as its independent evidence. CREE would rather say INSUFFICIENT than present one model's confidence as a fact.</div>
+  </div>
+</section>
+
+<section id="novelty" class="band">
+  <div class="wrap">
+    <p class="eyebrow">What is new in this project</p>
+    <h2>The parts exist separately; the combination is the contribution</h2>
+    <p class="section-copy">Thermodynamic folding, learned folding, SHAPE-guided folding and calibration are all established. The folding tools compared here (CONTRAfold, EternaFold, MXfold2, BPfold) return a structure or pair probabilities. None of them returns a per-helix verdict backed by independent evidence and a fitted precision target. As far as I know, that combination has not been put together and tested this way before. It still needs independent review.</p>
+    <ol class="novel">
+      <li><b>Verdicts per helix, not per structure</b>Each helix gets SUPPORTED, CONTRADICTED, INSUFFICIENT or NOT_ASSESSED, with the experts that supported or contradicted it.</li>
+      <li><b>Evidence counted by independence</b>A dependence model groups evidence by origin (measured, thermodynamic, learned). Agreement between correlated sources is not counted twice.</li>
+      <li><b>A learned model cannot veto measurement</b>If SHAPE data and physics both support a helix, a learned model's disagreement is recorded as dissent and does not overrule them. Before this rule there were 40 violations; afterwards, 0.</li>
+      <li><b>Precision targets with a statistical bound</b>The SUPPORTED threshold for each evidence class is fitted by Learn-then-Test with a one-sided Clopper–Pearson bound (α = 0.10). The page reports where it fails to transfer to new families.</li>
+      <li><b>A wrapper for other folders</b>CREE can take another tool's output as its learned evidence and judge it. Around BPfold, 89.8% of the helices CREE supports are correct, against 65.2% of the rest.</li>
+      <li><b>Records that cannot be quietly edited</b>Each record pins hashes of the config, input, models and worker code. <code>cree verify</code> recomputes the result and refuses a record that was changed by hand.</li>
+      <li><b>Preregistered, failures included</b>Hypotheses, thresholds and data splits were written and hashed before training; each test was run once; every outcome is published, including the four that failed.</li>
+      <li><b>Methods reused from the author's other work</b>The independent-evidence floor comes from <a href="../proteora/">PROTEORA</a>; split-conformal calibration and the drift gate come from <a href="https://nabvian.github.io/umna-benchmarks/">UMNA</a>.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="status">
+  <div class="wrap">
+    <p class="eyebrow">Where it stands · version 0.1.0, frozen October 2026</p>
+    <h2>Works end to end and is honest about itself; its reliability targets are not yet met on new families</h2>
+    <p class="section-copy">Version 0.1.0 was tested against two preregistrations, each hashed before training (revision B: <code>PREREG_v0.1b.md</code>, SHA-256 <code>135b8407…09ecb</code>). Development data: ArchiveII split by Rfam clan, so each test family is absent from training, plus 203 RNA chains from the Protein Data Bank. Blind data: 5,388 bpRNA-new RNAs with no Rfam match to any training clan (largest 5-mer similarity 0.355), and 13 DeepChemProfiling SHAPE RNAs, never used before.</p>
+
+    <div class="gb">
+      <div class="card">
+        <h3><span class="dot" style="background:var(--good)"></span>What is good</h3>
+        <ul>
+          <li><b>Verdicts separate right from wrong.</b> On blind RNAs, SUPPORTED helices are 79–91% correct depending on configuration; INSUFFICIENT helices 42–65%.</li>
+          <li><b>It makes another folder safer.</b> Wrapped around BPfold, 91.2% of SUPPORTED helices are correct (n = 1,691; target 90%: pass).</li>
+          <li><b>Abstention works on blind data.</b> Flagged RNAs fold worse than accepted ones: F1 −0.017 [−0.034, −0.000] in the default; −0.073 [−0.089, −0.057] with learned fusion.</li>
+          <li><b>SHAPE helps.</b> On 13 never-used RNAs, mean F1 rises from 0.786 to 0.862 (default) and from 0.763 to 0.904 (learned fusion). Helices SUPPORTED with SHAPE are 95–97% correct.</li>
+          <li><b>Two design flaws fixed and proven fixed</b> (C2 veto, D-1 probability totals; figures below).</li>
+          <li><b>Reproducible.</b> The release binary reproduces 279 of 279 evaluated runs; 26 Rust and 83 Python tests; all 95 requirements traced to tests; 0 known dependency vulnerabilities.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--bad)"></span>What is not good</h3>
+        <ul>
+          <li><b>Not the most accurate folder.</b> On blind RNAs: CREE default 0.623, CREE with learned fusion 0.639, CONTRAfold 0.642, EternaFold and MXfold2 0.633, BPfold 0.783.</li>
+          <li><b>Precision target missed on new families.</b> The default's SUPPORTED helices are 79.4% correct (target 90%), and unpaired calibration error is 0.070 (target 0.05). Thresholds fitted on known families are optimistic for new ones.</li>
+          <li><b>The better learned model was not promoted.</b> B2 beat B1 in every group (+0.259 F1), but the preregistered gate needed more sequences per group than the data contain, so the rule kept B1.</li>
+          <li><b>Learned fusion is not reliably better than physics.</b> It wins on blind families (+0.017 [+0.011, +0.022]) but not on the development clans (−0.018 [−0.080, +0.032]), so the default stays physics-first.</li>
+          <li><b>SHAPE is not uniformly helpful</b>: of the 13 RNAs, 4 improved, 3 were unchanged and 6 got slightly worse; the mean rises because of two large gains.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3><span class="dot" style="background:var(--warn)"></span>What will improve</h3>
+        <ul>
+          <li><b>Refit the thresholds for new families</b> so the 90% target holds where it currently does not.</li>
+          <li><b>Fuse BPfold inside CREE</b>, not only wrap it, and test on a fresh blind set.</li>
+          <li><b>Train a larger learned model</b> on the Apple GPU (about 9× faster than CPU), under a new preregistration.</li>
+          <li><b>Size the promotion gate from a pilot</b> so that a better model can actually be promoted.</li>
+          <li><b>Add comparative evidence</b> (covariation in Rfam alignments) as an independent group, and DMS probing data.</li>
+          <li><b>Independent review</b> of code and analyses, and a second-machine reproduction.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="table-wrap card" style="margin-top:6px">
+      <table class="claims">
+        <thead><tr><th>Preregistered hypothesis (revision B)</th><th>Data</th><th>Result</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>H-B1 · The new learned model's position totals never exceed 1</td><td>development + blind</td><td>largest total 0.999999 (old model: up to 2.60)</td><td><span class="status ok">PASS</span></td></tr>
+          <tr><td>H-B2 · No learned veto of measured + physics support (rule C2)</td><td>349 dev, 20 + 13 SHAPE RNAs</td><td>0 violations in every configuration (old rule: 40)</td><td><span class="status ok">PASS</span></td></tr>
+          <tr><td>H-B3 · Promote B2 only if it passes the per-group gate</td><td>8 clan groups + PDB</td><td>better in every group, but 3 groups too small for the power rule</td><td><span class="status bad">FAIL · gate</span></td></tr>
+          <tr><td>H-B4a · SUPPORTED precision ≥ 0.90 (default)</td><td>5,388 blind</td><td>0.794 (n = 6,037)</td><td><span class="status bad">FAIL</span></td></tr>
+          <tr><td>H-B4b · Unpaired calibration error ≤ 0.05</td><td>5,388 blind</td><td>0.070</td><td><span class="status bad">FAIL</span></td></tr>
+          <tr><td>H-B4c · Abstained RNAs fold worse than accepted ones</td><td>5,388 blind</td><td>−0.017 F1 [−0.034, −0.000]</td><td><span class="status ok">PASS</span></td></tr>
+          <tr><td>H-B5 · Around BPfold, SUPPORTED precision ≥ 0.90</td><td>5,388 blind</td><td>0.912 (n = 1,691)</td><td><span class="status ok">PASS</span></td></tr>
+          <tr><td>H-B6 · Learned fusion beats physics</td><td>blind / development</td><td>+0.017 blind; −0.018 dev (CI below −0.02)</td><td><span class="status warn">PASS blind · default unchanged</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="results" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Results · screenshots and figures from the recorded runs</p>
+    <h2>What a reader can check without the code</h2>
+    <p class="section-copy">Everything below comes from the frozen v0.1.0 release and its evaluation runs. The terminal and report are from the released binary running on one RNA; the figures are from the preregistered analyses. Click an image to open it at full size.</p>
+
+    <div class="two-col">
+      <figure class="fig">
+        <a href="shots/terminal.png"><img src="shots/terminal.png" alt="Terminal: cree predict, verify and report succeed on yeast tRNA-Phe; a record with one verdict edited by hand is refused with exit code 4" width="1912" height="1120" loading="lazy"></a>
+        <figcaption><b>The released binary in use.</b> Predict, verify and report on yeast tRNA-Phe with its SHAPE data. When one helix verdict in the record is edited by hand, <code>cree verify</code> recomputes it and refuses the record (exit 4). The <code>[exit N]</code> lines and the comment line were added by the shell script that captured the session.</figcaption>
+      </figure>
+      <figure class="fig">
+        <a href="shots/report-trna.png"><img src="shots/report-trna.png" alt="CREE HTML report for yeast tRNA-Phe: decoded structure, evidence availability, global confidence, six helix verdicts with reasons, and provenance hashes" width="2080" height="2000" loading="lazy"></a>
+        <figcaption><b>The report CREE writes.</b> Structure, which evidence was available, a disagreement score, six helix verdicts with their reasons, and the hashes that pin the run. Unedited output of <code>cree report</code>.</figcaption>
+      </figure>
+    </div>
+
+    <figure class="fig">
+      <a href="shots/trna-verdicts.png"><img src="shots/trna-verdicts.png" alt="Arc diagram of yeast tRNA-Phe: CREE's helices coloured by verdict above, SHAPE reactivity in the middle, reference structure below" width="1954" height="1027" loading="lazy"></a>
+      <figcaption><b>One RNA, read helix by helix.</b> Of 23 base pairs in SUPPORTED helices, 22 are in the reference structure. The D stem is correct but was marked INSUFFICIENT because physics disagreed: CREE was cautious where it did not need to be. The single wrong inner pair was not supported. tRNA is a training family for the learned model, so this illustrates the output and is not blind evidence.</figcaption>
+    </figure>
+
+    <figure class="fig">
+      <a href="shots/blind-test.png"><img src="shots/blind-test.png" alt="Blind test on 5,388 RNAs: mean F1 of CREE configurations and four other folders; SUPPORTED versus INSUFFICIENT helix correctness; abstained versus accepted F1" width="2145" height="1521" loading="lazy"></a>
+      <figcaption><b>Blind test on 5,388 RNAs from families never seen in training.</b> (a) Raw folding accuracy: BPfold is clearly best; CREE's default is the lowest. (b) What CREE adds: SUPPORTED helices are far more often correct than INSUFFICIENT ones. Only the BPfold wrapper reaches the 0.90 target. (c) RNAs that CREE abstains on fold worse than those it accepts. Error bars in (a) and (c) are 95% confidence intervals.</figcaption>
+    </figure>
+
+    <div class="two-col">
+      <figure class="fig">
+        <a href="shots/c2-and-shape.png"><img src="shots/c2-and-shape.png" alt="Left: helices violating rule C2 fall from 40 to 0 under the new rule. Right: per-RNA F1 with and without SHAPE for 13 blind RNAs" width="2055" height="995" loading="lazy"></a>
+        <figcaption><b>Measured data now count.</b> (a) Under the old rule, a learned model overruled measured + physics support 40 times; under the new rule, 0 times, including on blind SHAPE RNAs. (b) SHAPE raises the mean F1 on 13 never-used RNAs, though not for every RNA.</figcaption>
+      </figure>
+      <figure class="fig">
+        <a href="shots/row-totals.png"><img src="shots/row-totals.png" alt="Histogram and cumulative curve: the old learned model's per-position pairing totals exceed 1 often; the new model's never do" width="1850" height="982" loading="lazy"></a>
+        <figcaption><b>Probabilities that add up.</b> A base can pair with at most one partner, so its pairing probabilities must sum to at most 1. The old model (B1) broke this at 34% of positions; the new one (B2) never does. The Rust core can now refuse any model that breaks it.</figcaption>
+      </figure>
+    </div>
+
+    <div class="card">
+      <h3>An exploratory result, clearly labelled as one</h3>
+      <p class="muted">On the 13 blind SHAPE RNAs, CREE with learned fusion and SHAPE data reached F1 0.904; BPfold, which cannot use probing data, reached 0.756. CREE was ahead on 12 of 13 RNAs (+0.148 [0.073, 0.257]). This comparison was <b>not preregistered</b>, the sample is small, and two of the RNAs resemble earlier datasets. It suggests that measured data are where CREE's design pays off, and it is a hypothesis for version 0.2.0, not a claim.</p>
+    </div>
+  </div>
+</section>
+
+<section id="not">
+  <div class="wrap two-col">
+    <div class="card">
+      <p class="eyebrow">Boundaries</p>
+      <h2>What CREE is not</h2>
+      <ul class="plain never">
+        <li><b>Not the most accurate folder.</b> BPfold folds better. CREE's job is to say which helices to trust, including another folder's.</li>
+        <li><b>Not a breakthrough claim.</b> It is a trust-and-fusion layer with measured strengths and published failures. It is not yet a proven missing piece of RNA science.</li>
+        <li><b>Not a medical device or a clinical tool.</b> It makes no diagnosis, interprets no patient variant, and uses no patient data.</li>
+        <li><b>Not a 3D or pseudoknot predictor.</b> It predicts nested secondary structure; pseudoknots are evaluated but not targeted.</li>
+        <li><b>Not validated on long or in-cell RNAs.</b> Messenger RNAs, whole genomes and structures inside living cells are outside what was tested.</li>
+        <li><b>Not a foundation model.</b> Its learned models are small and trained on public structure data.</li>
+        <li><b>Not open source yet, and not peer-reviewed.</b> The code is private; the licence has not been chosen.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <p class="eyebrow">Data and tools used</p>
+      <h2>Public sources</h2>
+      <ol class="refs">
+        <li>ViennaRNA Package 2.0 — Lorenz et al., <i>Algorithms for Molecular Biology</i> 2011.</li>
+        <li>ArchiveII and family-fold splits — Sloma &amp; Mathews, <i>RNA</i> 2016; family-fold splits from Szikszai et al. 2022.</li>
+        <li>bpRNA — Danaee et al., <i>Nucleic Acids Research</i> 2018; bpRNA-new lists from the MXfold2 data release (Sato et al., <i>Nature Communications</i> 2021; Zenodo 4430150, CC-BY-4.0).</li>
+        <li>EternaBench chemical-mapping data — Wayment-Steele et al., <i>Nature Methods</i> 2022.</li>
+        <li>Rfam 15.1 covariance models and clans — used to prove that blind families are absent from training.</li>
+        <li>SHAPE pseudo-energies — Deigan et al., <i>PNAS</i> 2009.</li>
+        <li>Learn-then-Test risk control — Angelopoulos et al., 2021 (<a href="https://arxiv.org/abs/2110.01052">arXiv:2110.01052</a>).</li>
+        <li>Comparators: CONTRAfold 2, EternaFold, MXfold2 0.1.1, BPfold 0.3.1, each run with its released weights.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="v02" class="band">
+  <div class="wrap">
+    <p class="eyebrow">What version 0.2.0 will be · planned, not built</p>
+    <h2>From a trustworthy structure to questions scientists and clinicians actually ask</h2>
+    <p class="section-copy">Version 0.2.0 has two parts. First, make the reliability targets hold on new families. Then add a medical-science layer that answers specific research questions with the same verdict-and-evidence discipline. Prototype modules for the second part exist but have not been evaluated, and none of this is claimed until it is tested under a new preregistration on fresh blind data.</p>
+    <ol class="roadmap r4">
+      <li class="road done"><b>v0.1.0 · trust layer</b><ul><li>Fusion, calibration, helix verdicts, abstention, verifiable records</li><li>Preregistered blind test, failures published</li><li>Done, October 2026</li></ul></li>
+      <li class="road"><b>Hold the 90% target on new families</b><ul><li>Refit thresholds on a family-held-out scheme</li><li>Gate sample size set from a pilot run</li><li>Fresh blind set: new Rfam families, new SHAPE and DMS data</li></ul></li>
+      <li class="road"><b>Stronger evidence</b><ul><li>BPfold fused inside CREE as a learned expert</li><li>A larger model trained on the Apple GPU</li><li>Comparative covariation from Rfam alignments as an independent group</li></ul></li>
+      <li class="road"><b>Medical-science questions</b><ul><li><code>cree variant</code>: does a sequence variant change the RNA's structure, ranked against every other possible substitution?</li><li><code>cree access</code>: how likely is a target site to be open for an antisense or siRNA strand?</li><li>Probing recommender: where would one experiment best settle an undecided verdict?</li></ul><span class="tag">Prototype · not evaluated</span></li>
+    </ol>
+    <div class="card" style="margin-top:16px">
+      <h3>The planned first demonstration</h3>
+      <p class="muted">The iron-responsive element (IRE) in the 5′ untranslated region of the ferritin light-chain gene <i>FTL</i> (transcript NM_000146.4) is a small, well-studied RNA hairpin. Mutations in it cause hereditary hyperferritinaemia–cataract syndrome (Beaumont et al., <i>Nature Genetics</i> 1995). It is a natural test of whether CREE can say, with stated evidence, which variants disrupt the structure and which do not. The output would be a research annotation, never a clinical interpretation.</p>
+    </div>
+  </div>
+</section>
+
+<section id="impact">
+  <div class="wrap">
+    <p class="eyebrow">If it succeeds · stated conditionally because it is conditional</p>
+    <h2>What a trustworthy RNA structure could contribute</h2>
+    <p class="section-copy">None of the following is demonstrated yet. Each depends on version 0.2.0 meeting its targets on fresh blind data and then on independent validation by others. They describe why the problem is worth solving, not what CREE already does.</p>
+    <div class="grid3">
+      <div class="card">
+        <h3>To medical science</h3>
+        <ul class="plain">
+          <li><b>RNA medicines.</b> Antisense oligonucleotides and siRNAs must bind a part of the target RNA that is open. A calibrated opening probability with stated evidence could narrow which sites are worth testing in the lab.</li>
+          <li><b>Variants that change shape.</b> Some disease-linked variants act by refolding an RNA (so-called riboSNitches; Halvorsen et al., <i>PLoS Genetics</i> 2010). CREE could separate supported structural effects from model guesses, as research evidence for experts.</li>
+          <li><b>Later, mRNA design.</b> Structure affects how stable a messenger RNA is and how well it is translated. Long mRNAs are outside v0.2.0's tested range.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>To science</h3>
+        <ul class="plain">
+          <li><b>Fewer wasted experiments.</b> Knowing which helices are undecided tells a lab where one probing experiment would settle most of the doubt.</li>
+          <li><b>An audit layer for any folder.</b> As folding models multiply, a separate layer that judges any model's helices against independent evidence lets results be compared and trusted.</li>
+          <li><b>Honest benchmarks.</b> Preregistration, blind families and published failures give the field one more example of testing generalisation rather than memorisation.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>To human development</h3>
+        <ul class="plain">
+          <li><b>Computation that admits doubt.</b> As AI tools enter biology and medicine, software that says "the evidence cannot decide" and shows why is safer than software that is always confident.</li>
+          <li><b>Results anyone can check.</b> Hash-pinned records that refuse tampering make computational claims auditable by people who did not run them.</li>
+          <li><b>Access.</b> CREE runs on a laptop with public data, so a small lab or a student anywhere could use it, if it proves reliable.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="disclaimer" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Research disclaimer</p>
+    <h2>Read this before using anything on this page</h2>
+    <div class="disclaimer">
+      <ul>
+        <li><b>Research software, version 0.1.0.</b> CREE is an unvalidated research prototype. It is not a medical device, has not been reviewed by any regulator, and must not be used for diagnosis, treatment, variant interpretation for a patient, or any clinical decision.</li>
+        <li><b>Not peer-reviewed.</b> All results are the author's own, from preregistered analyses on public data. They have not been independently reproduced or published in a journal.</li>
+        <li><b>Results are bounded by their data.</b> Numbers apply to the datasets named on this page: short to medium-length RNAs with known secondary structures, in vitro probing data. They may not hold for other RNAs, longer molecules or in-cell structures.</li>
+        <li><b>Failures are part of the record.</b> Four preregistered tests failed and are reported as failures. No threshold was changed after seeing blind results.</li>
+        <li><b>How it was built.</b> The code and analyses were produced with an AI coding assistant under the author's direction and an honest-provenance policy. The author's line-by-line review is in progress.</li>
+        <li><b>Code is private.</b> Screenshots and figures here are from the recorded runs; the source code, models and full records are not published. Reviewers can ask for a guided review.</li>
+        <li><b>Future capabilities are plans.</b> Everything under version 0.2.0 and "If it succeeds" is a goal, not a result.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="collaborate">
+  <div class="wrap">
+    <p class="eyebrow">What I am looking for</p>
+    <h2>Most useful right now: people who will try to break it</h2>
+    <div class="grid3">
+      <article class="who"><b>Critics</b><p>Find a helix CREE marks SUPPORTED that is wrong, a leak between training and blind data, or a statistical step that does not hold. A careful negative review is worth more to this project than praise.</p></article>
+      <article class="who"><b>Expert guidance</b><p>RNA structural biologists and chemical-probing experimentalists (SHAPE, DMS); statisticians working on conformal prediction and risk control; researchers in RNA therapeutics who can say which questions matter.</p></article>
+      <article class="who"><b>University and platform collaboration</b><p>Fresh blind probing datasets, a jointly written preregistration for version 0.2.0, independent reproduction on another machine, and academic supervision or co-authorship for a publication.</p></article>
+    </div>
+    <p class="section-copy" style="margin-top:18px">To get in touch, or to request a guided review of the code and records, please contact me through <a href="https://github.com/nabvian">github.com/nabvian</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <p><b>CREE</b> · Computational RNA Evidence Engine · version 0.1.0 · Koushik Das · <a href="/">all projects</a> · <a href="https://github.com/nabvian">github.com/nabvian</a></p>
+    <p>Research software showcase. Not a medical device; not for clinical use. Source code private. Results from public datasets only; no patient data.</p>
+  </div>
+</footer>
+</body>
+</html>

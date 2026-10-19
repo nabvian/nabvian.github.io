@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 128" role="img" aria-label="CREE — Computational RNA Evidence Engine">
+  <rect x="0" y="0" width="128" height="128" rx="28" fill="#0b4a40"/>
+  <g transform="scale(2)"><path d="M14.5 57 L20.5 51.5 V22.5 A11.5 11.5 0 0 1 43.5 22.5 V51.5 L49.5 57" fill="none" stroke="#d2f4ea" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M23.5 27.5H40.5" stroke="#5f9a8d" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M23.5 34H40.5M23.5 40.5H40.5M23.5 47H40.5" stroke="#ffd166" stroke-width="3.6" stroke-linecap="round"/></g>
+  <text x="152" y="72" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="58" font-weight="800" letter-spacing="3" fill="#0b4a40">CREE</text>
+  <text x="154" y="102" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" font-size="17" font-weight="600" letter-spacing="1.2" fill="#52514e">Computational RNA Evidence Engine</text>
+</svg>

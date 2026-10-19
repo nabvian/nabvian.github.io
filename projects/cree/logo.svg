@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CREE logo: an RNA hairpin; three base pairs confirmed in gold, one left undecided">
+  <rect width="64" height="64" rx="14" fill="#0b4a40"/>
+  <g>
+    <path d="M14.5 57 L20.5 51.5 V22.5 A11.5 11.5 0 0 1 43.5 22.5 V51.5 L49.5 57" fill="none" stroke="#d2f4ea" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M23.5 27.5H40.5" stroke="#5f9a8d" stroke-width="3.6" stroke-linecap="round"/>
+    <path d="M23.5 34H40.5M23.5 40.5H40.5M23.5 47H40.5" stroke="#ffd166" stroke-width="3.6" stroke-linecap="round"/>
+  </g>
+</svg>
