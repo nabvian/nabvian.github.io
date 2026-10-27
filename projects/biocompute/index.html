@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BioCompute: test a molecular computer before you build it</title>
+<meta name="description" content="BioCompute turns an ordinary program into a molecular design, simulates it with realistic randomness, reads it through a noisy instrument and checks the answer independently. Research prototype; simulation only; code private.">
+<meta property="og:title" content="BioCompute: test a molecular computer before you build it">
+<meta property="og:description" content="Two working proofs of concept, run end to end and reproduced exactly. Simulation only; no wet-lab data yet.">
+<meta property="og:image" content="https://nabvian.github.io/img/biocompute.jpg">
+<link rel="icon" href="logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../showcase.css">
+<style>
+  :root { --brand: #0f766e; --brand-soft: #e1f3f0; --on-brand: #ffffff; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --brand: #5eead4; --brand-soft: #10302c; --on-brand: #062420; } }
+  :root[data-theme="dark"] { --brand: #5eead4; --brand-soft: #10302c; --on-brand: #062420; }
+  .brand i { background: url(logo.svg) center / cover no-repeat; }
+  .hero-logo { width: 72px; height: 72px; border-radius: 16px; margin-bottom: 14px; display: block; }
+  .prototype { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 22px; }
+  .prototype div { border: 1px solid color-mix(in srgb, var(--warn) 45%, var(--line)); background: var(--warn-soft); border-radius: 10px; padding: 12px 14px; }
+  .prototype b { display: block; color: var(--warn); font-size: 14.5px; }
+  .prototype span { font-size: 13px; color: var(--text-secondary); }
+  .film { margin-top: 18px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: #0a1220; aspect-ratio: 16 / 9; }
+  .film video { display: block; width: 100%; height: 100%; }
+  .flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; counter-reset: flow; }
+  .flow li { position: relative; padding: 16px 16px 16px 58px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-1); counter-increment: flow; min-width: 0; }
+  .flow li::before { content: counter(flow); position: absolute; left: 16px; top: 15px; width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--brand); color: var(--on-brand); font-weight: 750; font-size: 14px; }
+  .flow b { display: block; margin-bottom: 4px; }
+  .flow p { margin: 0; color: var(--text-secondary); font-size: 14.5px; }
+  figure.shot { margin: 0 0 22px; }
+  figure.shot img { display: block; width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); }
+  figure.shot figcaption { margin-top: 8px; color: var(--text-secondary); font-size: 14.5px; max-width: 900px; }
+  .results td:first-child { font-weight: 600; color: var(--text-primary); }
+  .results td { color: var(--text-secondary); }
+  .compare td:first-child { font-weight: 600; color: var(--text-primary); white-space: normal; }
+  .compare td { color: var(--text-secondary); font-size: 14px; }
+  details.refgroup { border: 1px solid var(--line); border-radius: 12px; background: var(--surface-1); padding: 12px 16px; margin-bottom: 10px; }
+  details.refgroup summary { cursor: pointer; display: flex; justify-content: space-between; gap: 12px; font-weight: 650; }
+  details.refgroup summary .n { color: var(--brand); font-variant-numeric: tabular-nums; }
+  details.refgroup p { margin: 8px 0 6px; }
+  ol.refs { margin: 6px 0 4px; padding-left: 22px; color: var(--text-secondary); font-size: 14px; }
+  ol.refs li { margin-bottom: 7px; overflow-wrap: anywhere; }
+  .road.done { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
+  .road.done::before { content: "\2713"; color: var(--good); }
+  .road.now { border-color: color-mix(in srgb, var(--warn) 55%, var(--line)); }
+  .when { display: inline-block; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+  .road.done .when { color: var(--good); }
+  .road.now .when { color: var(--warn); }
+  .vision h3 { display: flex; gap: 8px; align-items: baseline; }
+  .vision h3 span { font-size: 11.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+  @media (max-width: 860px) { .prototype { grid-template-columns: repeat(2, minmax(0, 1fr)); } .flow { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="notice-bar" role="note"><strong>Research prototype, simulation only.</strong> Every result on this page comes from a computer model with assumed chemistry. No DNA has been synthesised and there is no wet-lab result yet. The source code and design documents are private.</div>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>BioCompute</a>
+    <nav aria-label="Sections">
+      <a href="#video">Video</a>
+      <a href="#how">How it works</a>
+      <a href="#results">Results</a>
+      <a href="#prior">Prior research</a>
+      <a href="#future">Where it is going</a>
+      <a href="/">All projects</a>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <img class="hero-logo" src="logo.svg" alt="BioCompute logo: four connected molecules, the last one glowing" width="72" height="72">
+    <div class="chips"><span class="chip brand">Molecular computing</span><span class="chip">Simulation · model-only evidence</span><span class="chip">Seeded and replayable</span><span class="chip">Code private · showcase</span></div>
+    <h1>Test a molecular computer in software before you build it in DNA.</h1>
+    <p class="lede">BioCompute takes an ordinary program and turns it into a design made of molecules. It simulates those molecules with the randomness real chemistry has, reads them through a noisy simulated instrument, decides an answer, and has an independent method check that answer. The aim is a free, offline place to learn whether a molecular design will work before paying for synthesis and weeks of lab time.</p>
+    <div class="hero-actions">
+      <a class="button" href="#video">Watch the video</a>
+      <a class="button ghost" href="#results">What has been shown</a>
+      <a class="button ghost" href="#future">Where it is going</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><strong>0 wrong</strong><span>answers in 2,000 fresh trials of the basic design (1 inconclusive)</span></div>
+      <div class="stat"><strong>0 of 32,000</strong><span>runs answered wrongly by the self-checking design inside its certified range</span></div>
+      <div class="stat"><strong>14.4% &rarr; 0.03%</strong><span>wrong answers when the chemistry drifts: a plain readout, then the self-checking readout</span></div>
+      <div class="stat"><strong>40 / 40</strong><span>automated tests passing; earlier results reproduced byte for byte</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="wrap">
+    <p class="eyebrow">Watch · 3.5 minutes</p>
+    <h2>What BioCompute is, how it works, and what the first results show</h2>
+    <p class="section-copy">A narrated walkthrough built from a full end-to-end run on 28 October 2026. Every graph, trace and number in it is taken from that run.</p>
+    <div class="film">
+      <video controls preload="none" playsinline poster="video/poster.jpg" aria-label="BioCompute explainer video">
+        <source src="video/biocompute-explainer.mp4" type="video/mp4">
+        <a href="video/biocompute-explainer.mp4">Download the video (MP4, 10 MB)</a>
+      </video>
+    </div>
+    <p class="muted small">1080p · 3 min 33 s · narrated by a synthesised voice, with subtitles · <a href="video/biocompute-explainer.mp4" download>download MP4</a></p>
+  </div>
+</section>
+
+<section id="why" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Why</p>
+    <h2>Molecular computing is expensive to get wrong</h2>
+    <p class="section-copy">A computation built from DNA has to be designed, synthesised and run in a wet lab before anyone learns whether it works. Each attempt takes weeks and uses up reagents. Molecules also misbehave in ways a paper design does not show: reactions leak, components wear out, instruments are noisy. Good design tools and simulators exist (see <a href="#prior">Prior research</a>), but few start from an ordinary program, and few stop to say when an answer should not be trusted.</p>
+    <div class="grid3" style="margin-top:20px">
+      <div class="card"><h3>Straight to the lab</h3><ul class="plain"><li>Weeks per attempt</li><li>Synthesis and reagents to pay for</li><li>Failures found late, after the money is spent</li></ul></div>
+      <div class="card"><h3>Simulator first</h3><ul class="plain"><li>Minutes per attempt</li><li>Runs offline on an ordinary computer</li><li>Noise and faults tried before anything is made</li></ul></div>
+      <div class="card"><h3>Then the lab, with a plan</h3><ul class="plain"><li>Only designs that survived simulation go forward</li><li>Known weak points are tested first</li><li>Lab results feed back to make the simulator more faithful</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <p class="eyebrow">How it works</p>
+    <h2>Six steps from a program to a checked answer</h2>
+    <p class="section-copy">How each step is built is private. What each step is for is not.</p>
+    <ol class="flow">
+      <li><b>Ordinary program</b><p>You write a small, ordinary program. BioCompute reads what it computes, not how it loops.</p></li>
+      <li><b>Molecular design</b><p>The program becomes a network of molecular signals and gates that reaches the same answer by chemistry.</p></li>
+      <li><b>Molecule simulation</b><p>Molecules are simulated one reaction at a time, with the randomness real chemistry has.</p></li>
+      <li><b>Noisy sensor</b><p>A simulated instrument reads the result with noise, saturation and the chance of failure, as a real one would.</p></li>
+      <li><b>Decision</b><p>An answer is released only when the reading supports it: TRUE, FALSE, or not sure.</p></li>
+      <li><b>Independent check</b><p>A separate, conventional method works out the right answer, so every released answer is scored.</p></li>
+    </ol>
+    <p class="rail"><b>Kept apart on purpose.</b> The simulator never sees the right answer, and the decision is made from the sensor reading alone. Every run is recorded with its random seed and can be replayed to the same result.</p>
+  </div>
+</section>
+
+<section id="see" class="band">
+  <div class="wrap">
+    <p class="eyebrow">From the recorded run</p>
+    <h2>Molecules doing a search</h2>
+    <p class="section-copy">The first program asks whether one point in a small network can reach another by following the arrows. These frames are taken from the recorded simulation; the molecule counts and sensor readings are the real output.</p>
+    <figure class="shot"><img src="run-flood.jpg" width="1600" height="900" loading="lazy" alt="A network of six points; the signal has spread from point 0 to points 1, 2, 3 and 5, while point 4 stays dark. Beside it, a noisy sensor reading climbs into the high zone.">
+      <figcaption><b>The signal floods every path at once.</b> It spreads from point 0 along every arrow in parallel. Point 4 stays dark because no arrow leads to it. When the signal reaches point 5 it switches on a reporter, and the sensor reading climbs.</figcaption></figure>
+    <figure class="shot"><img src="run-answer.jpg" width="1600" height="900" loading="lazy" alt="The same network with labels: answer TRUE, independent check agrees.">
+      <figcaption><b>The answer, checked.</b> From the sensor reading alone the answer is TRUE, and the independent check agrees. All 5 demonstration cases agreed, including a network with no path, which correctly answered FALSE.</figcaption></figure>
+    <figure class="shot"><img src="run-fault.jpg" width="1600" height="900" loading="lazy" alt="A sensor reading that climbs high although no path exists, with labels: sensor says TRUE, real answer FALSE, released INCONCLUSIVE.">
+      <figcaption><b>A fault, caught.</b> Here the chemistry was broken on purpose: molecules leak although no path exists. The sensor says TRUE; the real answer is FALSE. BioCompute released "inconclusive" instead of the wrong answer, as it did for all 4 injected faults.</figcaption></figure>
+  </div>
+</section>
+
+<section id="results">
+  <div class="wrap">
+    <p class="eyebrow">Results · 28 October 2026</p>
+    <h2>What has been shown, and what has not</h2>
+    <p class="section-copy">Two proofs of concept, run end to end in one pass. The first compiles one program and checks its answers. The second adds a readout that checks its own answer before releasing it. How that readout works is not published.</p>
+    <div class="table-wrap card">
+      <table class="results">
+        <thead><tr><th>Measure</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Automated tests (release build)</td><td>40 passed, 0 failed</td></tr>
+          <tr><td>Basic design, fresh evaluation</td><td>0 wrong and 1 inconclusive in 2,000 trials</td></tr>
+          <tr><td>Demonstration cases</td><td>5 of 5 agree with the independent check</td></tr>
+          <tr><td>Injected faults</td><td>Sensor disconnected, sensor saturated, leaking molecules, missing gates: 4 of 4 released as inconclusive, none as a wrong answer</td></tr>
+          <tr><td>Self-checking readout, inside its certified range</td><td>0 wrong in 32,000 runs. A plain readout, read at the same time, was nearly as good: 6 wrong (0.02%)</td></tr>
+          <tr><td>Chemistry drifted outside that range</td><td>Plain readout wrong in 14.4% of runs (3,448 of 24,000). Self-checking readout wrong in 0.03% (8 of 24,000), under a proven ceiling below 1%</td></tr>
+          <tr><td>The price of self-checking</td><td>Answers "not sure" in 43% of drifted runs, and uses more material per answer</td></tr>
+          <tr><td>Internal consistency</td><td>9 of 9 automated consistency checks across the full record of the run pass</td></tr>
+          <tr><td>Reproducibility</td><td>Every result re-created from its random seed. Results first recorded in September 2026 were reproduced byte for byte</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:18px">
+      <h3>Honest limits</h3>
+      <ul class="plain">
+        <li><b>Simulation only.</b> The chemistry values are assumed, not measured. No DNA has been made.</li>
+        <li><b>One kind of program so far:</b> whether one point can reach another in a small network of up to six points.</li>
+        <li><b>Inside its certified range, the self-checking readout is not much better than a plain readout</b> read late enough. It earns its place when conditions drift, and pays for that in abstentions and material.</li>
+        <li><b>One pre-registered test failed, on cost:</b> the material the self-checking design uses is above the limit that was set in advance.</li>
+        <li><b>The certified range is narrow for leak:</b> it covers only very low leak rates.</li>
+        <li><b>One supporting property is tested but not yet proved</b>, and a second, independently written test set is registered but has not been run.</li>
+        <li>Every number here comes from the project's own automated checks and has not been independently reproduced.</li>
+      </ul>
+    </div>
+    <div class="prototype">
+      <div><b>Research prototype</b><span>for research and evaluation only</span></div>
+      <div><b>Model-only evidence</b><span>assumed chemistry, simulated instrument</span></div>
+      <div><b>No wet-lab data yet</b><span>calibration is the next major step</span></div>
+      <div><b>Code private</b><span>this page is a showcase</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="prior" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Prior research</p>
+    <h2>What this builds on</h2>
+    <p class="section-copy">BioCompute stands on decades of work in molecular programming, chemical kinetics and verification. None of the science below is claimed as new. The table compares BioCompute with the closest prior work. The full list follows: the 87 works cited in the project's own design documents and proof-of-concept reports. Every reference was looked up in Crossref or PubMed, and every DOI was checked to resolve.</p>
+    <div class="table-wrap card">
+      <table class="compare">
+        <thead><tr><th>Prior work</th><th>What it already does</th><th>Where BioCompute differs (a research question, not a claim)</th></tr></thead>
+        <tbody>
+          <tr><td>DNA computing (Adleman 1994)</td><td>Solved a graph problem with DNA molecules in the lab</td><td>Aims at a developer workflow: design and test in simulation before synthesis</td></tr>
+          <tr><td>Chemical reaction networks as a programming substrate (Soloveichik et al. 2010); CRN++ (Vasi&#263; et al. 2018)</td><td>Show that reactions can implement computation, and compile an imperative language to them</td><td>Starts from an ordinary program and carries its meaning through to a decided, independently checked answer</td></tr>
+          <tr><td>Nuskell (Badelt et al. 2017); Visual DSD (Lakin et al. 2011); compiler-aided seesaw circuits (Thubagere et al. 2017)</td><td>Compile reaction networks to DNA strand displacement; simulate and verify designs</td><td>Adds a decision step that may decline to answer, and scores every released answer against a separate method</td></tr>
+          <tr><td>Cello (Nielsen et al. 2016); SBOL</td><td>Compile logic to genetic circuits; a standard for exchanging biological designs</td><td>Not a circuit-design tool; intended to interoperate with such standards rather than compete</td></tr>
+          <tr><td>&#268;e&#353;ka, Kwiatkowska, Cardelli and colleagues (2012 to 2017)</td><td>Robustness analysis, parameter synthesis and model checking for stochastic chemical systems</td><td>Asks for a guarantee about the released answer agreeing with the original program</td></tr>
+          <tr><td>Selective classification (Chow 1970); conformal prediction (Vovk et al.)</td><td>Abstaining in order to keep errors low</td><td>Asks whether that idea carries over to a compiled molecular device</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="section-copy" style="margin-top:14px"><b>No novelty is claimed.</b> A structured prior-art search has not been completed. Until it is, nothing on this page should be read as a claim that BioCompute is new.</p>
+    <h3 style="margin:26px 0 10px">Full list, by theme</h3>
+<details class="refgroup" open>
+  <summary><span>Molecular programming and compilers</span><span class="n">13</span></summary>
+  <p class="muted small">Languages, compilers and design tools that turn a specification into chemical reactions, DNA strand displacement or genetic circuits. The closest prior work to BioCompute.</p>
+  <ol class="refs">
+    <li>Adleman LM (1994). Molecular Computation of Solutions to Combinatorial Problems. <i>Science</i>. <a href="https://doi.org/10.1126/science.7973651">doi:10.1126/science.7973651</a></li>
+    <li>Soloveichik D, Seelig G, Winfree E (2010). DNA as a universal substrate for chemical kinetics. <i>Proceedings of the National Academy of Sciences</i>. <a href="https://doi.org/10.1073/pnas.0909380107">doi:10.1073/pnas.0909380107</a></li>
+    <li>Lakin MR, Youssef S, Polo F, et al. (2011). Visual DSD: a design and analysis tool for DNA strand displacement systems. <i>Bioinformatics</i>. <a href="https://doi.org/10.1093/bioinformatics/btr543">doi:10.1093/bioinformatics/btr543</a></li>
+    <li>Nielsen AAK, Der BS, Shin J, et al. (2016). Genetic circuit design automation. <i>Science</i>. <a href="https://doi.org/10.1126/science.aac7341">doi:10.1126/science.aac7341</a></li>
+    <li>Badelt S, Shin SW, Johnson RF, et al. (2017). A General-Purpose CRN-to-DSD Compiler with Formal Verification, Optimization, and Simulation Capabilities. <i>Lecture Notes in Computer Science</i>. <a href="https://doi.org/10.1007/978-3-319-66799-7_15">doi:10.1007/978-3-319-66799-7_15</a></li>
+    <li>Thubagere AJ, Thachuk C, Berleant J, et al. (2017). Compiler-aided systematic construction of large-scale DNA strand displacement circuits using unpurified components. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/ncomms14373">doi:10.1038/ncomms14373</a></li>
+    <li>Vasic M, Soloveichik D, Khurshid S (2018). CRN++: Molecular Programming Language. <i>Lecture Notes in Computer Science</i>. <a href="https://doi.org/10.1007/978-3-030-00030-1_1">doi:10.1007/978-3-030-00030-1_1</a></li>
+    <li>Buecherl L, Mitchell T, Scott-Brown J, et al. (2023). Synthetic biology open language (SBOL) version 3.1.0. <i>Journal of Integrative Bioinformatics</i>. <a href="https://doi.org/10.1515/jib-2022-0058">doi:10.1515/jib-2022-0058</a></li>
+    <li>Chen C, Wen J, Wen Z, et al. (2023). DNA strand displacement based computational systems and their applications. <i>Frontiers in Genetics</i>. <a href="https://doi.org/10.3389/fgene.2023.1120791">doi:10.3389/fgene.2023.1120791</a></li>
+    <li>Williams RS, Goswami S, Goswami S (2024). Potential and challenges of computing with molecular materials. <i>Nature Materials</i>. <a href="https://doi.org/10.1038/s41563-024-01820-4">doi:10.1038/s41563-024-01820-4</a></li>
+    <li>Jia S, Lv H, Li Q, et al. (2025). DNA-based biocomputing circuits and their biomedical applications. <i>Nature Reviews Bioengineering</i>. <a href="https://doi.org/10.1038/s44222-025-00303-8">doi:10.1038/s44222-025-00303-8</a></li>
+    <li>Jung H, Collinson E, Hawes AP, et al. (2025). From the Test Tube to the Cell: A Homecoming for DNA Computing Circuits?. <i>Intelligent Computing</i>. <a href="https://doi.org/10.34133/icomputing.0112">doi:10.34133/icomputing.0112</a></li>
+    <li>Zhang Y, Li B, Liu X, et al. (2025). DNA computing function switching by programming base stacking interactions with minimal molecular architecture changes. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-025-64406-x">doi:10.1038/s41467-025-64406-x</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>Theory of chemical computation</span><span class="n">6</span></summary>
+  <p class="muted small">What chemical reaction networks can compute, and how their structure constrains their behaviour.</p>
+  <ol class="refs">
+    <li>Horn F, Jackson R (1972). General mass action kinetics. <i>Archive for Rational Mechanics and Analysis</i>. <a href="https://doi.org/10.1007/bf00251225">doi:10.1007/bf00251225</a></li>
+    <li>Feinberg M (1987). Chemical reaction network structure and the stability of complex isothermal reactors—I. The deficiency zero and deficiency one theorems. <i>Chemical Engineering Science</i>. <a href="https://doi.org/10.1016/0009-2509(87)80099-4">doi:10.1016/0009-2509(87)80099-4</a></li>
+    <li>Czerner P, Guttenberg R, Helfrich M, et al. (2024). Fast and succinct population protocols for Presburger arithmetic. <i>Journal of Computer and System Sciences</i>. <a href="https://doi.org/10.1016/j.jcss.2023.103481">doi:10.1016/j.jcss.2023.103481</a></li>
+    <li>Alaniz RM, Fu B, Gomez T, et al. (2025). Reachability in restricted chemical reaction networks. <i>Theoretical Computer Science</i>. <a href="https://doi.org/10.1016/j.tcs.2025.115514">doi:10.1016/j.tcs.2025.115514</a></li>
+    <li>Amir T, Aspnes J (2025). Privacy in population protocols with probabilistic scheduling. <i>Theoretical Computer Science</i>. <a href="https://doi.org/10.1016/j.tcs.2024.114926">doi:10.1016/j.tcs.2024.114926</a></li>
+    <li>Anderson DF, Joshi B (2025). Chemical mass-action systems as analog computers: Implementing arithmetic computations at specified speed. <i>Theoretical Computer Science</i>. <a href="https://doi.org/10.1016/j.tcs.2024.114983">doi:10.1016/j.tcs.2024.114983</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>Verification and guarantees for molecular systems</span><span class="n">7</span></summary>
+  <p class="muted small">Model checking, parameter synthesis and formal guarantees for molecular devices under uncertainty.</p>
+  <ol class="refs">
+    <li>Lakin MR, Parker D, Cardelli L, et al. (2012). Design and analysis of DNA strand displacement devices using probabilistic model checking. <i>Journal of The Royal Society Interface</i>. <a href="https://doi.org/10.1098/rsif.2011.0800">doi:10.1098/rsif.2011.0800</a></li>
+    <li>Česka M, Šafránek D, Dražan S, et al. (2014). Robustness Analysis of Stochastic Biochemical Systems. <i>PLoS ONE</i>. <a href="https://doi.org/10.1371/journal.pone.0094553">doi:10.1371/journal.pone.0094553</a></li>
+    <li>Češka M, Dannenberg F, Kwiatkowska M, et al. (2014). Precise Parameter Synthesis for Stochastic Biochemical Systems. <i>Lecture Notes in Computer Science</i>. <a href="https://doi.org/10.1007/978-3-319-12982-2_7">doi:10.1007/978-3-319-12982-2_7</a></li>
+    <li>Cardelli L, Češka M, Fränzle M, et al. (2017). Syntax-Guided Optimal Synthesis for Chemical Reaction Networks. <i>Lecture Notes in Computer Science</i>. <a href="https://doi.org/10.1007/978-3-319-63390-9_20">doi:10.1007/978-3-319-63390-9_20</a></li>
+    <li>Westman J, Nyberg M (2018). Conditions of contracts for separating responsibilities in heterogeneous systems. <i>Formal Methods in System Design</i>. <a href="https://doi.org/10.1007/s10703-017-0294-7">doi:10.1007/s10703-017-0294-7</a></li>
+    <li>Wang B, Thachuk C, Soloveichik D (2023). Speed and Correctness Guarantees for Programmable Enthalpy-Neutral DNA Reactions. <i>ACS Synthetic Biology</i>. <a href="https://doi.org/10.1021/acssynbio.2c00356">doi:10.1021/acssynbio.2c00356</a></li>
+    <li>Incer I, Benveniste A, Sangiovanni-Vincentelli A, et al. (2025). Hypercontracts. <i>Formal Methods in System Design</i>. <a href="https://doi.org/10.1007/s10703-025-00473-6">doi:10.1007/s10703-025-00473-6</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>Errors, leak and binding fidelity</span><span class="n">8</span></summary>
+  <p class="muted small">Why molecular reactions misfire, and established ways to suppress or correct it.</p>
+  <ol class="refs">
+    <li>Hopfield JJ (1974). Kinetic Proofreading: A New Mechanism for Reducing Errors in Biosynthetic Processes Requiring High Specificity. <i>Proceedings of the National Academy of Sciences</i>. <a href="https://doi.org/10.1073/pnas.71.10.4135">doi:10.1073/pnas.71.10.4135</a></li>
+    <li>Ninio J (1975). Kinetic amplification of enzyme discrimination. <i>Biochimie</i>. <a href="https://doi.org/10.1016/s0300-9084(75)80139-8">doi:10.1016/s0300-9084(75)80139-8</a></li>
+    <li>Halperin A, Buhot A, Zhulina E (2004). Sensitivity, Specificity, and the Hybridization Isotherms of DNA Chips. <i>Biophysical Journal</i>. <a href="https://doi.org/10.1016/S0006-3495(04)74150-8">doi:10.1016/S0006-3495(04)74150-8</a></li>
+    <li>Wang B, Thachuk C, Ellington AD, et al. (2018). Effective design principles for leakless strand displacement systems. <i>Proceedings of the National Academy of Sciences</i>. <a href="https://doi.org/10.1073/pnas.1806859115">doi:10.1073/pnas.1806859115</a></li>
+    <li>Zhong W, Sczepanski JT (2021). Direct Comparison of d-DNA and l-DNA Strand-Displacement Reactions in Living Mammalian Cells. <i>ACS Synthetic Biology</i>. <a href="https://doi.org/10.1021/acssynbio.0c00527">doi:10.1021/acssynbio.0c00527</a></li>
+    <li>Nagipogu RT, Reif JH (2024). Leak-resilient enzyme-free nucleic acid dynamical systems through shadow cancellation. <i>Journal of The Royal Society Interface</i>. <a href="https://doi.org/10.1098/rsif.2024.0053">doi:10.1098/rsif.2024.0053</a></li>
+    <li>Ashwood B, Tokmakoff A (2025). Kinetics and dynamics of oligonucleotide hybridization. <i>Nature Reviews Chemistry</i>. <a href="https://doi.org/10.1038/s41570-025-00704-8">doi:10.1038/s41570-025-00704-8</a></li>
+    <li>Mallette TL, Mishra A, Lakin MR (2026). On Degradation-Induced Leak in Heterochiral DNA Strand Displacement Cascades. <i>ACS Synthetic Biology</i>. <a href="https://doi.org/10.1021/acssynbio.5c00680">doi:10.1021/acssynbio.5c00680</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>Stochastic dynamics, thermodynamics and physical limits</span><span class="n">8</span></summary>
+  <p class="muted small">The noise, energy and information limits every molecular computation lives within.</p>
+  <ol class="refs">
+    <li>Shannon CE (1948). A Mathematical Theory of Communication. <i>Bell System Technical Journal</i>. <a href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x">doi:10.1002/j.1538-7305.1948.tb01338.x</a></li>
+    <li>Landauer R (1961). Irreversibility and Heat Generation in the Computing Process. <i>IBM Journal of Research and Development</i>. <a href="https://doi.org/10.1147/rd.53.0183">doi:10.1147/rd.53.0183</a></li>
+    <li>Gillespie DT (1977). Exact stochastic simulation of coupled chemical reactions. <i>The Journal of Physical Chemistry</i>. <a href="https://doi.org/10.1021/j100540a008">doi:10.1021/j100540a008</a></li>
+    <li>Esposito M (2020). Open questions on nonequilibrium thermodynamics of chemical reaction networks. <i>Communications Chemistry</i>. <a href="https://doi.org/10.1038/s42004-020-00344-7">doi:10.1038/s42004-020-00344-7</a></li>
+    <li>Szavits-Nossan J, Grima R (2024). Solving stochastic gene-expression models using queueing theory: A tutorial review. <i>Biophysical Journal</i>. <a href="https://doi.org/10.1016/j.bpj.2024.04.004">doi:10.1016/j.bpj.2024.04.004</a></li>
+    <li>van Heyningen V (2024). Stochasticity in genetics and gene regulation. <i>Philosophical Transactions of the Royal Society B: Biological Sciences</i>. <a href="https://doi.org/10.1098/rstb.2023.0476">doi:10.1098/rstb.2023.0476</a></li>
+    <li>Cao Y, Liang S (2025). Stochastic thermodynamics for biological functions. <i>Quantitative Biology</i>. <a href="https://doi.org/10.1002/qub2.75">doi:10.1002/qub2.75</a></li>
+    <li>Tu Y (2026). Nonequilibrium Thermodynamics for Biochemical Networks: Energetic Principles of Cellular Function. <i>Annual Review of Biophysics</i>. <a href="https://doi.org/10.1146/annurev-biophys-021424-112247">doi:10.1146/annurev-biophys-021424-112247</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>DNA neural networks and population coding</span><span class="n">4</span></summary>
+  <p class="muted small">Learning and population-level computation in molecules and in neurons: the long-term direction.</p>
+  <ol class="refs">
+    <li>Pouget A, Dayan P, Zemel R (2000). Information processing with population codes. <i>Nature Reviews Neuroscience</i>. <a href="https://doi.org/10.1038/35039062">doi:10.1038/35039062</a></li>
+    <li>Panzeri S, Moroni M, Safaai H, et al. (2022). The structures and functions of correlations in neural population codes. <i>Nature Reviews Neuroscience</i>. <a href="https://doi.org/10.1038/s41583-022-00606-4">doi:10.1038/s41583-022-00606-4</a></li>
+    <li>Cherry KM, Qian L (2025). Supervised learning in DNA neural networks. <i>Nature</i>. <a href="https://doi.org/10.1038/s41586-025-09479-w">doi:10.1038/s41586-025-09479-w</a></li>
+    <li>Song T, Qian L (2025). Heat-rechargeable computation in DNA logic circuits and neural networks. <i>Nature</i>. <a href="https://doi.org/10.1038/s41586-025-09570-2">doi:10.1038/s41586-025-09570-2</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>Engineered cells, RNA and synthetic biology substrates</span><span class="n">16</span></summary>
+  <p class="muted small">Living and RNA substrates, their burden, resource competition and evolutionary stability.</p>
+  <ol class="refs">
+    <li>Song H, Ding MZ, Jia XQ, et al. (2014). Synthetic microbial consortia: from systematic analysis to construction and applications. <i>Chem. Soc. Rev.</i>. <a href="https://doi.org/10.1039/c4cs00114a">doi:10.1039/c4cs00114a</a></li>
+    <li>Boo A, Ledesma Amaro R, Stan GB (2021). Quorum sensing in synthetic biology: A review. <i>Current Opinion in Systems Biology</i>. <a href="https://doi.org/10.1016/j.coisb.2021.100378">doi:10.1016/j.coisb.2021.100378</a></li>
+    <li>Dai Y, You L, Chilkoti A (2023). Engineering synthetic biomolecular condensates. <i>Nature Reviews Bioengineering</i>. <a href="https://doi.org/10.1038/s44222-023-00052-6">doi:10.1038/s44222-023-00052-6</a></li>
+    <li>Wu Q, Bazzini AA (2023). Translation and mRNA Stability Control. <i>Annual Review of Biochemistry</i>. <a href="https://doi.org/10.1146/annurev-biochem-052621-091808">doi:10.1146/annurev-biochem-052621-091808</a></li>
+    <li>Deng B, Wan G (2024). Technologies for studying phase-separated biomolecular condensates. <i>Advanced Biotechnology</i>. <a href="https://doi.org/10.1007/s44307-024-00020-0">doi:10.1007/s44307-024-00020-0</a></li>
+    <li>Di Blasi R, Gabrielli J, Shabestary K, et al. (2024). Understanding resource competition to achieve predictable synthetic gene expression in eukaryotes. <i>Nature Reviews Bioengineering</i>. <a href="https://doi.org/10.1038/s44222-024-00206-0">doi:10.1038/s44222-024-00206-0</a></li>
+    <li>Gómez-Schiavon M, Montejano-Montelongo I, Orozco-Ruiz FS, et al. (2024). The art of modeling gene regulatory circuits. <i>npj Systems Biology and Applications</i>. <a href="https://doi.org/10.1038/s41540-024-00380-2">doi:10.1038/s41540-024-00380-2</a></li>
+    <li>Pillai A, Idris A, Philomin A, et al. (2024). De novo design of allosterically switchable protein assemblies. <i>Nature</i>. <a href="https://doi.org/10.1038/s41586-024-07813-2">doi:10.1038/s41586-024-07813-2</a></li>
+    <li>Radde N, Mortensen GA, Bhat D, et al. (2024). Measuring the burden of hundreds of BioBricks defines an evolutionary limit on constructability in synthetic biology. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-024-50639-9">doi:10.1038/s41467-024-50639-9</a></li>
+    <li>Rambout X, Maquat LE (2024). Nuclear mRNA decay: regulatory networks that control gene expression. <i>Nature Reviews Genetics</i>. <a href="https://doi.org/10.1038/s41576-024-00712-2">doi:10.1038/s41576-024-00712-2</a></li>
+    <li>Strack R (2024). A leap for directed evolution. <i>Nature Methods</i>. <a href="https://doi.org/10.1038/s41592-024-02221-w">doi:10.1038/s41592-024-02221-w</a></li>
+    <li>Byrom DP, Darlington APS (2025). Genetic controllers for enhancing the evolutionary longevity of synthetic gene circuits in bacteria. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-025-63627-4">doi:10.1038/s41467-025-63627-4</a></li>
+    <li>Gabrielli J, Di Blasi R, Kontoravdi C, et al. (2025). Degradation bottlenecks and resource competition in transiently and stably engineered mammalian cells. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-024-55311-w">doi:10.1038/s41467-024-55311-w</a></li>
+    <li>Khadake RM, Arora V, Gupta P, et al. (2025). Harnessing Synthetic Riboswitches for Tunable Gene Regulation in Mammalian Cells. <i>ChemBioChem</i>. <a href="https://doi.org/10.1002/cbic.202401015">doi:10.1002/cbic.202401015</a></li>
+    <li>van den Berg N, Thijssen K, Nguyen TT, et al. (2025). Emergent collective alignment gives competitive advantage to longer cells during range expansion. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-025-67791-5">doi:10.1038/s41467-025-67791-5</a></li>
+    <li>An B, Tang TC, Zhang Q, et al. (2026). Synthetic circuits for cell ratio control. <i>Nature</i>. <a href="https://doi.org/10.1038/s41586-026-10259-3">doi:10.1038/s41586-026-10259-3</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>DNA data storage and synthesis</span><span class="n">10</span></summary>
+  <p class="muted small">Writing, keeping and reading digital data in DNA, and the error channels involved.</p>
+  <ol class="refs">
+    <li>Erlich Y, Zielinski D (2017). DNA Fountain enables a robust and efficient storage architecture. <i>Science</i>. <a href="https://doi.org/10.1126/science.aaj2038">doi:10.1126/science.aaj2038</a></li>
+    <li>Organick L, Chen YJ, Dumas Ang S, et al. (2020). Probing the physical limits of reliable DNA data retrieval. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-020-14319-8">doi:10.1038/s41467-020-14319-8</a></li>
+    <li>Press WH, Hawkins JA, Jones SK, et al. (2020). HEDGES error-correcting code for DNA storage corrects indels and allows sequence constraints. <i>Proceedings of the National Academy of Sciences</i>. <a href="https://doi.org/10.1073/pnas.2004821117">doi:10.1073/pnas.2004821117</a></li>
+    <li>Gimpel AL, Stark WJ, Heckel R, et al. (2023). A digital twin for DNA data storage based on comprehensive quantification of errors and biases. <i>Nature Communications</i>. <a href="https://doi.org/10.1038/s41467-023-41729-1">doi:10.1038/s41467-023-41729-1</a></li>
+    <li>Bar-Lev D, Sabary O, Yaakobi E (2024). The zettabyte era is in our DNA. <i>Nature Computational Science</i>. <a href="https://doi.org/10.1038/s43588-024-00717-1">doi:10.1038/s43588-024-00717-1</a></li>
+    <li>Pichon M, Hollenstein M (2024). Controlled enzymatic synthesis of oligonucleotides. <i>Communications Chemistry</i>. <a href="https://doi.org/10.1038/s42004-024-01216-0">doi:10.1038/s42004-024-01216-0</a></li>
+    <li>Huang Q, Duan J, Xi M, et al. (2025). Emerging preservation materials for long-term DNA-based data storage. <i>Chemical Engineering Journal</i>. <a href="https://doi.org/10.1016/j.cej.2025.161245">doi:10.1016/j.cej.2025.161245</a></li>
+    <li>Whritenour K, Civelek M, Farnoud F (2025). Constrained coding for error mitigation in nanopore-based DNA data storage. <i>Scientific Reports</i>. <a href="https://doi.org/10.1038/s41598-025-08531-z">doi:10.1038/s41598-025-08531-z</a></li>
+    <li>Rebimbas R, Glória I, Chegão J, et al. (2026). DNA as a data storage medium. <i>Journal of Biotechnology</i>. <a href="https://doi.org/10.1016/j.jbiotec.2026.03.003">doi:10.1016/j.jbiotec.2026.03.003</a></li>
+    <li>Yu H, Lu Z, Li D, et al. (2026). Random access elevates DNA from a storage medium to a storage system. <i>Trends in Biotechnology</i>. <a href="https://doi.org/10.1016/j.tibtech.2026.06.020">doi:10.1016/j.tibtech.2026.06.020</a></li>
+  </ol>
+</details>
+<details class="refgroup">
+  <summary><span>Model validation, calibration, evidence and statistics</span><span class="n">15</span></summary>
+  <p class="muted small">How to test a model against data, keep evidence traceable, and bound an error rate honestly.</p>
+  <ol class="refs">
+    <li>CLOPPER CJ, PEARSON ES (1934). THE USE OF CONFIDENCE OR FIDUCIAL LIMITS ILLUSTRATED IN THE CASE OF THE BINOMIAL. <i>Biometrika</i>. <a href="https://doi.org/10.1093/biomet/26.4.404">doi:10.1093/biomet/26.4.404</a></li>
+    <li>Chow C (1970). On optimum recognition error and reject tradeoff. <i>IEEE Transactions on Information Theory</i>. <a href="https://doi.org/10.1109/tit.1970.1054406">doi:10.1109/tit.1970.1054406</a></li>
+    <li>Le Novere N (2006). BioModels Database: a free, centralized database of curated, published, quantitative kinetic models of biochemical and cellular systems. <i>Nucleic Acids Research</i>. <a href="https://doi.org/10.1093/nar/gkj092">doi:10.1093/nar/gkj092</a></li>
+    <li>Anderson J, Papachristodoulou A (2009). On validation and invalidation of biological models. <i>BMC Bioinformatics</i>. <a href="https://doi.org/10.1186/1471-2105-10-132">doi:10.1186/1471-2105-10-132</a></li>
+    <li>Sbalzarini IF (2013). Modeling and simulation of biological systems from image data. <i>BioEssays</i>. <a href="https://doi.org/10.1002/bies.201200051">doi:10.1002/bies.201200051</a></li>
+    <li>Hasdemir D, Hoefsloot HC, Smilde AK (2015). Validation and selection of ODE based systems biology models: how to arrive at more reliable decisions. <i>BMC Systems Biology</i>. <a href="https://doi.org/10.1186/s12918-015-0180-0">doi:10.1186/s12918-015-0180-0</a></li>
+    <li>Mina E, Thompson M, Kaliyaperumal R, et al. (2015). Nanopublications for exposing experimental data in the life-sciences: a Huntington’s Disease case study. <i>Journal of Biomedical Semantics</i>. <a href="https://doi.org/10.1186/2041-1480-6-5">doi:10.1186/2041-1480-6-5</a></li>
+    <li>Giglio M, Tauber R, Nadendla S, et al. (2019). ECO, the Evidence &amp; Conclusion Ontology: community standard for evidence information. <i>Nucleic Acids Research</i>. <a href="https://doi.org/10.1093/nar/gky1036">doi:10.1093/nar/gky1036</a></li>
+    <li>Malik-Sheriff RS, Glont M, Nguyen TVN, et al. (2019). BioModels—15 years of sharing computational models in life science. <i>Nucleic Acids Research</i>. <a href="https://doi.org/10.1093/nar/gkz1055">doi:10.1093/nar/gkz1055</a></li>
+    <li>Mitra ED, Hlavacek WS (2019). Parameter estimation and uncertainty quantification for systems biology models. <i>Current Opinion in Systems Biology</i>. <a href="https://doi.org/10.1016/j.coisb.2019.10.006">doi:10.1016/j.coisb.2019.10.006</a></li>
+    <li>Vovk V, Gammerman A, Shafer G (2022). Algorithmic Learning in a Random World. <i>Springer, 2nd edition</i>. <a href="https://doi.org/10.1007/978-3-031-06649-8">doi:10.1007/978-3-031-06649-8</a></li>
+    <li>Nanda P, Kirschner DE (2023). Calibration methods to fit parameters within complex biological models. <i>Frontiers in Applied Mathematics and Statistics</i>. <a href="https://doi.org/10.3389/fams.2023.1256443">doi:10.3389/fams.2023.1256443</a></li>
+    <li>Wang C, Hwang W, Song X (2024). Biomarker data with measurement error in medical research: A literature review. <i>WIREs Computational Statistics</i>. <a href="https://doi.org/10.1002/wics.1641">doi:10.1002/wics.1641</a></li>
+    <li>Qiao L, Khalilimeybodi A, Linden-Santangeli NJ, et al. (2025). The Evolution of Systems Biology and Systems Medicine: From Mechanistic Models to Uncertainty Quantification. <i>Annual Review of Biomedical Engineering</i>. <a href="https://doi.org/10.1146/annurev-bioeng-102723-065309">doi:10.1146/annurev-bioeng-102723-065309</a></li>
+    <li>Sauro HM, Agmon E, Blinov ML, et al. (2025). From FAIR to CURE: Guidelines for Computational Models of Biological Systems. <i>ArXiv</i>. <a href="https://pubmed.ncbi.nlm.nih.gov/40034129/">PMID 40034129</a></li>
+  </ol>
+</details>
+    <p class="muted small" style="margin-top:14px">Related simulation tools named in the design documents: <a href="https://copasi.org/">COPASI</a>, <a href="https://bionetgen.org/">BioNetGen</a>, <a href="https://vcell.org/">Virtual Cell</a> and <a href="https://www.smoldyn.org/">Smoldyn</a>.</p>
+  </div>
+</section>
+
+<section id="future">
+  <div class="wrap">
+    <p class="eyebrow">Where it is going</p>
+    <h2>From one program to a playground for molecular builders</h2>
+    <p class="section-copy">None of the following exists today. It is the direction the work is designed for. Each step is taken only after the one before it has been tested.</p>
+    <div class="grid3 vision">
+      <div class="card"><h3>A free, offline simulator <span>Planned</span></h3><p class="muted">Released as open source and run on an ordinary computer, so anyone can test a molecular design without a lab or a cloud bill.</p></div>
+      <div class="card"><h3>A wet lab behind the playground <span>Planned</span></h3><p class="muted">Designs that pass in simulation move to real lab runs, and every lab result is used to make the simulator more faithful.</p></div>
+      <div class="card"><h3>Calibrated chemistry <span>Next</span></h3><p class="muted">Measure real reaction rates and leak, and fit the simulator to them, so a design that passes in software means something in the tube.</p></div>
+      <div class="card"><h3>More kinds of programs <span>Planned</span></h3><p class="muted">Beyond network search, one kind at a time, each admitted only after it passes the same end-to-end checks.</p></div>
+      <div class="card"><h3>Therapeutic RNA design <span>Planned</span></h3><p class="muted">Testing RNA-based therapeutic designs in simulation before they are synthesised.</p></div>
+      <div class="card"><h3>DNA data storage <span>Planned</span></h3><p class="muted">Vendor-neutral, encrypted storage of digital data in DNA, with the same habit of checking every read.</p></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>The long view</h3>
+      <p class="muted" style="margin:0">Learning systems that compute in molecules, and bio-native processors for AI. These are meant to work alongside classical and quantum computers, not to replace them, on the problems molecules suit best: massively parallel search, sensing and computing inside chemistry itself. This is a research direction, not a capability, and it depends on every step above holding up.</p>
+    </div>
+
+    <h3 style="margin:30px 0 12px">Milestones</h3>
+    <ol class="roadmap">
+      <li class="road done"><b>Platform design</b><ul><li>Design documents for the whole path from program to physical validation</li></ul><span class="when">Complete · version 0.1.0</span></li>
+      <li class="road done"><b>Proof of concept 1</b><ul><li>One program compiled, simulated, read and independently checked</li></ul><span class="when">Complete</span></li>
+      <li class="road done"><b>Proof of concept 2</b><ul><li>Self-checking readout; full run reproduced on 28 October 2026</li></ul><span class="when">Complete</span></li>
+      <li class="road now"><b>Independent test set</b><ul><li>A second, independently written test set, registered in advance</li></ul><span class="when">Registered, not run</span></li>
+      <li class="road"><b>Wet-lab calibration</b><ul><li>A detailed model of one molecular gate, then fitting to measured data</li></ul><span class="when">Pending</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="contact" class="band">
+  <div class="wrap">
+    <p class="eyebrow">Collaborate</p>
+    <h2>Most useful now: wet-lab partners and hard critics</h2>
+    <p class="section-copy">Groups who can run DNA strand displacement experiments, and researchers in molecular programming willing to test these claims hard, are the most valuable help at this stage. Please get in touch by <a href="mailto:engikd1993@gmail.com">email</a> or through <a href="https://github.com/nabvian">github.com/nabvian</a>.</p>
+  </div>
+</section>
+
+</main>
+<footer class="footer">
+  <div class="wrap">
+    <p><b>BioCompute</b> · Koushik Das · <a href="https://github.com/nabvian">github.com/nabvian</a></p>
+    <p><b>Research prototype; simulation only; source code and design documents private.</b> No DNA has been synthesised. Every number on this page comes from a computer model with assumed chemistry, checked by the project's own automated tests and not yet independently reproduced. Everything under "Where it is going" describes plans and research directions, not current capability. The video narration is a synthesised voice.</p>
+  </div>
+</footer>
+</body>
+</html>
