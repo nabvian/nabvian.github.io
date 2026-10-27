@@ -37,6 +37,8 @@
   .road.done { border-color: color-mix(in srgb, var(--good) 45%, var(--line)); }
   .road.done::before { content: "✓"; color: var(--good); }
   .road.now { border-color: color-mix(in srgb, var(--warn) 55%, var(--line)); }
+  .film { margin-top: 18px; border-radius: 14px; overflow: hidden; border: 1px solid var(--line); background: #0d2236; aspect-ratio: 16 / 9; }
+  .film video { display: block; width: 100%; height: 100%; }
   .demo-cta { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; }
   @media (max-width: 860px) { .prototype { grid-template-columns: repeat(2, minmax(0, 1fr)); } .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
@@ -48,6 +50,7 @@
   <div class="wrap topbar-inner">
     <a class="brand" href="#top"><i aria-hidden="true"></i>PATHEX</a>
     <nav aria-label="Sections">
+      <a href="#video">Video</a>
       <a href="#inputs">Inputs</a>
       <a href="#outputs">Outputs</a>
       <a href="#demo">Try it</a>
@@ -67,6 +70,7 @@
     <p class="lede">PATHEX reads an adult complete blood count, together with whatever other results and clinical context the clinician has, and returns a ranked suspicion, its confidence, the confirmatory test to order next, and the reasoning in plain language. It runs entirely on the clinician's own computer, needs no internet, and sends no patient data anywhere. It is rule-based, not machine learning: the same inputs always give the same answer, and every answer can be traced.</p>
     <div class="hero-actions">
       <a class="button" href="demo/">Try the web simulation</a>
+      <a class="button ghost" href="#video">Watch the 3-minute video</a>
       <a class="button ghost" href="#status">What it is not yet</a>
     </div>
     <div class="stats">
@@ -75,6 +79,21 @@
       <div class="stat"><strong>51</strong><span>distinct confirmatory tests and investigations it can route to</span></div>
       <div class="stat"><strong>144</strong><span>named sources in the knowledge base's citation register</span></div>
     </div>
+  </div>
+</section>
+
+<section id="video">
+  <div class="wrap">
+    <p class="eyebrow">Watch · 3 minutes</p>
+    <h2>What PATHEX does, where it stands, and where it is going</h2>
+    <p class="section-copy">Its current capability, the real desktop application on synthetic cases, its safety behaviour, the planned path to CARETRACE, an AI-enabled blood smear and a cell-history level, and the collaboration it now needs. On-screen text only, no narration.</p>
+    <div class="film">
+      <video controls preload="none" playsinline poster="video/poster.jpg" aria-label="PATHEX explainer video">
+        <source src="video/pathex-explainer.mp4" type="video/mp4">
+        <a href="video/pathex-explainer.mp4">Download the video (MP4, 20 MB)</a>
+      </video>
+    </div>
+    <p class="muted small">1080p · 3 min 23 s · recorded from the desktop application on synthetic data · <a href="video/pathex-explainer.mp4" download>download MP4</a></p>
   </div>
 </section>
 
