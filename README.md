@@ -11,7 +11,7 @@ recorded data.
 | CARETRACE — evidence audit for medical records | [caretrace-demo](https://nabvian.github.io/caretrace-demo/) | [caretrace-core](https://github.com/nabvian/caretrace-core) |
 | ORPHARA — rare-disease decision support | [orphara-engine](https://nabvian.github.io/orphara-engine/) | [orphara-engine](https://github.com/nabvian/orphara-engine) |
 | DMOS — blood-smear structural findings | [dmos-demo](https://nabvian.github.io/dmos-demo/) | [dmos-demo](https://github.com/nabvian/dmos-demo) (showcase only) |
-| ClinicalCore — free clinical calculators | [clinicalcore](https://nabvian.github.io/clinicalcore/) | site only; engine private |
+| ClinicalCore — free clinical tools: death certificates, vaccines, antenatal, Apgar | [clinicalcore](https://nabvian.github.io/clinicalcore/) | site only; engine private |
 | Q-BenchMed — quantum vs classical | [qbenchmed](https://nabvian.github.io/qbenchmed/) | [qbenchmed](https://github.com/nabvian/qbenchmed) |
 | UMNA — capabilities without silent regression | [umna-benchmarks](https://nabvian.github.io/umna-benchmarks/) | [umna-benchmarks](https://github.com/nabvian/umna-benchmarks) |
 | RE-FORM X — formulation research workspace | [projects/reform-x](https://nabvian.github.io/projects/reform-x/) (showcase) | private |
