@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PATHEX 8000-Case Test Run</title>
+<meta name="description" content="8,000 automated test cases sent through PATHEX, with the answer it gave for each.">
+<link rel="icon" href="../logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a printed lab report. Narrow reading column for the summary, full-width ledger for the cases. */
+:root {
+  --paper: #f7f8f7;
+  --sheet: #ffffff;
+  --ink: #17262b;
+  --muted: #5b6b70;
+  --rule: #d7dedd;
+  --accent: #1d4f7d;
+  --accent-soft: #e4eef7;
+  --crit: #a8322a;
+  --crit-soft: #f8e4e1;
+  --refuse: #8a6a12;
+  --refuse-soft: #f6eed6;
+  --ok: #2d6a45;
+  --ok-soft: #e2f0e6;
+  --font-display: "IBM Plex Serif", Georgia, serif;
+  --font-body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #111a1c; --sheet: #172225; --ink: #e2eaeb; --muted: #9aaeb2; --rule: #2c3b3f;
+    --accent: #8cc0ea; --accent-soft: #13283a; --crit: #f0948a; --crit-soft: #44221f;
+    --refuse: #e2c26a; --refuse-soft: #3d3420; --ok: #8fd0a6; --ok-soft: #1f3a2a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #111a1c; --sheet: #172225; --ink: #e2eaeb; --muted: #9aaeb2; --rule: #2c3b3f;
+  --accent: #8cc0ea; --accent-soft: #13283a; --crit: #f0948a; --crit-soft: #44221f;
+  --refuse: #e2c26a; --refuse-soft: #3d3420; --ok: #8fd0a6; --ok-soft: #1f3a2a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: grid; gap: 28px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; font-weight: 600; }
+h1 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); line-height: 1.15; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1rem; font-family: var(--font-body); }
+p { margin: 0; max-width: 70ch; }
+.eyebrow { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.mono, td.num, .val { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+header { display: grid; gap: 10px; border-bottom: 2px solid var(--ink); padding-bottom: 18px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--muted); font-size: 0.85rem; }
+.meta span b { color: var(--ink); font-weight: 600; }
+.notice {
+  background: var(--refuse-soft); border-left: 4px solid var(--refuse); padding: 14px 18px; display: grid; gap: 6px;
+}
+.notice p { max-width: none; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 0; border: 1px solid var(--rule); background: var(--sheet); }
+.stat { padding: 14px 16px; border-right: 1px solid var(--rule); display: grid; gap: 2px; }
+.stat:last-child { border-right: 0; }
+.stat .big { font-family: var(--font-data); font-size: 1.6rem; font-weight: 500; }
+.stat .lab { font-size: 0.8rem; color: var(--muted); }
+section { display: grid; gap: 14px; }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); padding: 18px; display: grid; gap: 12px; min-width: 0; }
+.panel p.sub { color: var(--muted); font-size: 0.85rem; }
+.bars { display: grid; gap: 6px; }
+.bar { display: grid; grid-template-columns: minmax(0, 1fr) 46px; gap: 10px; align-items: center; font-size: 0.85rem; }
+.bar .name { display: grid; gap: 3px; min-width: 0; }
+.bar .name span { overflow-wrap: anywhere; }
+.bar .track { height: 7px; background: var(--accent-soft); }
+.bar .fill { height: 100%; background: var(--accent); }
+.bar.crit .fill { background: var(--crit); }
+.bar.crit .track { background: var(--crit-soft); }
+.bar.ref .fill { background: var(--refuse); }
+.bar.ref .track { background: var(--refuse-soft); }
+.bar .n { font-family: var(--font-data); text-align: right; font-variant-numeric: tabular-nums; }
+.filters { display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: end; }
+.filters label { display: grid; gap: 4px; font-size: 0.78rem; color: var(--muted); font-weight: 600; letter-spacing: 0.02em; }
+select, input[type="search"] {
+  font: inherit; font-size: 0.9rem; color: var(--ink); background: var(--sheet); border: 1px solid var(--rule);
+  padding: 7px 9px; min-width: 0; max-width: 100%;
+}
+select:focus-visible, input:focus-visible, button:focus-visible, tr:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.count { font-size: 0.85rem; color: var(--muted); }
+.tablebox { overflow-x: auto; border: 1px solid var(--rule); background: var(--sheet); }
+table { border-collapse: collapse; width: 100%; font-size: 0.84rem; min-width: 860px; }
+th, td { padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: var(--paper); position: sticky; top: 0; }
+td.num { text-align: right; }
+tbody tr { cursor: pointer; }
+tbody tr:hover, tbody tr.sel { background: var(--accent-soft); }
+.pill { display: inline-block; padding: 2px 8px; font-size: 0.76rem; font-weight: 600; border: 1px solid currentColor; white-space: nowrap; }
+.pill.crit { color: var(--crit); background: var(--crit-soft); }
+.pill.ref { color: var(--refuse); background: var(--refuse-soft); }
+.pill.ok { color: var(--ok); background: var(--ok-soft); }
+.pill.dx { color: var(--accent); background: var(--accent-soft); }
+.pager { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+button {
+  font: inherit; font-size: 0.85rem; background: var(--sheet); color: var(--ink); border: 1px solid var(--rule);
+  padding: 6px 12px; cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--accent); color: var(--accent); }
+button:disabled { opacity: 0.45; cursor: default; }
+.detail { background: var(--sheet); border: 1px solid var(--ink); padding: 18px; display: grid; gap: 14px; }
+.detail .head { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: baseline; justify-content: space-between; }
+.kv { display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 8px; }
+.kv div { border: 1px solid var(--rule); padding: 6px 8px; display: grid; }
+.kv .k { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+.kv .val { font-size: 0.95rem; }
+.lines { display: grid; gap: 8px; font-size: 0.9rem; }
+.lines div { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 12px; }
+.lines .k { color: var(--muted); font-size: 0.82rem; }
+.lines .v { overflow-wrap: anywhere; }
+.method { display: grid; gap: 10px; }
+.back { color: var(--accent); text-decoration: none; font-weight: 600; font-size: 0.9rem; }
+.back:hover { text-decoration: underline; }
+footer a { color: var(--accent); }
+.method ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; max-width: 76ch; }
+footer { color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--rule); padding-top: 14px; }
+@media (max-width: 560px) {
+  .lines div { grid-template-columns: 1fr; gap: 2px; }
+  .stat { border-right: 0; border-bottom: 1px solid var(--rule); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="back" href="../#tested">← PATHEX</a>
+    <div class="eyebrow">PATHEX CBC interpretation · automated test run</div>
+    <h1>PATHEX 8000-Case Test Run</h1>
+    <p>Every case below was sent through PATHEX exactly as a laboratory system would send it. The table shows the values PATHEX received and the answer it gave, including when it refused to answer.</p>
+    <div class="meta">
+      <span>Run <b>27 Nov 2026</b></span>
+      <span>Status <b>research prototype, not clinically validated, not a medical device</b></span>
+    </div>
+  </header>
+
+  <div class="notice" role="note">
+    <h3>These are test cases, not patients</h3>
+    <p>All 8,000 cases are generated by a fixed program so that the same set comes out every time. They check how PATHEX behaves across textbook patterns and across unsafe or impossible input. They do not measure accuracy against real diagnoses; that will come from the planned clinical evaluation.</p>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <section class="method">
+    <h2>How the cases were made</h2>
+    <ul>
+      <li><b>Cases 1 to 4,000, stress set.</b> Values spread across and beyond what is possible, wrong or missing units, empty fields, ages from 0 to 120, sex sometimes missing. PATHEX is expected to refuse most of these and still flag any critical value.</li>
+      <li><b>Cases 4,001 to 8,000, realistic set.</b> Adults 18 to 85. Five patterns drawn around textbook values with random variation: iron deficiency, beta-thalassaemia trait, macrocytic anaemia with low B12, normal count, and borderline.</li>
+      <li><b>Women without a pregnancy status are refused.</b> Pregnancy changes the limits for haemoglobin, MCV, ferritin, B12, white count, platelets and TSH, so PATHEX does not read a woman's count with non-pregnant limits unless she is stated not pregnant. None of these generated cases carry a pregnancy status.</li>
+      <li><b>The generator draws each red-cell index on its own,</b> so some realistic cases have indices that cannot occur together (for example MCV 78 fL with MCH 30.3 pg). PATHEX holds those for verification, as it should.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>What PATHEX answered</h2>
+    <div class="cols">
+      <div class="panel">
+        <h3>Realistic set, cases PATHEX interpreted</h3>
+        <p class="sub" id="realSub"></p>
+        <div class="bars" id="realBars"></div>
+      </div>
+      <div class="panel">
+        <h3>Critical answers in the stress set</h3>
+        <p class="sub">Answers that call for urgent action, among cases full of unusual values.</p>
+        <div class="bars" id="critBars"></div>
+      </div>
+      <div class="panel">
+        <h3>Why PATHEX refused</h3>
+        <p class="sub" id="refSub"></p>
+        <div class="bars" id="refBars"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="browser">
+    <h2>All 8,000 cases</h2>
+    <div class="filters">
+      <label for="fSet">Case set
+        <select id="fSet"><option value="">Both sets</option><option value="realistic">Realistic</option><option value="stress">Stress</option></select>
+      </label>
+      <label for="fKind">Answer type
+        <select id="fKind"><option value="">All answers</option><option value="dx">Interpretation</option><option value="crit">Critical</option><option value="ok">No findings</option><option value="ref">Refused</option></select>
+      </label>
+      <label for="fOut">PATHEX answer
+        <select id="fOut"><option value="">Any answer</option></select>
+      </label>
+      <label for="fSex">Sex
+        <select id="fSex"><option value="">Any</option><option value="MALE">Male</option><option value="FEMALE">Female</option><option value="?">Not given or other</option></select>
+      </label>
+      <label for="fCase">Case number
+        <input type="search" id="fCase" inputmode="numeric" placeholder="e.g. 4001">
+      </label>
+    </div>
+    <div class="count" id="count" aria-live="polite">Loading cases…</div>
+    <div class="tablebox">
+      <table>
+        <thead><tr>
+          <th>Case</th><th>Set</th><th>Age</th><th>Sex</th>
+          <th>Hb g/dL</th><th>MCV fL</th><th>MCH pg</th><th>RDW %</th><th>WBC</th><th>PLT</th><th>Ferritin</th>
+          <th>PATHEX answer</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div class="pager">
+      <button type="button" id="prev">Previous</button>
+      <span class="count" id="page"></span>
+      <button type="button" id="next">Next</button>
+    </div>
+    <div class="detail" id="detail" hidden></div>
+  </section>
+
+  <footer>
+    Values are shown as received, including any wrong units in the stress set (for example Hb sent in g/L). Each row shows only what went into PATHEX and what came out; the engine and its knowledge are not published. Outcome names are PATHEX's own; "probable" and "suspect" mark how strongly the count supports a pattern, never a diagnosis. The same data as one file: <a href="cases.json">cases.json</a> (8,000 records).
+  </footer>
+</div>
+
+<script>
+const CRIT = new Set(["SEVERE_ANEMIA_SAFETY_BLOCK","HYPERLEUKOCYTOSIS_URGENT","AGRANULOCYTOSIS_SUSPECT","CRITICAL_THROMBOCYTOPENIA","ACUTE_LEUKAEMIA_SUSPECT","URGENT_HAEMATOLOGY_REVIEW","TMA_SUSPECT","HYPERCALCAEMIA_URGENT","SICKLE_SUSPECT","HLH_SUSPECT","DIC_SUSPECT","HIT_SUSPECT","SIDEROBLASTIC_SUSPECT","SEPSIS_CONTEXT","MARROW_INFILTRATION_SUSPECT","APLASTIC_ANAEMIA_SUSPECT","HYPEREOSINOPHILIA_SUSPECT","CAPILLARY_SCREEN_CONFIRM_VENOUS"]);
+const ACR = new Set(["IDA","BTT","CBC","ACD","B12","HBA2","TMA","CML","CLL","CLPD","HLH","DIC","HIT","G6PD","CMML","WHO"]);
+const NICE = {HBA2: "HbA2", B12: "B12"};
+const PAGE = 25;
+let ALL = [], VIEW = [], page = 0, selected = null;
+
+function human(code) {
+  return code.split("_").map((w, i) => {
+    if (NICE[w]) return NICE[w];
+    if (ACR.has(w)) return w;
+    const l = w.toLowerCase();
+    return i === 0 ? l[0].toUpperCase() + l.slice(1) : l;
+  }).join(" ");
+}
+function kind(c) {
+  if (c.o === "CANNOT_EVALUATE") return "ref";
+  if (CRIT.has(c.o)) return "crit";
+  if (c.o === "NO_FINDINGS") return "ok";
+  return "dx";
+}
+function pill(c) {
+  const k = kind(c);
+  const label = k === "ref" ? "Refused" : human(c.o);
+  return `<span class="pill ${k}">${esc(label)}</span>`;
+}
+function esc(s) { return String(s).replace(/[&<>"]/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[ch])); }
+function v(c, k) { return c.v[k] ?? ""; }
+function sexOf(c) { return c.x === "MALE" || c.x === "FEMALE" ? c.x : "?"; }
+
+function bars(el, entries, cls, total) {
+  const max = Math.max(...entries.map(e => e[1]), 1);
+  el.innerHTML = entries.map(([name, n]) => `
+    <div class="bar ${cls}">
+      <div class="name"><span>${esc(name)}</span><div class="track"><div class="fill" style="width:${(n / max * 100).toFixed(1)}%"></div></div></div>
+      <div class="n">${n.toLocaleString()}</div>
+    </div>`).join("");
+}
+function tally(list, keyFn) {
+  const m = new Map();
+  for (const c of list) { const k = keyFn(c); m.set(k, (m.get(k) || 0) + 1); }
+  return [...m.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+function summary() {
+  const refused = ALL.filter(c => c.o === "CANNOT_EVALUATE");
+  const crit = ALL.filter(c => kind(c) === "crit");
+  const outcomes = new Set(ALL.map(c => c.o)).size;
+  const real = ALL.filter(c => c.s === "realistic" && c.o !== "CANNOT_EVALUATE");
+  const stats = [
+    [ALL.length.toLocaleString(), "cases run"],
+    [outcomes, "different PATHEX answers"],
+    [real.length.toLocaleString(), "realistic cases interpreted"],
+    [crit.length.toLocaleString(), "critical answers raised"],
+    [refused.length.toLocaleString(), "refused as unsafe to read"],
+    ["0", "answers changed against the pinned record"],
+  ];
+  document.getElementById("stats").innerHTML = stats.map(([b, l]) => `<div class="stat"><span class="big">${b}</span><span class="lab">${l}</span></div>`).join("");
+
+  document.getElementById("realSub").textContent = `${real.length.toLocaleString()} of 4,000 realistic cases; the rest were refused (mostly women without a pregnancy status). Top answers:`;
+  bars(document.getElementById("realBars"), tally(real, c => human(c.o)).slice(0, 12), "", real.length);
+  const sc = ALL.filter(c => c.s === "stress" && kind(c) === "crit");
+  bars(document.getElementById("critBars"), tally(sc, c => human(c.o)).slice(0, 10), "crit", sc.length);
+  document.getElementById("refSub").textContent = `${refused.length.toLocaleString()} cases across both sets, by the first reason PATHEX gave.`;
+  bars(document.getElementById("refBars"), tally(refused, c => c.r), "ref", refused.length);
+
+  const sel = document.getElementById("fOut");
+  for (const [o] of tally(ALL, c => c.o).sort((a, b) => human(a[0]).localeCompare(human(b[0])))) {
+    const opt = document.createElement("option");
+    opt.value = o; opt.textContent = o === "CANNOT_EVALUATE" ? "Refused" : human(o);
+    sel.appendChild(opt);
+  }
+}
+
+function apply() {
+  const s = document.getElementById("fSet").value;
+  const k = document.getElementById("fKind").value;
+  const o = document.getElementById("fOut").value;
+  const x = document.getElementById("fSex").value;
+  const n = document.getElementById("fCase").value.trim();
+  VIEW = ALL.filter(c => (!s || c.s === s) && (!k || kind(c) === k) && (!o || c.o === o) && (!x || sexOf(c) === x) && (!n || String(c.n).startsWith(n)));
+  page = 0;
+  render();
+}
+
+function render() {
+  const pages = Math.max(1, Math.ceil(VIEW.length / PAGE));
+  page = Math.min(page, pages - 1);
+  const slice = VIEW.slice(page * PAGE, page * PAGE + PAGE);
+  document.getElementById("count").textContent = `${VIEW.length.toLocaleString()} cases match. Select a row to see everything PATHEX received and answered.`;
+  document.getElementById("page").textContent = `Page ${page + 1} of ${pages}`;
+  document.getElementById("prev").disabled = page === 0;
+  document.getElementById("next").disabled = page >= pages - 1;
+  document.getElementById("rows").innerHTML = slice.map(c => `
+    <tr tabindex="0" data-n="${c.n}" class="${selected === c.n ? "sel" : ""}">
+      <td class="num">${c.n}</td><td>${c.s === "stress" ? "Stress" : "Realistic"}</td>
+      <td class="num">${esc(c.a)}</td><td>${esc(c.x || "–")}</td>
+      <td class="num">${esc(v(c,"HGB"))}</td><td class="num">${esc(v(c,"MCV"))}</td><td class="num">${esc(v(c,"MCH"))}</td>
+      <td class="num">${esc(v(c,"RDW_CV"))}</td><td class="num">${esc(v(c,"WBC"))}</td><td class="num">${esc(v(c,"PLT"))}</td>
+      <td class="num">${esc(v(c,"FERRITIN"))}</td><td>${pill(c)}</td>
+    </tr>`).join("");
+}
+
+function show(n) {
+  const c = ALL.find(x => x.n === n);
+  if (!c) return;
+  selected = n;
+  render();
+  const order = ["HGB","HCT","RBC","MCV","MCH","MCHC","RDW_CV","RDW_SD","WBC","PLT","NEUT","LYMPH","MONO","EOS","BASO","FERRITIN","TSAT","B12","FOLATE","RETIC","HBA2","CRP"];
+  const kv = order.filter(k => k in c.v).map(k => `<div><span class="k">${esc(k.replace("_"," "))}</span><span class="val">${esc(c.v[k])}</span></div>`).join("");
+  const lines = [];
+  const add = (k, val) => { if (val) lines.push(`<div><span class="k">${k}</span><span class="v">${val}</span></div>`); };
+  add("Context", [c.a && `age ${esc(c.a)}`, c.x && esc(c.x), c.p && `pregnancy: ${esc(c.p)}`, c.c && esc(c.c.replace(/; /g, ", "))].filter(Boolean).join(" · "));
+  add("Other inputs", c.oi && esc(c.oi));
+  add("Units not standard", c.u && esc(c.u));
+  add("Sent empty", c.e && esc(c.e));
+  if (c.o === "CANNOT_EVALUATE") add("Why refused", esc(c.r || ""));
+  else add("PATHEX said", esc(c.t || ""));
+  add("Other critical findings", c.sf && c.sf.split("; ").map(x => `<span class="pill crit">${esc(human(x))}</span>`).join(" "));
+  add("Next steps suggested", c.na && esc(c.na.split("; ").map(human).join(" · ")));
+  const d = document.getElementById("detail");
+  d.innerHTML = `
+    <div class="head"><h3>Case ${c.n} · ${c.s === "stress" ? "stress set" : "realistic set"}</h3>${pill(c)}</div>
+    <div class="kv">${kv || "<div><span class='k'>Values</span><span class='val'>none usable</span></div>"}</div>
+    <div class="lines">${lines.join("")}</div>`;
+  d.hidden = false;
+  d.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "nearest" });
+}
+
+document.getElementById("rows").addEventListener("click", e => { const tr = e.target.closest("tr"); if (tr) show(+tr.dataset.n); });
+document.getElementById("rows").addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.dataset.n) { e.preventDefault(); show(+e.target.dataset.n); } });
+for (const id of ["fSet","fKind","fOut","fSex"]) document.getElementById(id).addEventListener("change", apply);
+document.getElementById("fCase").addEventListener("input", apply);
+document.getElementById("prev").addEventListener("click", () => { page--; render(); });
+document.getElementById("next").addEventListener("click", () => { page++; render(); });
+
+fetch("cases.json").then(r => r.json()).then(data => {
+  ALL = data;
+  summary();
+  apply();
+  show(4001);
+}).catch(() => { document.getElementById("count").textContent = "The case data could not be loaded. Reload the page to try again."; });
+</script>
+
+</body>
+</html>
